@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeuDinheiro — Design Directions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0F172A;
+      color: #F1F5F9;
+      min-height: 100vh;
+    }
+
+    /* =============================================
+       PAGE HEADER / NAVIGATION
+    ============================================= */
+    .page-header {
+      background: #1E293B;
+      border-bottom: 1px solid #334155;
+      padding: 20px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .page-header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .page-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #94A3B8;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .page-subtitle {
+      font-size: 20px;
+      font-weight: 700;
+      color: #F1F5F9;
+      margin-top: 2px;
+    }
+
+    .direction-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 8px 20px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: transparent;
+      color: #94A3B8;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .tab-btn:hover {
+      background: #334155;
+      color: #F1F5F9;
+    }
+
+    .tab-btn.active {
+      background: #16A34A;
+      border-color: #16A34A;
+      color: #FFFFFF;
+    }
+
+    .tab-btn.active-b {
+      background: #0F766E;
+      border-color: #0F766E;
+      color: #FFFFFF;
+    }
+
+    .tab-btn.active-c {
+      background: #D97706;
+      border-color: #D97706;
+      color: #FFFFFF;
+    }
+
+    .recommended-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #F59E0B;
+      color: #000;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    /* =============================================
+       DIRECTION PANELS
+    ============================================= */
+    .direction-panel {
+      display: none;
+      padding: 32px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .direction-panel.active {
+      display: block;
+    }
+
+    .direction-meta {
+      margin-bottom: 24px;
+      padding: 20px 24px;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      background: #1E293B;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .direction-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .badge-chosen {
+      background: rgba(22, 163, 74, 0.15);
+      color: #4ADE80;
+      border: 1px solid rgba(22, 163, 74, 0.3);
+    }
+
+    .badge-alt {
+      background: rgba(100, 116, 139, 0.15);
+      color: #94A3B8;
+      border: 1px solid rgba(100, 116, 139, 0.3);
+    }
+
+    .direction-description {
+      flex: 1;
+    }
+
+    .direction-description h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #F1F5F9;
+      margin-bottom: 4px;
+    }
+
+    .direction-description p {
+      font-size: 13px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* =============================================
+       APP MOCKUP WRAPPER
+    ============================================= */
+    .app-mockup {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+
+    /* =============================================
+       DIRECTION A — CLEAN MINIMAL (CHOSEN)
+    ============================================= */
+    .dir-a {
+      background: #F8FAFC;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Header A */
+    .dir-a .app-header {
+      background: #FFFFFF;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+    }
+
+    .dir-a .app-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dir-a .app-header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .dir-a .greeting {
+      font-size: 14px;
+      color: #6B7280;
+      font-weight: 400;
+    }
+
+    .dir-a .greeting strong {
+      color: #0F172A;
+      font-weight: 600;
+    }
+
+    .dir-a .btn-logout {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      color: #6B7280;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+    }
+
+    .dir-a .btn-logout:hover {
+      background: #F8FAFC;
+      color: #374151;
+    }
+
+    /* Main content A */
+    .dir-a .app-main {
+      padding: 32px 48px 48px;
+    }
+
+    /* Cards A */
+    .dir-a .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .dir-a .dash-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      transition: box-shadow 0.2s;
+    }
+
+    .dir-a .dash-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .dir-a .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .dir-a .card-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6B7280;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .dir-a .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dir-a .card-icon-blue { background: #DBEAFE; }
+    .dir-a .card-icon-green { background: #DCFCE7; }
+    .dir-a .card-icon-red { background: #FEE2E2; }
+
+    .dir-a .card-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .dir-a .card-hint {
+      font-size: 12px;
+      color: #9CA3AF;
+      margin-top: 6px;
+    }
+
+    /* Section header A */
+    .dir-a .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .dir-a .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .dir-a .btn-new {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: #16A34A;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+
+    .dir-a .btn-new:hover { background: #15803D; }
+
+    /* Transaction list A */
+    .dir-a .transactions-container {
+      background: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .dir-a .transaction-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #F1F5F9;
+      transition: background 0.1s;
+      position: relative;
+    }
+
+    .dir-a .transaction-item:last-child { border-bottom: none; }
+    .dir-a .transaction-item:hover { background: #F8FAFC; }
+
+    .dir-a .tx-type-indicator {
+      width: 3px;
+      border-radius: 2px;
+      align-self: stretch;
+      min-height: 40px;
+      flex-shrink: 0;
+    }
+
+    .dir-a .tx-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dir-a .tx-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .dir-a .tx-category {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0F172A;
+    }
+
+    .dir-a .tx-meta {
+      font-size: 12px;
+      color: #9CA3AF;
+      margin-top: 2px;
+    }
+
+    .dir-a .tx-amount {
+      font-size: 15px;
+      font-weight: 700;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .dir-a .tx-amount.income { color: #16A34A; }
+    .dir-a .tx-amount.expense { color: #DC2626; }
+
+    .dir-a .tx-delete {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: #D1D5DB;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.15s;
+    }
+
+    .dir-a .transaction-item:hover .tx-delete {
+      opacity: 1;
+      color: #EF4444;
+    }
+
+    .dir-a .tx-delete:hover { background: #FEE2E2; }
+
+    /* Modal overlay A */
+    .modal-preview {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .modal-preview-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748B;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .dir-a .modal-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      overflow: hidden;
+      border: 1px solid #E2E8F0;
+    }
+
+    .dir-a .modal-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #F1F5F9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dir-a .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .dir-a .modal-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: #F1F5F9;
+      border: none;
+      cursor: pointer;
+      color: #6B7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .dir-a .modal-body {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .dir-a .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dir-a .form-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .dir-a .form-input {
+      padding: 10px 14px;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #0F172A;
+      background: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dir-a .form-input.focused {
+      border-color: #16A34A;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+    }
+
+    .dir-a .form-input.error {
+      border-color: #EF4444;
+    }
+
+    .dir-a .form-error {
+      font-size: 11px;
+      color: #DC2626;
+      margin-top: -4px;
+    }
+
+    .dir-a .type-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .dir-a .type-option {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1.5px solid #E2E8F0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .dir-a .type-option.selected-income {
+      background: #DCFCE7;
+      border-color: #16A34A;
+      color: #15803D;
+    }
+
+    .dir-a .type-option.unselected {
+      color: #9CA3AF;
+    }
+
+    .dir-a .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #F1F5F9;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .dir-a .btn-cancel {
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      color: #6B7280;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dir-a .btn-save {
+      padding: 9px 20px;
+      border-radius: 8px;
+      border: none;
+      background: #16A34A;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* =============================================
+       DIRECTION B — DARK MODE FINANCIAL
+    ============================================= */
+    .dir-b {
+      background: #0F172A;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dir-b .app-header {
+      background: #0F172A;
+      border-bottom: 1px solid #1E293B;
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dir-b .greeting {
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .dir-b .greeting strong {
+      color: #CBD5E1;
+      font-weight: 600;
+    }
+
+    .dir-b .btn-logout {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #1E293B;
+      background: transparent;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dir-b .app-main {
+      padding: 32px 48px 48px;
+    }
+
+    .dir-b .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .dir-b .dash-card {
+      background: #1E293B;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #334155;
+    }
+
+    .dir-b .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .dir-b .card-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .dir-b .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dir-b .card-icon-blue { background: rgba(37, 99, 235, 0.15); }
+    .dir-b .card-icon-green { background: rgba(22, 163, 74, 0.15); }
+    .dir-b .card-icon-red { background: rgba(220, 38, 38, 0.15); }
+
+    .dir-b .card-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #F1F5F9;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .dir-b .card-hint {
+      font-size: 12px;
+      color: #475569;
+      margin-top: 6px;
+    }
+
+    .dir-b .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .dir-b .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #E2E8F0;
+    }
+
+    .dir-b .btn-new {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: #16A34A;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dir-b .transactions-container {
+      background: #1E293B;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      overflow: hidden;
+    }
+
+    .dir-b .transaction-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #0F172A;
+      transition: background 0.1s;
+      position: relative;
+    }
+
+    .dir-b .transaction-item:last-child { border-bottom: none; }
+    .dir-b .transaction-item:hover { background: #263348; }
+
+    .dir-b .tx-type-indicator {
+      width: 3px;
+      border-radius: 2px;
+      align-self: stretch;
+      min-height: 40px;
+      flex-shrink: 0;
+    }
+
+    .dir-b .tx-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dir-b .tx-info { flex: 1; min-width: 0; }
+
+    .dir-b .tx-category {
+      font-size: 14px;
+      font-weight: 600;
+      color: #E2E8F0;
+    }
+
+    .dir-b .tx-meta {
+      font-size: 12px;
+      color: #475569;
+      margin-top: 2px;
+    }
+
+    .dir-b .tx-amount {
+      font-size: 15px;
+      font-weight: 700;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .dir-b .tx-amount.income { color: #4ADE80; }
+    .dir-b .tx-amount.expense { color: #F87171; }
+
+    /* =============================================
+       DIRECTION C — WARM PERSONAL
+    ============================================= */
+    .dir-c {
+      background: #FFFBF0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dir-c .app-header {
+      background: #FFFFFF;
+      border-bottom: 1px solid #FDE68A;
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dir-c .greeting {
+      font-size: 14px;
+      color: #92400E;
+    }
+
+    .dir-c .greeting strong {
+      color: #78350F;
+      font-weight: 600;
+    }
+
+    .dir-c .btn-logout {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid #FDE68A;
+      background: #FFFBF0;
+      color: #92400E;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dir-c .app-main {
+      padding: 32px 48px 48px;
+    }
+
+    .dir-c .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .dir-c .dash-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.08);
+      border: 1px solid #FEF3C7;
+    }
+
+    .dir-c .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .dir-c .card-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #92400E;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .dir-c .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dir-c .card-icon-gold { background: #FEF3C7; }
+    .dir-c .card-icon-green { background: #DCFCE7; }
+    .dir-c .card-icon-red { background: #FEE2E2; }
+
+    .dir-c .card-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1C1917;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .dir-c .card-hint {
+      font-size: 12px;
+      color: #A16207;
+      margin-top: 6px;
+    }
+
+    .dir-c .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .dir-c .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1C1917;
+    }
+
+    .dir-c .btn-new {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: #F59E0B;
+      color: #1C1917;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dir-c .transactions-container {
+      background: #FFFFFF;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.08);
+      border: 1px solid #FEF3C7;
+    }
+
+    .dir-c .transaction-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #FEF9EE;
+      transition: background 0.1s;
+      position: relative;
+    }
+
+    .dir-c .transaction-item:last-child { border-bottom: none; }
+    .dir-c .transaction-item:hover { background: #FFFBF0; }
+
+    .dir-c .tx-type-indicator {
+      width: 3px;
+      border-radius: 2px;
+      align-self: stretch;
+      min-height: 40px;
+      flex-shrink: 0;
+    }
+
+    .dir-c .tx-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dir-c .tx-info { flex: 1; min-width: 0; }
+
+    .dir-c .tx-category {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1C1917;
+    }
+
+    .dir-c .tx-meta {
+      font-size: 12px;
+      color: #A16207;
+      margin-top: 2px;
+    }
+
+    .dir-c .tx-amount {
+      font-size: 15px;
+      font-weight: 700;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .dir-c .tx-amount.income { color: #16A34A; }
+    .dir-c .tx-amount.expense { color: #DC2626; }
+
+    /* =============================================
+       SHARED SVG ICONS
+    ============================================= */
+    .icon { display: inline-block; }
+
+    /* =============================================
+       COLOR PALETTE STRIP
+    ============================================= */
+    .palette-strip {
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: #1E293B;
+      border-radius: 12px;
+      border: 1px solid #334155;
+    }
+
+    .palette-strip-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748B;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .palette-swatches {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .swatch-color {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .swatch-name {
+      font-size: 10px;
+      color: #64748B;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .swatch-hex {
+      font-size: 10px;
+      color: #475569;
+      text-align: center;
+      font-family: monospace;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    /* Toast preview */
+    .toast-preview {
+      position: relative;
+      height: 60px;
+    }
+
+    .toast-bubble {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .toast-success-a {
+      background: #FFFFFF;
+      color: #15803D;
+      border: 1px solid #DCFCE7;
+    }
+
+    .toast-success-b {
+      background: #1E293B;
+      color: #4ADE80;
+      border: 1px solid #166534;
+    }
+
+    .toast-success-c {
+      background: #FFFFFF;
+      color: #15803D;
+      border: 1px solid #FEF3C7;
+      border-left: 3px solid #F59E0B;
+    }
+
+    /* Annotated arrows */
+    .annotation {
+      font-size: 11px;
+      color: #64748B;
+      font-style: italic;
+      margin-top: 6px;
+    }
+
+    /* =============================================
+       COMPARISON TABLE
+    ============================================= */
+    .comparison-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 32px 48px;
+    }
+
+    .comparison-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #F1F5F9;
+      margin-bottom: 20px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .comparison-table th {
+      padding: 12px 16px;
+      text-align: left;
+      background: #1E293B;
+      color: #94A3B8;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .comparison-table th:first-child { border-radius: 10px 0 0 0; }
+    .comparison-table th:last-child { border-radius: 0 10px 0 0; }
+
+    .comparison-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #1E293B;
+      color: #CBD5E1;
+      vertical-align: top;
+    }
+
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .comparison-table tr:nth-child(even) td { background: rgba(30, 41, 59, 0.4); }
+
+    .comparison-table td:first-child {
+      font-weight: 600;
+      color: #94A3B8;
+    }
+
+    .check { color: #4ADE80; font-weight: 700; }
+    .cross { color: #F87171; font-weight: 700; }
+    .neutral { color: #FCD34D; font-weight: 700; }
+
+    .chosen-row td {
+      background: rgba(22, 163, 74, 0.06) !important;
+    }
+
+    .chosen-row td:first-child {
+      color: #4ADE80;
+    }
+  </style>
+</head>
+<body>
+
+<!-- =============================================
+     PAGE HEADER
+============================================= -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="page-title">MeuDinheiro — BMAD Process</div>
+      <div class="page-subtitle">Design Directions Exploration</div>
+    </div>
+    <div class="direction-tabs">
+      <button class="tab-btn active" onclick="showDirection('a', this)">
+        Direção A — Clean Minimal
+        <span class="recommended-badge">ESCOLHIDA</span>
+      </button>
+      <button class="tab-btn" onclick="showDirection('b', this)">
+        Direção B — Dark Mode
+      </button>
+      <button class="tab-btn" onclick="showDirection('c', this)">
+        Direção C — Warm Personal
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- =============================================
+     DIRECTION A — CLEAN MINIMAL (DEFAULT VISIBLE)
+============================================= -->
+<div class="direction-panel active" id="panel-a">
+  <div class="direction-meta">
+    <span class="direction-badge badge-chosen">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      DIREÇÃO RECOMENDADA
+    </span>
+    <div class="direction-description">
+      <h3>Clean Minimal Financial</h3>
+      <p>Fundo #F8FAFC, cards brancos com shadow sutil, tipografia Inter bold para valores, acentos verde #16A34A e azul #2563EB da logo. Inspirado em Vercel Dashboard + Linear. Transmite profissionalismo moderno — o idioma visual que Lucas reconhece como produto de qualidade.</p>
+    </div>
+  </div>
+
+  <!-- APP MOCKUP -->
+  <div class="app-mockup">
+    <div class="dir-a">
+
+      <!-- HEADER -->
+      <header class="app-header">
+        <div class="app-logo">
+          <!-- Logo SVG inline -->
+          <svg width="160" height="40" viewBox="0 0 980 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Wallet icon -->
+            <rect x="20" y="60" width="160" height="110" rx="18" fill="#0F766E"/>
+            <rect x="20" y="90" width="160" height="80" rx="0" fill="#0F766E"/>
+            <rect x="20" y="85" width="160" height="12" fill="#059669"/>
+            <rect x="140" y="105" width="40" height="28" rx="6" fill="#34D399"/>
+            <circle cx="155" cy="119" r="7" fill="#0F766E"/>
+            <!-- Bar chart -->
+            <rect x="215" y="120" width="28" height="50" rx="5" fill="#34D399"/>
+            <rect x="253" y="95" width="28" height="75" rx="5" fill="#2563EB"/>
+            <rect x="291" y="75" width="28" height="95" rx="5" fill="#60A5FA"/>
+            <rect x="329" y="108" width="28" height="62" rx="5" fill="#1D4ED8"/>
+            <!-- Gold coin -->
+            <circle cx="420" cy="120" r="55" fill="#F59E0B"/>
+            <circle cx="420" cy="120" r="42" fill="#FDE68A"/>
+            <text x="408" y="130" font-family="Inter, sans-serif" font-size="40" font-weight="800" fill="#92400E">R$</text>
+            <!-- "Meu" text -->
+            <text x="500" y="115" font-family="Inter, sans-serif" font-size="88" font-weight="800" fill="#16A34A">Meu</text>
+            <!-- "Dinheiro" text -->
+            <text x="500" y="205" font-family="Inter, sans-serif" font-size="88" font-weight="800" fill="#2563EB">Dinheiro</text>
+            <!-- Subtitle -->
+            <text x="500" y="245" font-family="Inter, sans-serif" font-size="32" font-weight="400" fill="#6B7280">Controle suas finanças</text>
+          </svg>
+        </div>
+        <div class="app-header-right">
+          <span class="greeting">Olá, <strong>Lucas</strong></span>
+          <button class="btn-logout">Sair</button>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT -->
+      <main class="app-main">
+
+        <!-- CARDS GRID -->
+        <div class="cards-grid">
+
+          <!-- Card Saldo -->
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Saldo do Mês</span>
+              <div class="card-icon card-icon-blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <rect x="2" y="7" width="20" height="14" rx="3" stroke="#2563EB" stroke-width="2"/>
+                  <path d="M16 12a1 1 0 100 2 1 1 0 000-2z" fill="#2563EB"/>
+                  <path d="M2 10h20" stroke="#2563EB" stroke-width="2"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 2.050,00</div>
+            <div class="card-hint">Fevereiro 2026</div>
+          </div>
+
+          <!-- Card Receitas -->
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Receitas</span>
+              <div class="card-icon card-icon-green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M23 6l-9.5 9.5-5-5L1 18" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 6h6v6" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 4.500,00</div>
+            <div class="card-hint">+1 transação</div>
+          </div>
+
+          <!-- Card Despesas -->
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Despesas</span>
+              <div class="card-icon card-icon-red">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M23 18l-9.5-9.5-5 5L1 6" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 18h6v-6" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 2.450,00</div>
+            <div class="card-hint">3 transações</div>
+          </div>
+
+        </div>
+
+        <!-- SECTION HEADER -->
+        <div class="section-header">
+          <h2 class="section-title">Últimas Transações</h2>
+          <button class="btn-new">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            Nova Transação
+          </button>
+        </div>
+
+        <!-- TRANSACTION LIST -->
+        <div class="transactions-container">
+
+          <!-- Item 1: Receita Freelance -->
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #16A34A;"></div>
+            <div class="tx-icon" style="background: #DCFCE7;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Freelance</div>
+              <div class="tx-meta">Projeto Website XYZ · 26/02/2026</div>
+            </div>
+            <div class="tx-amount income">+R$ 4.500,00</div>
+            <button class="tx-delete" aria-label="Excluir transação">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Item 2: Despesa Moradia -->
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #DC2626;"></div>
+            <div class="tx-icon" style="background: #FEE2E2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Moradia</div>
+              <div class="tx-meta">Aluguel fevereiro · 01/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 1.800,00</div>
+            <button class="tx-delete" aria-label="Excluir transação">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Item 3: Despesa Alimentação -->
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #DC2626;"></div>
+            <div class="tx-icon" style="background: #FEE2E2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Alimentação</div>
+              <div class="tx-meta">Supermercado Extra · 20/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 650,00</div>
+            <button class="tx-delete" aria-label="Excluir transação">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Item 4: Despesa Transporte -->
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #DC2626;"></div>
+            <div class="tx-icon" style="background: #FEE2E2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="7" width="20" height="13" rx="3" stroke="#DC2626" stroke-width="2"/>
+                <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke="#DC2626" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="7.5" cy="17.5" r="1.5" fill="#DC2626"/>
+                <circle cx="16.5" cy="17.5" r="1.5" fill="#DC2626"/>
+              </svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Transporte</div>
+              <div class="tx-meta">Uber · 24/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 120,00</div>
+            <button class="tx-delete" aria-label="Excluir transação">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL + TOAST PREVIEW -->
+  <div class="modal-preview">
+    <div>
+      <div class="modal-preview-label">Modal — Nova Transação</div>
+      <div class="dir-a modal-card">
+        <div class="modal-header">
+          <span class="modal-title">Nova Transação</span>
+          <button class="modal-close">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-field">
+            <label class="form-label">Tipo</label>
+            <div class="type-selector">
+              <div class="type-option selected-income">Receita</div>
+              <div class="type-option unselected">Despesa</div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Valor (R$)</label>
+            <div class="form-input focused" style="display:flex; align-items:center; gap:4px; color:#0F172A;">
+              <span style="color:#9CA3AF; font-size:13px;">R$</span>
+              <span style="font-weight:700;">4.500</span>
+              <span style="width:2px; height:16px; background:#16A34A; animation: blink 1s infinite; margin-left:1px;"></span>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Categoria</label>
+            <div class="form-input" style="color:#0F172A; display:flex; justify-content:space-between; align-items:center;">
+              <span>Freelance</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-field">
+              <label class="form-label">Data</label>
+              <div class="form-input" style="color:#0F172A; font-size:13px;">26/02/2026</div>
+            </div>
+            <div class="form-field">
+              <label class="form-label" style="color:#9CA3AF;">Descrição (opcional)</label>
+              <div class="form-input" style="color:#C4C4C4; font-size:13px;">Projeto Website XYZ</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel">Cancelar</button>
+          <button class="btn-save">Salvar transação</button>
+        </div>
+      </div>
+      <div class="annotation">Animação de entrada: scale 0.95→1 + opacity 0→1 (200ms)</div>
+    </div>
+
+    <div>
+      <div class="modal-preview-label">Toast Feedback (Sonner)</div>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+        <div class="toast-bubble toast-success-a">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="color:#0F172A; font-size:14px;">Transação registrada!</span>
+        </div>
+        <div class="toast-bubble toast-success-a" style="border-color:#FEE2E2;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="#DC2626" stroke-width="2" stroke-linecap="round"/></svg>
+          <span style="color:#DC2626; font-size:14px;">Transação excluída</span>
+        </div>
+      </div>
+
+      <div class="modal-preview-label">Paleta de Cores — Direção A</div>
+      <div class="palette-strip">
+        <div class="palette-swatches">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #16A34A;"></div>
+            <div class="swatch-name">Verde</div>
+            <div class="swatch-hex">#16A34A</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #2563EB;"></div>
+            <div class="swatch-name">Azul</div>
+            <div class="swatch-hex">#2563EB</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #F59E0B;"></div>
+            <div class="swatch-name">Ouro</div>
+            <div class="swatch-hex">#F59E0B</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #DC2626;"></div>
+            <div class="swatch-name">Erro</div>
+            <div class="swatch-hex">#DC2626</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #F8FAFC; border: 1px solid #E2E8F0;"></div>
+            <div class="swatch-name">BG Página</div>
+            <div class="swatch-hex">#F8FAFC</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #FFFFFF; border: 1px solid #E2E8F0;"></div>
+            <div class="swatch-name">Card BG</div>
+            <div class="swatch-hex">#FFFFFF</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0F172A;"></div>
+            <div class="swatch-name">Texto</div>
+            <div class="swatch-hex">#0F172A</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #6B7280;"></div>
+            <div class="swatch-name">Muted</div>
+            <div class="swatch-hex">#6B7280</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     DIRECTION B — DARK MODE
+============================================= -->
+<div class="direction-panel" id="panel-b">
+  <div class="direction-meta">
+    <span class="direction-badge badge-alt">ALTERNATIVA B</span>
+    <div class="direction-description">
+      <h3>Dark Mode Financial</h3>
+      <p>Fundo #0F172A, cards #1E293B, texto claro, acentos neon verde e azul. Visual de "terminal financeiro". Alto impacto mas pode parecer frio para finanças pessoais. Requer atenção extra a cada componente para garantir contraste WCAG. Modo escuro está no roadmap Phase 3.</p>
+    </div>
+  </div>
+
+  <div class="app-mockup">
+    <div class="dir-b">
+
+      <header class="app-header">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <svg width="160" height="40" viewBox="0 0 980 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="60" width="160" height="110" rx="18" fill="#0F766E"/>
+            <rect x="20" y="90" width="160" height="80" fill="#0F766E"/>
+            <rect x="20" y="85" width="160" height="12" fill="#059669"/>
+            <rect x="140" y="105" width="40" height="28" rx="6" fill="#34D399"/>
+            <circle cx="155" cy="119" r="7" fill="#0F766E"/>
+            <rect x="215" y="120" width="28" height="50" rx="5" fill="#34D399"/>
+            <rect x="253" y="95" width="28" height="75" rx="5" fill="#60A5FA"/>
+            <rect x="291" y="75" width="28" height="95" rx="5" fill="#60A5FA"/>
+            <rect x="329" y="108" width="28" height="62" rx="5" fill="#2563EB"/>
+            <circle cx="420" cy="120" r="55" fill="#F59E0B"/>
+            <circle cx="420" cy="120" r="42" fill="#FDE68A"/>
+            <text x="408" y="130" font-family="Inter, sans-serif" font-size="40" font-weight="800" fill="#92400E">R$</text>
+            <text x="500" y="115" font-family="Inter, sans-serif" font-size="88" font-weight="800" fill="#4ADE80">Meu</text>
+            <text x="500" y="205" font-family="Inter, sans-serif" font-size="88" font-weight="800" fill="#60A5FA">Dinheiro</text>
+            <text x="500" y="245" font-family="Inter, sans-serif" font-size="32" font-weight="400" fill="#475569">Controle suas finanças</text>
+          </svg>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <span class="greeting">Olá, <strong>Lucas</strong></span>
+          <button class="btn-logout">Sair</button>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <div class="cards-grid">
+
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Saldo do Mês</span>
+              <div class="card-icon card-icon-blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <rect x="2" y="7" width="20" height="14" rx="3" stroke="#60A5FA" stroke-width="2"/>
+                  <path d="M16 12a1 1 0 100 2 1 1 0 000-2z" fill="#60A5FA"/>
+                  <path d="M2 10h20" stroke="#60A5FA" stroke-width="2"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 2.050,00</div>
+            <div class="card-hint">Fevereiro 2026</div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Receitas</span>
+              <div class="card-icon card-icon-green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M23 6l-9.5 9.5-5-5L1 18" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 6h6v6" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 4.500,00</div>
+            <div class="card-hint">+1 transação</div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Despesas</span>
+              <div class="card-icon card-icon-red">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M23 18l-9.5-9.5-5 5L1 6" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 18h6v-6" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 2.450,00</div>
+            <div class="card-hint">3 transações</div>
+          </div>
+
+        </div>
+
+        <div class="section-header">
+          <h2 class="section-title">Últimas Transações</h2>
+          <button class="btn-new">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+            Nova Transação
+          </button>
+        </div>
+
+        <div class="transactions-container">
+
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #4ADE80;"></div>
+            <div class="tx-icon" style="background: rgba(74, 222, 128, 0.1);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Freelance</div>
+              <div class="tx-meta">Projeto Website XYZ · 26/02/2026</div>
+            </div>
+            <div class="tx-amount income">+R$ 4.500,00</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #F87171;"></div>
+            <div class="tx-icon" style="background: rgba(248, 113, 113, 0.1);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="#F87171" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Moradia</div>
+              <div class="tx-meta">Aluguel fevereiro · 01/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 1.800,00</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #F87171;"></div>
+            <div class="tx-icon" style="background: rgba(248, 113, 113, 0.1);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7" stroke="#F87171" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Alimentação</div>
+              <div class="tx-meta">Supermercado Extra · 20/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 650,00</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #F87171;"></div>
+            <div class="tx-icon" style="background: rgba(248, 113, 113, 0.1);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="13" rx="3" stroke="#F87171" stroke-width="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke="#F87171" stroke-width="2"/></svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Transporte</div>
+              <div class="tx-meta">Uber · 24/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 120,00</div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="palette-strip" style="margin-top: 24px;">
+    <div class="palette-strip-title">Paleta de Cores — Direção B</div>
+    <div class="palette-swatches">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #0F172A;"></div>
+        <div class="swatch-name">BG Página</div>
+        <div class="swatch-hex">#0F172A</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #1E293B;"></div>
+        <div class="swatch-name">Card BG</div>
+        <div class="swatch-hex">#1E293B</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #4ADE80;"></div>
+        <div class="swatch-name">Verde Neon</div>
+        <div class="swatch-hex">#4ADE80</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #60A5FA;"></div>
+        <div class="swatch-name">Azul Neon</div>
+        <div class="swatch-hex">#60A5FA</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #F87171;"></div>
+        <div class="swatch-name">Vermelho</div>
+        <div class="swatch-hex">#F87171</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #F1F5F9;"></div>
+        <div class="swatch-name">Texto Claro</div>
+        <div class="swatch-hex">#F1F5F9</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     DIRECTION C — WARM PERSONAL
+============================================= -->
+<div class="direction-panel" id="panel-c">
+  <div class="direction-meta">
+    <span class="direction-badge badge-alt">ALTERNATIVA C</span>
+    <div class="direction-description">
+      <h3>Warm Personal</h3>
+      <p>Fundo #FFFBF0 (creme), tons dourados, bordas arredondadas generosas, botões com border-radius pill. Visual mais casual e acolhedor. Pode remeter a app de diário mais do que a finanças. Conflito leve com a logo verde/azul — a paleta dourada compete com #F59E0B da logo sem ser complementar. Considerado para uso futuro em modo "personal finance" mais relaxado.</p>
+    </div>
+  </div>
+
+  <div class="app-mockup">
+    <div class="dir-c">
+
+      <header class="app-header">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <svg width="160" height="40" viewBox="0 0 980 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="60" width="160" height="110" rx="18" fill="#0F766E"/>
+            <rect x="20" y="90" width="160" height="80" fill="#0F766E"/>
+            <rect x="20" y="85" width="160" height="12" fill="#059669"/>
+            <rect x="140" y="105" width="40" height="28" rx="6" fill="#34D399"/>
+            <circle cx="155" cy="119" r="7" fill="#0F766E"/>
+            <rect x="215" y="120" width="28" height="50" rx="5" fill="#34D399"/>
+            <rect x="253" y="95" width="28" height="75" rx="5" fill="#2563EB"/>
+            <rect x="291" y="75" width="28" height="95" rx="5" fill="#60A5FA"/>
+            <rect x="329" y="108" width="28" height="62" rx="5" fill="#1D4ED8"/>
+            <circle cx="420" cy="120" r="55" fill="#F59E0B"/>
+            <circle cx="420" cy="120" r="42" fill="#FDE68A"/>
+            <text x="408" y="130" font-family="Inter, sans-serif" font-size="40" font-weight="800" fill="#92400E">R$</text>
+            <text x="500" y="115" font-family="Inter, sans-serif" font-size="88" font-weight="800" fill="#16A34A">Meu</text>
+            <text x="500" y="205" font-family="Inter, sans-serif" font-size="88" font-weight="800" fill="#2563EB">Dinheiro</text>
+            <text x="500" y="245" font-family="Inter, sans-serif" font-size="32" font-weight="400" fill="#6B7280">Controle suas finanças</text>
+          </svg>
+        </div>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <span class="greeting">Olá, <strong>Lucas</strong> 👋</span>
+          <button class="btn-logout">Sair</button>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <div class="cards-grid">
+
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Saldo do Mês</span>
+              <div class="card-icon card-icon-gold">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <rect x="2" y="7" width="20" height="14" rx="3" stroke="#D97706" stroke-width="2"/>
+                  <path d="M16 12a1 1 0 100 2 1 1 0 000-2z" fill="#D97706"/>
+                  <path d="M2 10h20" stroke="#D97706" stroke-width="2"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 2.050,00</div>
+            <div class="card-hint">Fevereiro 2026</div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Receitas</span>
+              <div class="card-icon card-icon-green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M23 6l-9.5 9.5-5-5L1 18" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 6h6v6" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 4.500,00</div>
+            <div class="card-hint">+1 transação</div>
+          </div>
+
+          <div class="dash-card">
+            <div class="card-header">
+              <span class="card-label">Despesas</span>
+              <div class="card-icon card-icon-red">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M23 18l-9.5-9.5-5 5L1 6" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 18h6v-6" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-value">R$ 2.450,00</div>
+            <div class="card-hint">3 transações</div>
+          </div>
+
+        </div>
+
+        <div class="section-header">
+          <h2 class="section-title">Últimas Transações</h2>
+          <button class="btn-new">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#1C1917" stroke-width="2.5" stroke-linecap="round"/></svg>
+            Nova Transação
+          </button>
+        </div>
+
+        <div class="transactions-container">
+
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #16A34A;"></div>
+            <div class="tx-icon" style="background: #DCFCE7;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Freelance</div>
+              <div class="tx-meta">Projeto Website XYZ · 26/02/2026</div>
+            </div>
+            <div class="tx-amount income">+R$ 4.500,00</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #DC2626;"></div>
+            <div class="tx-icon" style="background: #FEE2E2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="#DC2626" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Moradia</div>
+              <div class="tx-meta">Aluguel fevereiro · 01/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 1.800,00</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #DC2626;"></div>
+            <div class="tx-icon" style="background: #FEE2E2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7" stroke="#DC2626" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Alimentação</div>
+              <div class="tx-meta">Supermercado Extra · 20/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 650,00</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-type-indicator" style="background: #DC2626;"></div>
+            <div class="tx-icon" style="background: #FEE2E2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="13" rx="3" stroke="#DC2626" stroke-width="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke="#DC2626" stroke-width="2"/></svg>
+            </div>
+            <div class="tx-info">
+              <div class="tx-category">Transporte</div>
+              <div class="tx-meta">Uber · 24/02/2026</div>
+            </div>
+            <div class="tx-amount expense">-R$ 120,00</div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="palette-strip" style="margin-top: 24px;">
+    <div class="palette-strip-title">Paleta de Cores — Direção C</div>
+    <div class="palette-swatches">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #FFFBF0; border: 1px solid #FDE68A;"></div>
+        <div class="swatch-name">BG Creme</div>
+        <div class="swatch-hex">#FFFBF0</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #FEF3C7; border: 1px solid #FDE68A;"></div>
+        <div class="swatch-name">BG Card</div>
+        <div class="swatch-hex">#FEF3C7</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #F59E0B;"></div>
+        <div class="swatch-name">Dourado</div>
+        <div class="swatch-hex">#F59E0B</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #D97706;"></div>
+        <div class="swatch-name">Âmbar</div>
+        <div class="swatch-hex">#D97706</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #16A34A;"></div>
+        <div class="swatch-name">Verde</div>
+        <div class="swatch-hex">#16A34A</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #DC2626;"></div>
+        <div class="swatch-name">Vermelho</div>
+        <div class="swatch-hex">#DC2626</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #1C1917;"></div>
+        <div class="swatch-name">Texto</div>
+        <div class="swatch-hex">#1C1917</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #92400E;"></div>
+        <div class="swatch-name">Marrom</div>
+        <div class="swatch-hex">#92400E</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     COMPARISON TABLE
+============================================= -->
+<div class="comparison-section">
+  <div class="comparison-title">Comparação das Direções</div>
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Critério</th>
+        <th>A — Clean Minimal</th>
+        <th>B — Dark Mode</th>
+        <th>C — Warm Personal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="chosen-row">
+        <td>Status</td>
+        <td><span class="check">ESCOLHIDA</span> — Recomendada</td>
+        <td><span class="neutral">Alternativa</span> — Phase 3</td>
+        <td><span class="cross">Descartada</span> — MVP</td>
+      </tr>
+      <tr class="chosen-row">
+        <td>Alinhamento com a logo</td>
+        <td><span class="check">Alto</span> — Mesmo fundo claro, mesmas cores</td>
+        <td><span class="neutral">Médio</span> — Logo fica deslocada no dark</td>
+        <td><span class="neutral">Médio</span> — Conflito dourado</td>
+      </tr>
+      <tr class="chosen-row">
+        <td>Facilidade de implementação</td>
+        <td><span class="check">Alta</span> — shadcn default + extensões</td>
+        <td><span class="cross">Baixa</span> — Cada componente precisa dark override</td>
+        <td><span class="check">Alta</span> — Customização simples</td>
+      </tr>
+      <tr class="chosen-row">
+        <td>WCAG AA compliance</td>
+        <td><span class="check">Fácil</span> — Fundo claro favorece contraste</td>
+        <td><span class="neutral">Requer atenção</span> — Cada cor precisa verificação</td>
+        <td><span class="check">Fácil</span> — Texto escuro em fundo claro</td>
+      </tr>
+      <tr class="chosen-row">
+        <td>Percepção pelo usuário Lucas</td>
+        <td><span class="check">Alta</span> — Idioma visual de dev tools (Vercel, Linear)</td>
+        <td><span class="neutral">Média</span> — Parece cool mas frio demais</td>
+        <td><span class="neutral">Média</span> — Muito casual para finanças</td>
+      </tr>
+      <tr class="chosen-row">
+        <td>Animações Framer Motion</td>
+        <td><span class="check">Excelentes</span> — Sombras e elevação naturais</td>
+        <td><span class="neutral">Boas</span> — Glow effects funcionam</td>
+        <td><span class="check">Boas</span> — Funciona bem</td>
+      </tr>
+      <tr class="chosen-row">
+        <td>Risk na demo ao vivo</td>
+        <td><span class="check">Baixo</span> — Padrão shadcn, sem surpresas</td>
+        <td><span class="cross">Alto</span> — Bugs de contraste podem aparecer</td>
+        <td><span class="neutral">Médio</span> — Paleta incomum pode confundir</td>
+      </tr>
+      <tr class="chosen-row">
+        <td>Semântica financeira</td>
+        <td><span class="check">Verde/Vermelho/Azul nítidos</span></td>
+        <td><span class="neutral">Neon pode cansar</span></td>
+        <td><span class="neutral">Dourado concorre com vermelho</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function showDirection(dir, clickedBtn) {
+    // Hide all panels
+    document.querySelectorAll('.direction-panel').forEach(function(panel) {
+      panel.classList.remove('active');
+    });
+
+    // Remove active from all tabs
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.classList.remove('active', 'active-b', 'active-c');
+    });
+
+    // Show selected panel
+    document.getElementById('panel-' + dir).classList.add('active');
+
+    // Activate clicked button with correct color
+    if (dir === 'a') {
+      clickedBtn.classList.add('active');
+    } else if (dir === 'b') {
+      clickedBtn.classList.add('active-b');
+    } else if (dir === 'c') {
+      clickedBtn.classList.add('active-c');
+    }
+  }
+</script>
+
+</body>
+</html>
