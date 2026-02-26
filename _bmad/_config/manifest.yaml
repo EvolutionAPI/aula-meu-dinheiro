@@ -1,0 +1,23 @@
+installation:
+  version: 6.0.3
+  installDate: 2026-02-26T21:16:45.201Z
+  lastUpdated: 2026-02-26T21:16:45.201Z
+modules:
+  - name: core
+    version: 6.0.3
+    installDate: 2026-02-26T21:16:45.201Z
+    lastUpdated: 2026-02-26T21:16:45.201Z
+    source: built-in
+    npmPackage: null
+    repoUrl: null
+  - name: bmm
+    version: 6.0.3
+    installDate: 2026-02-26T21:16:45.190Z
+    lastUpdated: 2026-02-26T21:16:45.201Z
+    source: built-in
+    npmPackage: null
+    repoUrl: null
+ides:
+  - claude-code
+  - cursor
+  - antigravity
