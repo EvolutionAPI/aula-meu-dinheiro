@@ -34,20 +34,10 @@
       </action>
 
       <check if="no ready-for-dev or in-progress story found">
-        <output>📋 No ready-for-dev stories found in sprint-status.yaml
-
-          **Current Sprint Status:** {{sprint_status_summary}}
-
-          **What would you like to do?**
-          1. Run `create-story` to create next story from epics with comprehensive context
-          2. Run `*validate-create-story` to improve existing stories before development (recommended quality check)
-          3. Specify a particular story file to develop (provide full path)
-          4. Check {{sprint_status}} file to see current sprint status
-
-          💡 **Tip:** Stories in `ready-for-dev` may not have been validated. Consider running `validate-create-story` first for a quality
-          check.
+        <output>No ready-for-dev story found in sprint status.
+          Options: [1] create-story, [2] validate-create-story, [3] provide story path, [4] view sprint status.
         </output>
-        <ask>Choose option [1], [2], [3], or [4], or specify story file path:</ask>
+        <ask>Choose [1-4] or provide a story path:</ask>
 
         <check if="user chooses '1'">
           <action>HALT - Run create-story to create next story</action>
@@ -64,7 +54,7 @@
         </check>
 
         <check if="user chooses '4'">
-          <output>Loading {{sprint_status}} for detailed status review...</output>
+          <output>Loading sprint status details...</output>
           <action>Display detailed sprint status analysis</action>
           <action>HALT - User can review sprint status and provide story path</action>
         </check>
@@ -84,14 +74,10 @@
       <action>Read each candidate story file to check Status section</action>
 
       <check if="no ready-for-dev stories found in story files">
-        <output>📋 No ready-for-dev stories found
-
-          **Available Options:**
-          1. Run `create-story` to create next story from epics with comprehensive context
-          2. Run `*validate-create-story` to improve existing stories
-          3. Specify which story to develop
+        <output>No ready-for-dev stories found.
+          Options: [1] create-story, [2] validate-create-story, [3] provide story path.
         </output>
-        <ask>What would you like to do? Choose option [1], [2], or [3]:</ask>
+        <ask>Choose [1-3]:</ask>
 
         <check if="user chooses '1'">
           <action>HALT - Run create-story to create next story</action>
@@ -102,7 +88,7 @@
         </check>
 
         <check if="user chooses '3'">
-          <ask>It's unclear what story you want developed. Please provide the full path to the story file:</ask>
+          <ask>Provide the full story file path:</ask>
           <action>Store user-provided story path as {{story_path}}</action>
           <action>Continue with provided story file</action>
         </check>
@@ -142,9 +128,7 @@
     <action>Load comprehensive context from story file's Dev Notes section</action>
     <action>Extract developer guidance from Dev Notes: architecture requirements, previous learnings, technical specifications</action>
     <action>Use enhanced story context to inform implementation decisions and approaches</action>
-    <output>✅ **Context Loaded**
-      Story and project context available for implementation
-    </output>
+    <output>Context loaded.</output>
   </step>
 
   <step n="3" goal="Detect review continuation and extract review context">
@@ -164,13 +148,8 @@
       <action>Count unchecked [ ] review follow-up tasks in "Review Follow-ups (AI)" subsection</action>
       <action>Store list of unchecked review items as {{pending_review_items}}</action>
 
-      <output>⏯️ **Resuming Story After Code Review** ({{review_date}})
-
-        **Review Outcome:** {{review_outcome}}
-        **Action Items:** {{unchecked_review_count}} remaining to address
-        **Priorities:** {{high_count}} High, {{med_count}} Medium, {{low_count}} Low
-
-        **Strategy:** Will prioritize review follow-up tasks (marked [AI-Review]) before continuing with regular tasks.
+      <output>Resuming after review ({{review_date}}): {{unchecked_review_count}} items pending.
+        Priority: {{high_count}} High, {{med_count}} Medium, {{low_count}} Low.
       </output>
     </check>
 
@@ -178,11 +157,8 @@
       <action>Set review_continuation = false</action>
       <action>Set {{pending_review_items}} = empty</action>
 
-      <output>🚀 **Starting Fresh Implementation**
-
-        Story: {{story_key}}
-        Story Status: {{current_status}}
-        First incomplete task: {{first_task_description}}
+      <output>Starting fresh implementation: {{story_key}} ({{current_status}}).
+        Next task: {{first_task_description}}.
       </output>
     </check>
   </step>
@@ -195,28 +171,22 @@
 
       <check if="current status == 'ready-for-dev' OR review_continuation == true">
         <action>Update the story in the sprint status report to = "in-progress"</action>
-        <output>🚀 Starting work on story {{story_key}}
-          Status updated: ready-for-dev → in-progress
-        </output>
+        <output>Story {{story_key}} set to in-progress.</output>
       </check>
 
       <check if="current status == 'in-progress'">
-        <output>⏯️ Resuming work on story {{story_key}}
-          Story is already marked in-progress
-        </output>
+        <output>Resuming story {{story_key}} (already in-progress).</output>
       </check>
 
       <check if="current status is neither ready-for-dev nor in-progress">
-        <output>⚠️ Unexpected story status: {{current_status}}
-          Expected ready-for-dev or in-progress. Continuing anyway...
-        </output>
+        <output>Unexpected status: {{current_status}}. Continuing.</output>
       </check>
 
       <action>Store {{current_sprint_status}} for later use</action>
     </check>
 
     <check if="{{sprint_status}} file does NOT exist">
-      <output>ℹ️ No sprint status file exists - story progress will be tracked in story file only</output>
+      <output>No sprint status file. Tracking in story file only.</output>
       <action>Set {{current_sprint_status}} = "no-sprint-tracking"</action>
     </check>
   </step>
@@ -349,18 +319,15 @@
       <action>Verify current status is "in-progress" (expected previous state)</action>
       <action>Update development_status[{{story_key}}] = "review"</action>
       <action>Save file, preserving ALL comments and structure including STATUS DEFINITIONS</action>
-      <output>✅ Story status updated to "review" in sprint-status.yaml</output>
+      <output>Story status updated to review in sprint-status.yaml.</output>
     </check>
 
     <check if="{sprint_status} file does NOT exist OR {{current_sprint_status}} == 'no-sprint-tracking'">
-      <output>ℹ️ Story status updated to "review" in story file (no sprint tracking configured)</output>
+      <output>Story status updated to review in story file.</output>
     </check>
 
     <check if="story key not found in sprint status">
-      <output>⚠️ Story file updated, but sprint-status update failed: {{story_key}} not found
-
-        Story status is set to "review" in file, but sprint-status.yaml may be out of sync.
-      </output>
+      <output>Story file set to review, but sprint-status update failed: {{story_key}} not found.</output>
     </check>
 
     <!-- Final validation gates -->
@@ -374,24 +341,9 @@
     <action>Execute the enhanced definition-of-done checklist using the validation framework</action>
     <action>Prepare a concise summary in Dev Agent Record → Completion Notes</action>
 
-    <action>Communicate to {user_name} that story implementation is complete and ready for review</action>
-    <action>Summarize key accomplishments: story ID, story key, title, key changes made, tests added, files modified</action>
-    <action>Provide the story file path and current status (now "review")</action>
-
-    <action>Based on {user_skill_level}, ask if user needs any explanations about:
-      - What was implemented and how it works
-      - Why certain technical decisions were made
-      - How to test or verify the changes
-      - Any patterns, libraries, or approaches used
-      - Anything else they'd like clarified
-    </action>
-
-    <check if="user asks for explanations">
-      <action>Provide clear, contextual explanations tailored to {user_skill_level}</action>
-      <action>Use examples and references to specific code when helpful</action>
-    </check>
-
-    <action>Once explanations are complete (or user indicates no questions), suggest logical next steps</action>
+    <action>Communicate to {user_name} that implementation is complete and ready for review</action>
+    <action>Provide a concise summary: story ID/key/title, key changes, tests added, files modified, story path, status "review"</action>
+    <action>Suggest logical next steps concisely</action>
     <action>Recommended next steps (flexible based on project setup):
       - Review the implemented story and test the changes
       - Verify all acceptance criteria are met
@@ -400,7 +352,7 @@
       - Optional: If Test Architect module installed, run `/bmad:tea:automate` to expand guardrail tests
     </action>
 
-    <output>💡 **Tip:** For best results, run `code-review` using a **different** LLM than the one that implemented this story.</output>
+    <output>Tip: run code-review with a different LLM if possible.</output>
     <check if="{sprint_status} file exists">
       <action>Suggest checking {sprint_status} to see project progress</action>
     </check>
