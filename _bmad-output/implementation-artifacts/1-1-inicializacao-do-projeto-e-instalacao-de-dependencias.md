@@ -1,6 +1,6 @@
 # Story 1.1: Inicialização do Projeto e Instalação de Dependências
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -34,34 +34,34 @@ Então o arquivo existe na raiz com a configuração gerada pelo `shadcn init`.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Criar o projeto Next.js com create-next-app (AC: #1)
-  - [ ] Executar o comando `npx create-next-app@latest meudinheiro` com todas as flags corretas
-  - [ ] Verificar que a estrutura base foi criada corretamente
-  - [ ] Confirmar que `npm run dev` sobe sem erros na porta 3000
+- [x] Task 1: Criar o projeto Next.js com create-next-app (AC: #1)
+  - [x] Executar o comando `npx create-next-app@latest meudinheiro` com todas as flags corretas
+  - [x] Verificar que a estrutura base foi criada corretamente
+  - [x] Confirmar que `npm run dev` sobe sem erros na porta 3000
 
-- [ ] Task 2: Inicializar shadcn/ui (AC: #2, #4)
-  - [ ] Executar `npx shadcn@latest init` dentro do diretório do projeto
-  - [ ] Confirmar que `components.json` foi criado na raiz
-  - [ ] Confirmar que `globals.css` foi atualizado com as CSS variables do shadcn/ui
+- [x] Task 2: Inicializar shadcn/ui (AC: #2, #4)
+  - [x] Executar `npx shadcn@latest init` dentro do diretório do projeto
+  - [x] Confirmar que `components.json` foi criado na raiz
+  - [x] Confirmar que `globals.css` foi atualizado com as CSS variables do shadcn/ui
 
-- [ ] Task 3: Instalar Prisma e configurar SQLite (AC: #2)
-  - [ ] Executar `npm install prisma@7.2.0 @prisma/client`
-  - [ ] Executar `npx prisma init --datasource-provider sqlite`
-  - [ ] Confirmar que `prisma/schema.prisma` foi criado com o datasource para SQLite
+- [x] Task 3: Instalar Prisma e configurar SQLite (AC: #2)
+  - [x] Executar `npm install prisma@7.2.0 @prisma/client`
+  - [x] Executar `npx prisma init --datasource-provider sqlite`
+  - [x] Confirmar que `prisma/schema.prisma` foi criado com o datasource para SQLite
 
-- [ ] Task 4: Instalar dependências de autenticação e segurança (AC: #2)
-  - [ ] Executar `npm install bcryptjs@3.0.3`
-  - [ ] Executar `npm install --save-dev @types/bcryptjs`
+- [x] Task 4: Instalar dependências de autenticação e segurança (AC: #2)
+  - [x] Executar `npm install bcryptjs@3.0.3`
+  - [x] Executar `npm install --save-dev @types/bcryptjs`
 
-- [ ] Task 5: Instalar dependências de UI e formulários (AC: #2)
-  - [ ] Executar `npm install framer-motion`
-  - [ ] Executar `npm install sonner`
-  - [ ] Executar `npm install react-hook-form @hookform/resolvers zod`
+- [x] Task 5: Instalar dependências de UI e formulários (AC: #2)
+  - [x] Executar `npm install framer-motion`
+  - [x] Executar `npm install sonner`
+  - [x] Executar `npm install react-hook-form @hookform/resolvers zod`
 
-- [ ] Task 6: Verificar integridade geral (AC: #3)
-  - [ ] Executar `npm run dev` e confirmar que a aplicação sobe sem erros
-  - [ ] Verificar que não há conflitos de dependências no `package.json`
-  - [ ] Confirmar que `npm run lint` não reporta erros
+- [x] Task 6: Verificar integridade geral (AC: #3)
+  - [x] Executar `npm run dev` e confirmar que a aplicação sobe sem erros
+  - [x] Verificar que não há conflitos de dependências no `package.json`
+  - [x] Confirmar que `npm run lint` não reporta erros
 
 ## Dev Notes
 
@@ -223,9 +223,56 @@ cat components.json
 ### Agent Model Used
 
 claude-sonnet-4-6
+gpt-5
 
 ### Debug Log References
 
+- Code review identificou divergencias entre o artifact e o estado real do app
+- `npm run build` e `npm run dev` exigiram execucao fora do sandbox por restricao local de portas/processos
+
 ### Completion Notes List
 
+- Projeto criado com `create-next-app@latest` (Next.js 16.1.6) com todas as flags especificadas
+- `components.json` foi alinhado com a configuracao documentada da story (`style: default`, `baseColor: neutral`, `cssVariables: true`)
+- Prisma 7.2.0 e `@prisma/client` 7.2.0 foram fixados e validados no ambiente
+- bcryptjs@3.0.3 instalado (pure JS, sem binários nativos)
+- framer-motion, sonner, react-hook-form, @hookform/resolvers, zod instalados sem conflitos
+- Import de `next/font/google` foi removido do layout base para eliminar dependencia externa no build inicial
+- Teste automatizado `node:test` foi adicionado para validar setup, dependencias e configuracao do shadcn/Prisma
+- `npm run lint`, `npm test`, `npx prisma validate` e `npm run build` passaram sem erros
+- `npm run dev -- --hostname 127.0.0.1` subiu com sucesso em `http://127.0.0.1:3000`
+- `prisma/dev.db` e `prisma/dev.db-journal` adicionados ao `.gitignore`
+- AC1, AC2, AC3 e AC4 todos satisfeitos
+
 ### File List
+
+Nota: O projeto Next.js foi movido pelo usuário para dentro do próprio repositório `live-01/` (ao invés de uma subpasta `meudinheiro/`). O `{project-root}` É a raiz do projeto Next.js.
+
+- .gitignore (modificado — adicionado prisma/dev.db)
+- README.md
+- components.json (criado pelo shadcn init)
+- package.json (atualizado com todas as dependências)
+- package-lock.json
+- prisma/schema.prisma (criado pelo prisma init)
+- prisma.config.ts (criado pelo prisma init)
+- src/app/globals.css (atualizado pelo shadcn init)
+- src/app/layout.tsx
+- src/app/page.tsx
+- src/app/favicon.ico
+- src/lib/utils.ts (criado pelo shadcn init)
+- public/file.svg
+- public/globe.svg
+- public/next.svg
+- public/vercel.svg
+- test/story-1-1.setup.test.mjs
+- next.config.ts
+- tsconfig.json
+- eslint.config.mjs
+- postcss.config.mjs
+
+## Change Log
+
+| Data | Descrição |
+|------|-----------|
+| 2026-03-03 | Story implementada — projeto meudinheiro criado com stack completa (Next.js 16.1.6, shadcn/ui, Prisma 7.2.0 SQLite, bcryptjs, framer-motion, sonner, react-hook-form, zod) |
+| 2026-03-03 | Code review corrigiu alinhamento de versoes do Prisma, estabilizou build sem fonte remota, adicionou testes de setup e sincronizou a documentacao da story com os arquivos reais alterados |
