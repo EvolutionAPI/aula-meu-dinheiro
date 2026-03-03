@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "next lint",
     "test": "node --test test/story-1-1.setup.test.mjs"
   },
   "dependencies": {

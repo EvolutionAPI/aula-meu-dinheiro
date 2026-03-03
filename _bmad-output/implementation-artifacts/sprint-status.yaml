@@ -17,7 +17,7 @@ development_status:
   # ─── Epic 1: Fundação do Projeto e Infraestrutura ───────────────────────
   epic-1: in-progress
   1-1-inicializacao-do-projeto-e-instalacao-de-dependencias: done
-  1-2-banco-de-dados-estrutura-de-pastas-e-variaveis-de-ambiente: ready-for-dev
+  1-2-banco-de-dados-estrutura-de-pastas-e-variaveis-de-ambiente: done
 
   # ─── Epic 2: Autenticação e Sessão de Usuário ────────────────────────────
   epic-2: backlog

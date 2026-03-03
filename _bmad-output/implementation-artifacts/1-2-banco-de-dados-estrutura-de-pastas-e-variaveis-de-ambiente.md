@@ -1,6 +1,6 @@
 # Story 1.2: Banco de Dados, Estrutura de Pastas e Variáveis de Ambiente
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -34,28 +34,28 @@ Então a aplicação sobe sem erros e o Prisma Client conecta ao banco sem warni
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Definir schema Prisma completo e gerar migração inicial (AC: #1)
-  - [ ] Atualizar `prisma/schema.prisma` com os models `User`, `Session` e `Transaction`
-  - [ ] Garantir relações e índices: `@@index([userId])` em `Session`, `@@index([userId])` e `@@index([userId, date])` em `Transaction`
-  - [ ] Executar `npx prisma migrate dev --name init`
-  - [ ] Validar geração de `prisma/migrations/` e `prisma/dev.db`
+- [x] Task 1: Definir schema Prisma completo e gerar migração inicial (AC: #1)
+  - [x] Atualizar `prisma/schema.prisma` com os models `User`, `Session` e `Transaction`
+  - [x] Garantir relações e índices: `@@index([userId])` em `Session`, `@@index([userId])` e `@@index([userId, date])` em `Transaction`
+  - [x] Executar `npx prisma migrate dev --name init`
+  - [x] Validar geração de `prisma/migrations/` e `prisma/dev.db`
 
-- [ ] Task 2: Criar estrutura de diretórios base da arquitetura (AC: #2)
-  - [ ] Criar `src/app/(auth)/login/` e `src/app/(auth)/register/`
-  - [ ] Criar `src/app/(app)/dashboard/`
-  - [ ] Criar `src/actions/`, `src/lib/`, `src/types/`
-  - [ ] Criar `src/components/auth/`, `src/components/dashboard/`, `src/components/transactions/`, `src/components/shared/`
-  - [ ] Confirmar presença de `src/components/ui/` (gerado pelo shadcn/ui)
+- [x] Task 2: Criar estrutura de diretórios base da arquitetura (AC: #2)
+  - [x] Criar `src/app/(auth)/login/` e `src/app/(auth)/register/`
+  - [x] Criar `src/app/(app)/dashboard/`
+  - [x] Criar `src/actions/`, `src/lib/`, `src/types/`
+  - [x] Criar `src/components/auth/`, `src/components/dashboard/`, `src/components/transactions/`, `src/components/shared/`
+  - [x] Confirmar presença de `src/components/ui/` (gerado pelo shadcn/ui)
 
-- [ ] Task 3: Configurar variáveis de ambiente e arquivos de referência (AC: #3)
-  - [ ] Criar/ajustar `.env.local` com `DATABASE_URL="file:./dev.db"` e `SESSION_SECRET="<gerar-valor-seguro>"`
-  - [ ] Criar `.env.example` com placeholders para `DATABASE_URL` e `SESSION_SECRET`
-  - [ ] Garantir que `.gitignore` contém `.env.local` e `prisma/dev.db`
+- [x] Task 3: Configurar variáveis de ambiente e arquivos de referência (AC: #3)
+  - [x] Criar/ajustar `.env.local` com `DATABASE_URL="file:./dev.db"` e `SESSION_SECRET="<gerar-valor-seguro>"`
+  - [x] Criar `.env.example` com placeholders para `DATABASE_URL` e `SESSION_SECRET`
+  - [x] Garantir que `.gitignore` contém `.env.local` e `prisma/dev.db`
 
-- [ ] Task 4: Verificação final de execução local (AC: #4)
-  - [ ] Executar `npx prisma generate` e confirmar client gerado sem erros
-  - [ ] Executar `npm run dev` e validar inicialização sem erro/warning crítico
-  - [ ] Executar `npm run lint` para confirmar baseline limpa
+- [x] Task 4: Verificação final de execução local (AC: #4)
+  - [x] Executar `npx prisma generate` e confirmar client gerado sem erros
+  - [x] Executar `npm run dev` e validar inicialização sem erro/warning crítico
+  - [x] Executar `npm run lint` para confirmar baseline limpa
 
 ## Dev Notes
 
@@ -142,14 +142,43 @@ npm run lint
 - Comandos de Prisma e setup: [Source: _bmad-output/planning-artifacts/architecture.md#Comando de Inicialização]
 - Estrutura de diretórios-alvo: [Source: _bmad-output/planning-artifacts/architecture.md#Estrutura Completa de Diretórios]
 
+## Change Log
+
+| Date       | Who  | Change |
+|------------|------|--------|
+| 2026-03-03 | AI   | Code review: HIGH/MEDIUM fixes applied (.gitignore, .env.example DATABASE_URL, package.json lint, File List, Dev Agent Record). Status → done. |
+
 ## Dev Agent Record
 
 ### Agent Model Used
 
-GPT-5.3-Codex
+Antigravity
 
 ### Debug Log References
 
+- `npx prisma migrate dev --name init` executed correctly.
+- Removed `url      = env("DATABASE_URL")` as it is handled by `prisma.config.ts` in Prisma 7.
+- `npx prisma generate` config loaded.
+
 ### Completion Notes List
 
+- All requested folders inside `src/` created.
+- `.env.local` and `.env.example` created. `.gitignore` updated.
+- Lint passed. Scaffold successful.
+
+### Code Review (AI) — Fixes Applied
+
+- **HIGH:** `.env.example` — DATABASE_URL set to `file:./prisma/dev.db` so DB is created under `prisma/`; ensure `.env.example` is committed (`git add .env.example`). `.gitignore` updated: explicit `.env.local`, and `/dev.db` added to avoid committing root-level DB if present.
+- **MEDIUM:** File List updated to include `prisma.config.ts`, `prisma/migrations/`, migration SQL file, and `package.json`. Lint script changed from `eslint` to `next lint` in `package.json`.
+- Schema datasource left without `url` (Prisma 7 uses `prisma.config.ts`); no change to avoid breaking config.
+
 ### File List
+
+- `prisma/schema.prisma`
+- `prisma.config.ts`
+- `prisma/migrations/`
+- `prisma/migrations/20260303230949_init/migration.sql`
+- `.env.local`
+- `.env.example`
+- `.gitignore`
+- `package.json`
