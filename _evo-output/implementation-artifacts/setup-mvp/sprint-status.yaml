@@ -21,9 +21,9 @@ development_status:
 
   # ─── Epic 2: Autenticação e Sessão de Usuário ────────────────────────────
   epic-2: in-progress
-  2-1-infraestrutura-de-autenticacao-e-protecao-de-rotas: ready-for-dev
-  2-2-interface-de-cadastro-de-usuario: backlog
-  2-3-interface-de-login-e-logout: backlog
+  2-1-infraestrutura-de-autenticacao-e-protecao-de-rotas: in-progress
+  2-2-interface-de-cadastro-de-usuario: ready-for-dev
+  2-3-interface-de-login-e-logout: ready-for-dev
 
   # ─── Epic 3: Gestão de Transações ────────────────────────────────────────
   epic-3: backlog
