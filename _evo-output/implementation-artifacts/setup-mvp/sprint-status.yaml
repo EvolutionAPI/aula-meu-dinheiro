@@ -20,8 +20,8 @@ development_status:
   1-2-banco-de-dados-estrutura-de-pastas-e-variaveis-de-ambiente: done
 
   # ─── Epic 2: Autenticação e Sessão de Usuário ────────────────────────────
-  epic-2: backlog
-  2-1-infraestrutura-de-autenticacao-e-protecao-de-rotas: backlog
+  epic-2: in-progress
+  2-1-infraestrutura-de-autenticacao-e-protecao-de-rotas: ready-for-dev
   2-2-interface-de-cadastro-de-usuario: backlog
   2-3-interface-de-login-e-logout: backlog
 
