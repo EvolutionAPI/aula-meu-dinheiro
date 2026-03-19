@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation"
+import Link from "next/link"
 import { getSession } from "@/lib/auth"
 import { UserAvatar } from "@/components/user-avatar"
 import { LogoutButton } from "@/components/logout-button"
-import { Moon, UserCog } from "lucide-react"
+import { Moon, UserCog, Tags, ChevronRight } from "lucide-react"
 
 export default async function ProfilePage() {
   const session = await getSession()
@@ -30,6 +31,12 @@ export default async function ProfilePage() {
             <Moon className="h-5 w-5 text-muted-foreground" />
             <span className="text-foreground">Tema escuro</span>
           </div>
+
+          <Link href="/profile/categories" className="flex min-h-[48px] items-center gap-3 px-4">
+            <Tags className="h-5 w-5 text-muted-foreground" />
+            <span className="flex-1 text-foreground">Categorias</span>
+            <ChevronRight className="h-4 w-4 text-muted-foreground" />
+          </Link>
 
           <div className="flex min-h-[48px] items-center gap-3 px-4">
             <UserCog className="h-5 w-5 text-muted-foreground" />

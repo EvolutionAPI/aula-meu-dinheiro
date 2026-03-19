@@ -11,6 +11,7 @@ import { DescriptionField } from "@/components/description-field"
 import { formatCurrency } from "@/lib/format"
 import { cn } from "@/lib/utils"
 import { createTransaction } from "@/actions/transactions"
+import { CategoryFormDialog } from "@/components/category-form-dialog"
 
 interface CategoryData {
   id: string
@@ -33,6 +34,7 @@ export function TransactionForm({ onSuccess, categories }: TransactionFormProps)
   const [isPending, startTransition] = useTransition()
   const [showPulse, setShowPulse] = useState(false)
   const [showValidation, setShowValidation] = useState(false)
+  const [showNewCategoryDialog, setShowNewCategoryDialog] = useState(false)
 
   const numericValue = rawDigits.length > 0 ? parseInt(rawDigits, 10) / 100 : 0
   const displayValue = formatCurrency(numericValue)
@@ -175,6 +177,7 @@ export function TransactionForm({ onSuccess, categories }: TransactionFormProps)
           categories={filteredCategories}
           selectedId={selectedCategoryId}
           onSelect={setSelectedCategoryId}
+          onAddNew={() => setShowNewCategoryDialog(true)}
         />
         {missingCategory && (
           <p className="-mt-2 text-xs text-red-400">Selecione uma categoria</p>
@@ -183,6 +186,16 @@ export function TransactionForm({ onSuccess, categories }: TransactionFormProps)
 
       {/* Campo de descricao */}
       <DescriptionField value={description} onChange={setDescription} />
+
+      {/* Dialog nova categoria inline */}
+      {showNewCategoryDialog && (
+        <CategoryFormDialog
+          open={showNewCategoryDialog}
+          onOpenChange={setShowNewCategoryDialog}
+          type={transactionType}
+          onSuccess={() => setShowNewCategoryDialog(false)}
+        />
+      )}
 
       {/* Botao Registrar */}
       <motion.button

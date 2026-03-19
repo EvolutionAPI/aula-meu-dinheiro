@@ -15,9 +15,10 @@ interface CategoryGridProps {
   categories: readonly CategoryItem[]
   selectedId: string | null
   onSelect: (id: string) => void
+  onAddNew?: () => void
 }
 
-export function CategoryGrid({ categories, selectedId, onSelect }: CategoryGridProps) {
+export function CategoryGrid({ categories, selectedId, onSelect, onAddNew }: CategoryGridProps) {
   const gridRef = useRef<HTMLDivElement>(null)
 
   const handleKeyDown = useCallback(
@@ -89,6 +90,19 @@ export function CategoryGrid({ categories, selectedId, onSelect }: CategoryGridP
           </motion.button>
         )
       })}
+      {onAddNew && (
+        <button
+          type="button"
+          onClick={onAddNew}
+          className="flex flex-col items-center gap-1"
+          aria-label="Nova categoria"
+        >
+          <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-zinc-600 text-xl text-zinc-500">
+            +
+          </div>
+          <span className="w-full truncate text-center text-xs text-zinc-400">Nova</span>
+        </button>
+      )}
     </div>
   )
 }
