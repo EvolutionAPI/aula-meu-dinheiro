@@ -10,6 +10,11 @@ export const DEFAULT_CATEGORIES = [
 
 export const SALT_ROUNDS = 10
 
+export const TRANSACTION_TYPE = {
+  INCOME: 'income',
+  EXPENSE: 'expense',
+} as const
+
 export const SEMAPHORE_THRESHOLDS = {
   green: 0.4,
   yellow: 0.1,

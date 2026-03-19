@@ -51,10 +51,10 @@ development_status:
   epic-1-retrospective: optional
 
   # Epic 2: Dashboard e Visualizacao Financeira
-  epic-2: in-progress
-  2-1-layout-do-app-com-bottom-navigation: ready-for-dev
-  2-2-dashboard-com-hero-card-e-saldo: ready-for-dev
-  2-3-componente-de-counter-animation: ready-for-dev
+  epic-2: done
+  2-1-layout-do-app-com-bottom-navigation: done
+  2-2-dashboard-com-hero-card-e-saldo: done
+  2-3-componente-de-counter-animation: done
   epic-2-retrospective: optional
 
   # Epic 3: Registro de Transacoes

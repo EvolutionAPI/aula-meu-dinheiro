@@ -1,6 +1,6 @@
 # Story 2.2: Dashboard com Hero Card e Saldo
 
-**Status:** ready-for-dev
+**Status:** done
 
 **Depends on:** Story 1.1 (schema, tipos, formatCurrency, constants), Story 1.4 (getSession, middleware), Story 2.1 (layout app, bottom nav), Story 2.3 (AnimatedCounter — pode ser implementado junto ou apos)
 
@@ -65,58 +65,54 @@
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1 (AC: #1)** Criar header do dashboard
-  - [ ] 1.1 Atualizar `src/app/(app)/page.tsx` como Server Component
-  - [ ] 1.2 Buscar sessao com `getSession()` — extrair nome do usuario
-  - [ ] 1.3 Renderizar "Ola, {nome}" como h1 (`text-xl`, `bold`, `zinc-50`)
-  - [ ] 1.4 Renderizar EyeToggle como Client Component (toggle ocultar valores)
+- [x] **Task 1 (AC: #1)** Criar header do dashboard
+  - [x] 1.1 Atualizar `src/app/(app)/page.tsx` como Server Component
+  - [x] 1.2 Buscar sessao com `getSession()` — extrair nome do usuario
+  - [x] 1.3 Renderizar "Ola, {nome}" como h1 (`text-xl`, `bold`, `zinc-50`)
+  - [x] 1.4 Renderizar EyeToggle como Client Component (toggle ocultar valores)
 
-- [ ] **Task 2 (AC: #2)** Criar componente HeroCard
-  - [ ] 2.1 Criar `src/components/hero-card.tsx` como Client Component (`"use client"`)
-  - [ ] 2.2 Props: `balance` (number), `income` (number), `expenses` (number), `monthlyIncome` (number)
-  - [ ] 2.3 Label "Saldo atual" (body-sm, zinc-400)
-  - [ ] 2.4 Valor do saldo com AnimatedCounter (ou `formatCurrency` se counter nao pronto)
-  - [ ] 2.5 Logica do semaforo: calcular `ratio = balance / monthlyIncome`, aplicar cor:
-    - `> 0.4`: emerald-500 (`#10b981`)
-    - `0.1 a 0.4`: amber-500 (`#f59e0b`)
-    - `< 0.1`: red-500 (`#ef4444`)
-  - [ ] 2.6 Borda-left 4px com cor do semaforo
-  - [ ] 2.7 Subinfo: "Receitas R${income} | Despesas R${expenses}" (caption, zinc-400)
-  - [ ] 2.8 Background zinc-800, rounded-2xl, shadow-lg, padding 16px
-  - [ ] 2.9 Suporte a "valores ocultos" via prop (recebe `isHidden` de parent)
+- [x] **Task 2 (AC: #2)** Criar componente HeroCard
+  - [x] 2.1 Criar `src/components/hero-card.tsx` como Client Component (`"use client"`)
+  - [x] 2.2 Props: `balance`, `income`, `expenses`, `monthlyIncome`, `isHidden`
+  - [x] 2.3 Label "Saldo atual" (body-sm, zinc-400)
+  - [x] 2.4 Valor do saldo com AnimatedCounter (Story 2.3)
+  - [x] 2.5 Logica do semaforo usando SEMAPHORE_THRESHOLDS de constants.ts
+  - [x] 2.6 Borda-left 4px com cor do semaforo
+  - [x] 2.7 Subinfo: "Receitas R${income} | Despesas R${expenses}" (caption, zinc-400)
+  - [x] 2.8 Background zinc-800, rounded-2xl, shadow-lg, padding 16px
+  - [x] 2.9 Suporte a "valores ocultos" via prop isHidden
 
-- [ ] **Task 3 (AC: #3)** Criar toggle ocultar valores
-  - [ ] 3.1 Client Component com `useState` para `isHidden`
-  - [ ] 3.2 Icone eye/eye-off (lucide-react)
-  - [ ] 3.3 Quando oculto: valores viram "R$ ••••••"
-  - [ ] 3.4 Fade transition (200ms) ao alternar
-  - [ ] 3.5 Estado local (`useState`) — nao persiste entre sessoes
+- [x] **Task 3 (AC: #3)** Criar toggle ocultar valores
+  - [x] 3.1 Client Component com `useState` para `isHidden` (via DashboardClient)
+  - [x] 3.2 Icone eye/eye-off (lucide-react) via EyeToggle
+  - [x] 3.3 Quando oculto: valores viram "R$ ••••••"
+  - [x] 3.4 Fade transition (200ms) via transition-opacity duration-200
+  - [x] 3.5 Estado local (`useState`) — nao persiste entre sessoes
 
-- [ ] **Task 4 (AC: #2)** Criar funcoes de data fetching
-  - [ ] 4.1 Criar funcao `getBalance(userId)` que retorna `{ balance, income, expenses }`
-  - [ ] 4.2 Query: soma receitas (`type="income"`) e despesas (`type="expense"`) do mes atual
-  - [ ] 4.3 Filtro por mes: `createdAt >= inicio do mes AND createdAt < inicio do proximo mes`
-  - [ ] 4.4 Criar funcao `getRecentTransactions(userId, limit=5)`
-  - [ ] 4.5 Query: ultimas 5 transacoes com `include category`, `orderBy createdAt desc`
-  - [ ] 4.6 Colocar queries em `src/lib/queries.ts` ou diretamente no `page.tsx`
+- [x] **Task 4 (AC: #2)** Criar funcoes de data fetching
+  - [x] 4.1 Criar funcao `getBalance(userId)` que retorna `{ balance, income, expenses }`
+  - [x] 4.2 Query: soma receitas (`type="income"`) e despesas (`type="expense"`) do mes atual
+  - [x] 4.3 Filtro por mes: `createdAt >= inicio do mes AND createdAt < inicio do proximo mes`
+  - [x] 4.4 Criar funcao `getRecentTransactions(userId, limit=5)`
+  - [x] 4.5 Query: ultimas 5 transacoes com `include category`, `orderBy createdAt desc`
+  - [x] 4.6 Queries diretamente no `page.tsx` (Server Component)
 
-- [ ] **Task 5 (AC: #4)** Criar secao de ultimas transacoes
-  - [ ] 5.1 Renderizar lista das 5 ultimas transacoes
-  - [ ] 5.2 Cada item: avatar (circulo colorido 40x40 + emoji), nome categoria, valor formatado
-  - [ ] 5.3 Valor: emerald-500 se receita, zinc-50 se despesa com "- R$" prefix
-  - [ ] 5.4 Animacao fade+slide nos items (Framer Motion)
-  - [ ] 5.5 Empty state: "Registre sua primeira transacao" com icone discreto
+- [x] **Task 5 (AC: #4)** Criar secao de ultimas transacoes
+  - [x] 5.1 Renderizar lista das 5 ultimas transacoes
+  - [x] 5.2 Cada item: avatar (circulo colorido 40x40 + emoji), nome categoria, valor formatado
+  - [x] 5.3 Valor: emerald-500 se receita, zinc-50 se despesa com "- R$" prefix
+  - [x] 5.4 Animacao fade+slide nos items (Framer Motion)
+  - [x] 5.5 Empty state: "Registre sua primeira transacao"
 
-- [ ] **Task 6 (AC: #5)** Criar skeleton loading
-  - [ ] 6.1 Criar ou atualizar `src/app/(app)/loading.tsx`
-  - [ ] 6.2 Skeleton no formato do hero card (retangulo rounded-2xl)
-  - [ ] 6.3 Skeleton no formato de transaction rows (circulos + linhas)
-  - [ ] 6.4 Pulso: `animate-pulse` com zinc-700 -> zinc-800
+- [x] **Task 6 (AC: #5)** Criar skeleton loading
+  - [x] 6.1 Atualizar `src/app/(app)/loading.tsx`
+  - [x] 6.2 Skeleton no formato do hero card (retangulo rounded-2xl com border-left)
+  - [x] 6.3 Skeleton no formato de transaction rows (circulos + linhas + valor)
+  - [x] 6.4 Pulso: `animate-pulse` com zinc-700/zinc-800
 
-- [ ] **Task 7 (AC: #6)** Criar secao de acoes rapidas (simplificada)
-  - [ ] 7.1 Botoes circulares pequenos para "Despesa" e "Receita" (atalhos)
-  - [ ] 7.2 Ou apenas um link "Ver todas" apontando para `/transactions`
-  - [ ] 7.3 Zona do polegar — parte inferior da tela
+- [x] **Task 7 (AC: #6)** Criar secao de acoes rapidas (simplificada)
+  - [x] 7.1 Link "Ver todas as transacoes" apontando para `/transactions`
+  - [x] 7.2 Zona do polegar — parte inferior da area de conteudo
 
 ---
 
@@ -265,10 +261,42 @@ src/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6 (1M context)
 
 ### Debug Log References
+- Build successful com Next.js 16.2.0 (Turbopack)
+- Dashboard route (/) agora dinamico (server-rendered on demand) via getSession()
 
 ### Completion Notes List
+- Dashboard page como Server Component buscando dados via Prisma direto
+- getBalance() calcula receitas/despesas do mes atual com filtro por data
+- getRecentTransactions() busca ultimas 5 transacoes com category include
+- DashboardClient como container Client Component gerenciando estado isHidden
+- HeroCard com semaforo usando SEMAPHORE_THRESHOLDS de constants.ts
+- AnimatedCounter integrado ao HeroCard (Story 2.3)
+- EyeToggle com icones eye/eye-off e aria-labels corretos
+- RecentTransactions com fade+slide animation (Framer Motion)
+- Empty state quando nao ha transacoes
+- Skeleton loading no formato exato do dashboard final
+- Acoes rapidas simplificadas com link "Ver todas as transacoes"
+- Todos os valores monetarios ocultos quando isHidden=true
+- aria-live="polite" no HeroCard, aria-labels em transacoes
+
+### Change Log
+- 2026-03-19: Story 2.2 implementada — Dashboard completo com hero card, semaforo, toggle, transacoes recentes, skeleton
+- 2026-03-19: Code review fixes — formatCurrency cached, Link vs <a>, aggregate queries, negative balance handling, TRANSACTION_TYPE constants, reduced-motion em transacoes, testes vitest
 
 ### File List
+- src/app/(app)/page.tsx (ATUALIZADO — Server Component com data fetching)
+- src/app/(app)/loading.tsx (ATUALIZADO — skeleton no formato do dashboard)
+- src/components/dashboard-client.tsx (NOVO)
+- src/components/hero-card.tsx (NOVO)
+- src/components/eye-toggle.tsx (NOVO)
+- src/components/recent-transactions.tsx (NOVO)
+- src/lib/format.ts (ATUALIZADO — cached Intl.NumberFormat)
+- src/lib/constants.ts (ATUALIZADO — TRANSACTION_TYPE adicionado)
+- vitest.config.ts (NOVO)
+- src/__tests__/setup.ts (NOVO)
+- src/__tests__/format.test.ts (NOVO)
+- src/__tests__/constants.test.ts (NOVO)
+- src/__tests__/hero-card-logic.test.ts (NOVO)
