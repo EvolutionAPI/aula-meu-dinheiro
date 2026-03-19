@@ -22,7 +22,7 @@ export type OnboardingInput = z.infer<typeof onboardingSchema>
 export const categorySchema = z.object({
   name: z.string().min(1, 'Nome e obrigatorio').max(30, 'Nome deve ter no maximo 30 caracteres'),
   icon: z.string().min(1, 'Icone e obrigatorio').max(8, 'Icone invalido'),
-  type: z.enum(['expense', 'income'], { required_error: 'Tipo e obrigatorio' }),
+  type: z.enum(['expense', 'income'], { message: 'Tipo e obrigatorio' }),
 })
 
 export type CategoryInput = z.infer<typeof categorySchema>
