@@ -1,6 +1,6 @@
 # Story 1.4: Middleware de Autenticacao e Logout
 
-> **Status:** ready-for-dev
+> **Status:** done
 > **Depends on:** Story 1.1 (schema, tipos), Story 1.2 (JWT functions, auth actions), Story 1.3 (login)
 
 ---
@@ -27,23 +27,23 @@
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1** (AC: #1, #2) Criar middleware Next.js
-  - [ ] 1.1 Criar `src/middleware.ts`
-  - [ ] 1.2 Definir rotas protegidas: matcher para /(app) routes (/, /transactions, /profile)
-  - [ ] 1.3 Definir rotas publicas: /login, /register (nao interceptar)
-  - [ ] 1.4 Ler cookie "token" da request
-  - [ ] 1.5 Verificar JWT usando jose (`jwtVerify`) — DEVE funcionar em edge runtime
-  - [ ] 1.6 Se invalido/ausente: redirect para /login
-  - [ ] 1.7 Se valido: permitir acesso (`NextResponse.next()`)
-  - [ ] 1.8 Redirecionar usuarios logados de /login e /register para /
-- [ ] **Task 2** (AC: #4) Atualizar getSession para incluir monthlyIncome
-  - [ ] 2.1 Garantir que `getSession()` em `src/lib/auth.ts` retorna Session completa
-  - [ ] 2.2 Se JWT nao contem monthlyIncome: buscar no banco (`prisma.user.findUnique`)
-  - [ ] 2.3 Retornar null se token invalido ou ausente
-- [ ] **Task 3** (AC: #3) Criar Server Action de logout
-  - [ ] 3.1 Adicionar funcao `logout()` em `src/actions/auth.ts`
-  - [ ] 3.2 Limpar cookie "token" (set com maxAge 0 ou delete)
-  - [ ] 3.3 Redirect para /login via `redirect()`
+- [x] **Task 1** (AC: #1, #2) Criar middleware Next.js
+  - [x] 1.1 Criar `src/middleware.ts`
+  - [x] 1.2 Definir rotas protegidas: matcher para /(app) routes (/, /transactions, /profile)
+  - [x] 1.3 Definir rotas publicas: /login, /register (nao interceptar)
+  - [x] 1.4 Ler cookie "token" da request
+  - [x] 1.5 Verificar JWT usando jose (`jwtVerify`) — DEVE funcionar em edge runtime
+  - [x] 1.6 Se invalido/ausente: redirect para /login
+  - [x] 1.7 Se valido: permitir acesso (`NextResponse.next()`)
+  - [x] 1.8 Redirecionar usuarios logados de /login e /register para /
+- [x] **Task 2** (AC: #4) Atualizar getSession para incluir monthlyIncome
+  - [x] 2.1 Garantir que `getSession()` em `src/lib/auth.ts` retorna Session completa
+  - [x] 2.2 Se JWT nao contem monthlyIncome: buscar no banco (`prisma.user.findUnique`)
+  - [x] 2.3 Retornar null se token invalido ou ausente
+- [x] **Task 3** (AC: #3) Criar Server Action de logout
+  - [x] 3.1 Adicionar funcao `logout()` em `src/actions/auth.ts`
+  - [x] 3.2 Limpar cookie "token" (set com maxAge 0 ou delete)
+  - [x] 3.3 Redirect para /login via `redirect()`
 
 ---
 
@@ -159,10 +159,23 @@ src/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
+- getSession() ja inclui monthlyIncome no JWT payload (implementado na Story 1.2)
+- deleteSessionCookie() ja existia em src/lib/auth.ts
 
 ### Completion Notes List
+- Middleware Next.js criado com jose (edge-compatible)
+- Rotas publicas: /login, /register (com redirect para / se ja logado)
+- Rotas protegidas: todas as demais (redirect para /login se nao autenticado)
+- Matcher exclui assets estaticos (_next/static, _next/image, favicon.ico)
+- Server Action logout() com delete cookie + redirect para /login
+- getSession() ja retorna Session completa (userId, name, email, monthlyIncome)
+
+### Code Review Fixes (2026-03-19)
+- [M2] Middleware agora importa jwtSecret de @/lib/auth em vez de duplicar a constante
 
 ### File List
+- src/middleware.ts (novo, modificado no review)
+- src/actions/auth.ts (modificado — adicionado logout())

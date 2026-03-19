@@ -1,6 +1,6 @@
 # Story 1.1: Configuracao do Schema de Banco de Dados e Tema Visual
 
-## Status: ready-for-dev
+## Status: done
 
 ## Story
 
@@ -46,30 +46,30 @@ So that a fundacao tecnica esteja pronta para implementar autenticacao e funcion
 
 ### Task 1 (AC: #1) — Criar/configurar schema Prisma
 
-- [ ] **1.1** Criar modelo User com campos: id (cuid), email (unique), password, name, monthlyIncome (Float), createdAt, updatedAt, relations (categories, transactions)
-- [ ] **1.2** Criar modelo Category com campos: id (cuid), name, icon (emoji), color (hex), userId, relation User, @@unique([userId, name])
-- [ ] **1.3** Criar modelo Transaction com campos: id (cuid), amount (Float), type (String "income"/"expense"), description (optional), categoryId, userId, createdAt, @@index([userId, createdAt]), @@index([userId, type])
-- [ ] **1.4** Configurar Prisma Client singleton em src/lib/db.ts usando pattern globalForPrisma
-- [ ] **1.5** Rodar npx prisma db push (SQLite) para aplicar o schema
+- [x] **1.1** Criar modelo User com campos: id (cuid), email (unique), password, name, monthlyIncome (Float), createdAt, updatedAt, relations (categories, transactions)
+- [x] **1.2** Criar modelo Category com campos: id (cuid), name, icon (emoji), color (hex), userId, relation User, @@unique([userId, name])
+- [x] **1.3** Criar modelo Transaction com campos: id (cuid), amount (Float), type (String "income"/"expense"), description (optional), categoryId, userId, createdAt, @@index([userId, createdAt]), @@index([userId, type])
+- [x] **1.4** Configurar Prisma Client singleton em src/lib/db.ts usando pattern globalForPrisma
+- [x] **1.5** Rodar npx prisma db push (SQLite) para aplicar o schema
 
 ### Task 2 (AC: #2) — Configurar CSS variables de tema
 
-- [ ] **2.1** Configurar tema dark (padrao) em globals.css: --background: zinc-950 (#09090b), --card: zinc-800 (#27272a), --primary: emerald-500 (#10b981), --foreground: zinc-50 (#fafafa), --border: zinc-700 (#3f3f46), --muted: zinc-600 (#52525b), --destructive: red-500 (#ef4444), --warning: amber-500 (#f59e0b)
-- [ ] **2.2** Configurar tema light via .light class: --background: white, --card: zinc-100 (#f4f4f5), --primary: emerald-600 (#059669), --foreground: zinc-950, --border: zinc-200 (#e4e4e7)
-- [ ] **2.3** Verificar contraste WCAG AA em todas as combinacoes
+- [x] **2.1** Configurar tema dark (padrao) em globals.css: --background: zinc-950 (#09090b), --card: zinc-800 (#27272a), --primary: emerald-500 (#10b981), --foreground: zinc-50 (#fafafa), --border: zinc-700 (#3f3f46), --muted: zinc-600 (#52525b), --destructive: red-500 (#ef4444), --warning: amber-500 (#f59e0b)
+- [x] **2.2** Configurar tema light via .light class: --background: white, --card: zinc-100 (#f4f4f5), --primary: emerald-600 (#059669), --foreground: zinc-950, --border: zinc-200 (#e4e4e7)
+- [x] **2.3** Verificar contraste WCAG AA em todas as combinacoes
 
 ### Task 3 (AC: #3) — Criar tipos base
 
-- [ ] **3.1** Criar src/types/index.ts com ActionResponse<T> = { success: boolean, data?: T, error?: string }
-- [ ] **3.2** Criar tipo Session = { userId: string, name: string, email: string, monthlyIncome: number }
+- [x] **3.1** Criar src/types/index.ts com ActionResponse<T> = { success: boolean, data?: T, error?: string }
+- [x] **3.2** Criar tipo Session = { userId: string, name: string, email: string, monthlyIncome: number }
 
 ### Task 4 (AC: #4) — Criar utilitarios base
 
-- [ ] **4.1** Criar src/lib/format.ts com formatCurrency usando Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" })
-- [ ] **4.2** Criar src/lib/date.ts com formatDate e formatDateTime usando Intl.DateTimeFormat("pt-BR")
-- [ ] **4.3** Verificar que cn() helper ja existe em src/lib/utils.ts (gerado pelo shadcn/ui), se nao existir, criar com clsx + tailwind-merge
-- [ ] **4.4** Criar src/lib/constants.ts com DEFAULT_CATEGORIES array: [{name: "Alimentacao", icon: "🍔", color: "#f97316"}, {name: "Transporte", icon: "🚗", color: "#3b82f6"}, {name: "Moradia", icon: "🏠", color: "#8b5cf6"}, {name: "Lazer", icon: "🎮", color: "#ec4899"}, {name: "Saude", icon: "💊", color: "#ef4444"}, {name: "Educacao", icon: "📚", color: "#06b6d4"}, {name: "Outros", icon: "📦", color: "#6b7280"}]
-- [ ] **4.5** Criar SALT_ROUNDS = 10 e SEMAPHORE_THRESHOLDS = { green: 0.4, yellow: 0.1 } em constants.ts
+- [x] **4.1** Criar src/lib/format.ts com formatCurrency usando Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" })
+- [x] **4.2** Criar src/lib/date.ts com formatDate e formatDateTime usando Intl.DateTimeFormat("pt-BR")
+- [x] **4.3** Verificar que cn() helper ja existe em src/lib/utils.ts (gerado pelo shadcn/ui), se nao existir, criar com clsx + tailwind-merge
+- [x] **4.4** Criar src/lib/constants.ts com DEFAULT_CATEGORIES array: [{name: "Alimentacao", icon: "🍔", color: "#f97316"}, {name: "Transporte", icon: "🚗", color: "#3b82f6"}, {name: "Moradia", icon: "🏠", color: "#8b5cf6"}, {name: "Lazer", icon: "🎮", color: "#ec4899"}, {name: "Saude", icon: "💊", color: "#ef4444"}, {name: "Educacao", icon: "📚", color: "#06b6d4"}, {name: "Outros", icon: "📦", color: "#6b7280"}]
+- [x] **4.5** Criar SALT_ROUNDS = 10 e SEMAPHORE_THRESHOLDS = { green: 0.4, yellow: 0.1 } em constants.ts
 
 ---
 
@@ -313,10 +313,47 @@ live-01/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
+- Prisma v7 requer adapter explicito (PrismaBetterSqlite3) em vez de URL direta
+- shadcn/ui v4 usa oklch em vez de HSL para CSS variables
+- Next.js 16 create-next-app tem prompts interativos extras (React Compiler, AGENTS.md)
 
 ### Completion Notes List
+- Projeto Next.js 16 inicializado com TypeScript, Tailwind CSS v4, ESLint, App Router, src dir
+- Prisma v7 configurado com SQLite via @prisma/adapter-better-sqlite3
+- Schema com 3 modelos (User, Category, Transaction) com relacoes, indices e constraints
+- Prisma Client singleton com pattern globalForPrisma
+- shadcn/ui instalado (new-york style, com button e utils)
+- CSS variables dark (padrao) e light (.light class) com emerald primary
+- Tipos ActionResponse<T> e Session criados
+- Utilitarios: formatCurrency, formatDate, formatDateTime, cn(), DEFAULT_CATEGORIES, SALT_ROUNDS, SEMAPHORE_THRESHOLDS
+- TypeScript compila sem erros, npm run dev funciona
+
+### Code Review Fixes (2026-03-19)
+- [M4] Adicionado dev.db e dev.db-journal (raiz) ao .gitignore para evitar commit acidental do banco
 
 ### File List
+- prisma/schema.prisma (novo)
+- prisma/dev.db (novo, gitignored)
+- src/lib/db.ts (novo)
+- src/lib/format.ts (novo)
+- src/lib/date.ts (novo)
+- src/lib/constants.ts (novo)
+- src/lib/utils.ts (novo, gerado pelo shadcn/ui)
+- src/types/index.ts (novo)
+- src/app/globals.css (modificado)
+- src/app/layout.tsx (gerado pelo Next.js)
+- src/app/page.tsx (gerado pelo Next.js)
+- src/components/ui/button.tsx (gerado pelo shadcn/ui)
+- .env (novo)
+- .env.local (novo)
+- .env.example (novo)
+- .gitignore (modificado)
+- prisma.config.ts (gerado pelo Prisma)
+- components.json (gerado pelo shadcn/ui)
+- package.json (novo)
+- tsconfig.json (novo)
+- next.config.ts (novo)
+- postcss.config.mjs (novo)

@@ -1,6 +1,6 @@
 # Story 1.2: Cadastro de Usuario com Onboarding
 
-**Status:** ready-for-dev
+**Status:** done
 
 **Depende de:** Story 1.1 (schema, tipos, utilitarios, tema)
 
@@ -52,39 +52,39 @@ So that eu tenha acesso ao app com minhas categorias prontas para usar.
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1** (AC: #4) Criar layout do grupo (auth)
-  - [ ] 1.1 Criar `src/app/(auth)/layout.tsx` — layout centralizado, sem bottom nav, fundo zinc-950
-  - [ ] 1.2 Centralizar conteudo vertical e horizontalmente, max-width 400px, padding 24px
+- [x] **Task 1** (AC: #4) Criar layout do grupo (auth)
+  - [x] 1.1 Criar `src/app/(auth)/layout.tsx` — layout centralizado, sem bottom nav, fundo zinc-950
+  - [x] 1.2 Centralizar conteudo vertical e horizontalmente, max-width 400px, padding 24px
 
-- [ ] **Task 2** (AC: #1, #3, #4) Criar pagina de cadastro
-  - [ ] 2.1 Criar `src/app/(auth)/register/page.tsx` com formulario de cadastro
-  - [ ] 2.2 Campos: nome (text), email (email), senha (password com toggle show/hide)
-  - [ ] 2.3 Usar react-hook-form + zod para validacao client-side
-  - [ ] 2.4 Zod schema: name (min 1), email (email valido), password (min 6 chars)
-  - [ ] 2.5 Botao "Criar conta" emerald-500, full-width, h-12
-  - [ ] 2.6 Link "Ja tenho conta" apontando para /login
-  - [ ] 2.7 Erros inline abaixo de cada campo (text red-400, body-sm)
+- [x] **Task 2** (AC: #1, #3, #4) Criar pagina de cadastro
+  - [x] 2.1 Criar `src/app/(auth)/register/page.tsx` com formulario de cadastro
+  - [x] 2.2 Campos: nome (text), email (email), senha (password com toggle show/hide)
+  - [x] 2.3 Usar react-hook-form + zod para validacao client-side
+  - [x] 2.4 Zod schema: name (min 1), email (email valido), password (min 6 chars)
+  - [x] 2.5 Botao "Criar conta" emerald-500, full-width, h-12
+  - [x] 2.6 Link "Ja tenho conta" apontando para /login
+  - [x] 2.7 Erros inline abaixo de cada campo (text red-400, body-sm)
 
-- [ ] **Task 3** (AC: #1, #2) Criar Server Action de registro
-  - [ ] 3.1 Criar `src/actions/auth.ts` com funcao register
-  - [ ] 3.2 Validar dados com zod server-side (NUNCA confiar no client)
-  - [ ] 3.3 Verificar se email ja existe no banco
-  - [ ] 3.4 Hash da senha com bcryptjs (SALT_ROUNDS = 10)
-  - [ ] 3.5 Criar user no banco (sem monthlyIncome inicialmente — sera preenchido no onboarding)
-  - [ ] 3.6 Retornar `ActionResponse<{ userId: string }>`
+- [x] **Task 3** (AC: #1, #2) Criar Server Action de registro
+  - [x] 3.1 Criar `src/actions/auth.ts` com funcao register
+  - [x] 3.2 Validar dados com zod server-side (NUNCA confiar no client)
+  - [x] 3.3 Verificar se email ja existe no banco
+  - [x] 3.4 Hash da senha com bcryptjs (SALT_ROUNDS = 10)
+  - [x] 3.5 Criar user no banco (sem monthlyIncome inicialmente — sera preenchido no onboarding)
+  - [x] 3.6 Retornar `ActionResponse<{ userId: string }>`
 
-- [ ] **Task 4** (AC: #2) Criar tela de onboarding (renda mensal)
-  - [ ] 4.1 Criar `src/app/(auth)/register/onboarding/page.tsx` OU usar state na mesma pagina de registro (step 2)
-  - [ ] 4.2 Campo de renda mensal com formatacao monetaria (R$)
-  - [ ] 4.3 Botao "Continuar" emerald-500
-  - [ ] 4.4 Ao confirmar: salvar monthlyIncome no User, criar 7 categorias (DEFAULT_CATEGORIES de constants.ts), gerar JWT com jose, salvar em httpOnly cookie, redirect para /
+- [x] **Task 4** (AC: #2) Criar tela de onboarding (renda mensal)
+  - [x] 4.1 Criar `src/app/(auth)/register/onboarding/page.tsx` OU usar state na mesma pagina de registro (step 2)
+  - [x] 4.2 Campo de renda mensal com formatacao monetaria (R$)
+  - [x] 4.3 Botao "Continuar" emerald-500
+  - [x] 4.4 Ao confirmar: salvar monthlyIncome no User, criar 7 categorias (DEFAULT_CATEGORIES de constants.ts), gerar JWT com jose, salvar em httpOnly cookie, redirect para /
 
-- [ ] **Task 5** (AC: #2) Criar funcoes JWT
-  - [ ] 5.1 Criar `src/lib/auth.ts` com createToken(userId) — gera JWT usando jose
-  - [ ] 5.2 Criar verifyToken(token) — verifica e decodifica JWT
-  - [ ] 5.3 Criar getSession() — le cookie, verifica token, retorna Session ou null
-  - [ ] 5.4 JWT_SECRET vem de `process.env.JWT_SECRET` (definido em .env.local)
-  - [ ] 5.5 Cookie config: httpOnly, secure (prod), sameSite lax, path /, maxAge 7 dias
+- [x] **Task 5** (AC: #2) Criar funcoes JWT
+  - [x] 5.1 Criar `src/lib/auth.ts` com createToken(userId) — gera JWT usando jose
+  - [x] 5.2 Criar verifyToken(token) — verifica e decodifica JWT
+  - [x] 5.3 Criar getSession() — le cookie, verifica token, retorna Session ou null
+  - [x] 5.4 JWT_SECRET vem de `process.env.JWT_SECRET` (definido em .env.local)
+  - [x] 5.5 Cookie config: httpOnly, secure (prod), sameSite lax, path /, maxAge 7 dias
 
 ---
 
@@ -207,10 +207,31 @@ src/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
+- Zod v4 usa `issues` em vez de `errors` para acessar erros de validacao
 
 ### Completion Notes List
+- Layout (auth) centralizado criado
+- Pagina de registro com 2 steps (dados + onboarding renda) na mesma pagina
+- Server Actions register() e completeOnboarding() com validacao dupla (client + server)
+- Funcoes JWT com jose: createToken, verifyToken, getSession, setSessionCookie, deleteSessionCookie
+- Schemas de validacao compartilhados em src/lib/validations.ts
+- Toggle show/hide senha com icones SVG inline
+- Erros inline abaixo de cada campo + erro server
+
+### Code Review Fixes (2026-03-19)
+- [H1] completeOnboarding() agora extrai userId de cookie httpOnly seguro (onboarding_uid) em vez de receber do client
+- [H2] Removido 'use server' de src/lib/auth.ts — funcoes utilitarias nao devem ser Server Actions expostas ao client
+- [M1] Adicionado try/catch no prisma.user.update dentro de completeOnboarding para tratar userId inexistente
+- [M2] Extraido jwtSecret como export compartilhado entre auth.ts e middleware.ts (eliminada duplicacao)
 
 ### File List
+- src/app/(auth)/layout.tsx (novo)
+- src/app/(auth)/register/page.tsx (novo, modificado no review)
+- src/actions/auth.ts (novo, modificado no review)
+- src/lib/auth.ts (novo, modificado no review — removido 'use server', adicionado onboarding cookie)
+- src/lib/validations.ts (novo)
+- .env.local (novo)
+- .env.example (novo)

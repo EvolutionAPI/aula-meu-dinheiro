@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-19
-last_updated: 2026-03-19T23:30:00
+last_updated: 2026-03-19
 project: live-01
 project_key: NOKEY
 tracking_system: file-system
@@ -43,11 +43,11 @@ story_location: "{project-root}/_evo-output/implementation-artifacts"
 
 development_status:
   # Epic 1: Fundacao e Autenticacao
-  epic-1: in-progress
-  1-1-configuracao-do-schema-de-banco-de-dados-e-tema-visual: ready-for-dev
-  1-2-cadastro-de-usuario-com-onboarding: ready-for-dev
-  1-3-login-de-usuario: ready-for-dev
-  1-4-middleware-de-autenticacao-e-logout: ready-for-dev
+  epic-1: done
+  1-1-configuracao-do-schema-de-banco-de-dados-e-tema-visual: done
+  1-2-cadastro-de-usuario-com-onboarding: done
+  1-3-login-de-usuario: done
+  1-4-middleware-de-autenticacao-e-logout: done
   epic-1-retrospective: optional
 
   # Epic 2: Dashboard e Visualizacao Financeira

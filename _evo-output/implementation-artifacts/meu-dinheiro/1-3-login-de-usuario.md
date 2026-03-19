@@ -1,6 +1,6 @@
 # Story 1.3: Login de Usuario
 
-**Status:** ready-for-dev
+**Status:** done
 
 **Depends on:** Story 1.1 (schema, tipos, tema), Story 1.2 (Server Actions auth, JWT functions, layout (auth))
 
@@ -26,25 +26,25 @@ So that eu acesse meus dados financeiros de forma segura.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1 (AC: #3) Criar pagina de login
-  - [ ] 1.1 Criar src/app/(auth)/login/page.tsx
-  - [ ] 1.2 Formulario com campos email e senha (toggle show/hide)
-  - [ ] 1.3 react-hook-form + zod para validacao client-side
-  - [ ] 1.4 Zod schema: email (email valido), password (min 1 — nao revelar regras de senha no login)
-  - [ ] 1.5 Botao "Entrar" emerald-500, full-width, h-12
-  - [ ] 1.6 Link "Criar conta" apontando para /register
-  - [ ] 1.7 Erro generico "Email ou senha incorretos" (NAO indicar qual campo esta errado)
-- [ ] Task 2 (AC: #1, #2) Criar Server Action de login
-  - [ ] 2.1 Adicionar funcao login() em src/actions/auth.ts
-  - [ ] 2.2 Validar com zod server-side
-  - [ ] 2.3 Buscar user por email
-  - [ ] 2.4 Comparar senha com bcryptjs.compare()
-  - [ ] 2.5 Se invalido: retornar { success: false, error: "Email ou senha incorretos" }
-  - [ ] 2.6 Se valido: gerar JWT com jose (createToken), set httpOnly cookie, retornar { success: true }
-  - [ ] 2.7 Client faz redirect("/") apos sucesso
-- [ ] Task 3 (AC: #1) Integrar loading state
-  - [ ] 3.1 Usar useTransition para loading state no botao
-  - [ ] 3.2 Botao disabled + spinner durante submit
+- [x] Task 1 (AC: #3) Criar pagina de login
+  - [x] 1.1 Criar src/app/(auth)/login/page.tsx
+  - [x] 1.2 Formulario com campos email e senha (toggle show/hide)
+  - [x] 1.3 react-hook-form + zod para validacao client-side
+  - [x] 1.4 Zod schema: email (email valido), password (min 1 — nao revelar regras de senha no login)
+  - [x] 1.5 Botao "Entrar" emerald-500, full-width, h-12
+  - [x] 1.6 Link "Criar conta" apontando para /register
+  - [x] 1.7 Erro generico "Email ou senha incorretos" (NAO indicar qual campo esta errado)
+- [x] Task 2 (AC: #1, #2) Criar Server Action de login
+  - [x] 2.1 Adicionar funcao login() em src/actions/auth.ts
+  - [x] 2.2 Validar com zod server-side
+  - [x] 2.3 Buscar user por email
+  - [x] 2.4 Comparar senha com bcryptjs.compare()
+  - [x] 2.5 Se invalido: retornar { success: false, error: "Email ou senha incorretos" }
+  - [x] 2.6 Se valido: gerar JWT com jose (createToken), set httpOnly cookie, retornar { success: true }
+  - [x] 2.7 Client faz redirect("/") apos sucesso
+- [x] Task 3 (AC: #1) Integrar loading state
+  - [x] 3.1 Usar useTransition para loading state no botao
+  - [x] 3.2 Botao disabled + spinner durante submit
 
 ---
 
@@ -116,10 +116,19 @@ src/actions/auth.ts  # Adicionar funcao login() (arquivo ja existe da Story 1.2)
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
+- Nenhum issue encontrado
 
 ### Completion Notes List
+- Pagina de login criada com formulario email/senha, toggle show/hide
+- Server Action login() adicionada com mensagem generica de erro (seguranca)
+- useTransition para loading state no botao
+- Reutilizou layout auth, createToken, setSessionCookie da Story 1.2
+- loginSchema adicionado em validations.ts
 
 ### File List
+- src/app/(auth)/login/page.tsx (novo)
+- src/actions/auth.ts (modificado — adicionado login())
+- src/lib/validations.ts (modificado — adicionado loginSchema, LoginInput)
