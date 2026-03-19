@@ -42,3 +42,39 @@ export async function createTransaction(data: CreateTransactionInput) {
     return { success: false as const, error: "Erro ao salvar transacao" }
   }
 }
+
+const deleteTransactionSchema = z.object({
+  id: z.string().min(1, "ID invalido"),
+})
+
+export async function deleteTransaction(id: string) {
+  try {
+    const session = await getSession()
+    if (!session) {
+      return { success: false as const, error: "Nao autorizado" }
+    }
+
+    const parsed = deleteTransactionSchema.safeParse({ id })
+    if (!parsed.success) {
+      return { success: false as const, error: "ID invalido" }
+    }
+
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: parsed.data.id },
+    })
+
+    if (!transaction || transaction.userId !== session.userId) {
+      return { success: false as const, error: "Transacao nao encontrada" }
+    }
+
+    await prisma.transaction.delete({ where: { id: parsed.data.id } })
+
+    revalidatePath("/")
+    revalidatePath("/transactions")
+
+    return { success: true as const, data: transaction }
+  } catch (error) {
+    console.error("Erro ao excluir transacao:", error)
+    return { success: false as const, error: "Erro ao excluir transacao" }
+  }
+}

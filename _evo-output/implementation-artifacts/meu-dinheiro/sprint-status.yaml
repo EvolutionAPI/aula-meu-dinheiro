@@ -38,6 +38,7 @@ generated: 2026-03-19
 last_updated: 2026-03-19
 project: live-01
 
+
 project_key: NOKEY
 tracking_system: file-system
 story_location: "{project-root}/_evo-output/implementation-artifacts"
@@ -66,9 +67,9 @@ development_status:
   epic-3-retrospective: optional
 
   # Epic 4: Historico e Gestao de Transacoes
-  epic-4: in-progress
-  4-1-tela-de-transacoes-com-lista-e-filtros: ready-for-dev
-  4-2-exclusao-de-transacao-com-swipe-e-undo: ready-for-dev
+  epic-4: done
+  4-1-tela-de-transacoes-com-lista-e-filtros: done
+  4-2-exclusao-de-transacao-com-swipe-e-undo: done
   epic-4-retrospective: optional
 
   # Epic 5: Perfil e Personalizacao

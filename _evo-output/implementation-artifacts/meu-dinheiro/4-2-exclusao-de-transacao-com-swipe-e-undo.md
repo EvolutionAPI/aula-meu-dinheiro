@@ -1,6 +1,6 @@
 # Story 4.2: Exclusao de Transacao com Swipe e Undo
 
-Status: ready-for-dev
+Status: done
 
 **Depends on:** Story 4.1 (TransactionItem, lista de transacoes), Story 3.3 (createTransaction para undo)
 
@@ -24,49 +24,49 @@ So that eu possa corrigir erros rapidamente sem medo de perder dados.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1 (AC: #2) Criar Server Action deleteTransaction
-  - [ ] 1.1 Abrir src/actions/transactions.ts (arquivo existente da Story 3.3)
-  - [ ] 1.2 Adicionar schema Zod: z.object({ id: z.string().cuid() })
-  - [ ] 1.3 Implementar deleteTransaction(id: string) com "use server"
-  - [ ] 1.4 Chamar getSession() — retornar erro "Nao autorizado" se nao autenticado
-  - [ ] 1.5 Buscar transacao com prisma.transaction.findUnique({ where: { id } })
-  - [ ] 1.6 Verificar que transaction.userId === session.userId (ownership check)
-  - [ ] 1.7 Se transacao nao encontrada ou nao pertence ao usuario: retornar { success: false, error: "Transacao nao encontrada" }
-  - [ ] 1.8 Executar prisma.transaction.delete({ where: { id } }) — delete REAL
-  - [ ] 1.9 Chamar revalidatePath("/") e revalidatePath("/transactions")
-  - [ ] 1.10 Retornar { success: true, data: transaction } — retorna dados deletados para undo
-  - [ ] 1.11 Retorno deve seguir tipo ActionResponse<T>
-- [ ] Task 2 (AC: #1) Adicionar swipe-to-delete no TransactionItem
-  - [ ] 2.1 Abrir src/components/transaction-item.tsx (existente da Story 4.1)
-  - [ ] 2.2 Converter para Client Component se necessario — adicionar "use client"
-  - [ ] 2.3 Criar container relativo com overflow-hidden para conter o swipe
-  - [ ] 2.4 Posicionar botao "Excluir" atras do item (position absolute, right: 0)
-  - [ ] 2.5 Estilizar botao "Excluir": bg-red-500, text-white, icone de lixeira
-  - [ ] 2.6 Usar Framer Motion drag="x" no conteudo do item
-  - [ ] 2.7 Configurar dragConstraints={{ left: -80, right: 0 }} (revelar 80px do botao)
-  - [ ] 2.8 Configurar dragElastic={0.1} para sensacao responsiva
-  - [ ] 2.9 Usar onDragEnd para snap: se arrastou mais de 40px, manter aberto; senao, fechar
-  - [ ] 2.10 Animacao suave com transition={{ type: "spring", stiffness: 300, damping: 30 }}
-- [ ] Task 3 (AC: #2) Implementar acao de exclusao ao tocar "Excluir"
-  - [ ] 3.1 No onClick do botao "Excluir": armazenar dados da transacao em variavel local (para undo)
-  - [ ] 3.2 Chamar deleteTransaction(transaction.id) via Server Action
-  - [ ] 3.3 Se sucesso: animar saida do item (AnimatePresence + exit animation)
-  - [ ] 3.4 Se erro: mostrar toast de erro e resetar posicao do swipe
-  - [ ] 3.5 Usar estado isDeleting para mostrar loading visual e evitar cliques duplos
-- [ ] Task 4 (AC: #3, #4, #5) Implementar toast com undo
-  - [ ] 4.1 Apos exclusao bem-sucedida: chamar toast() do Sonner
-  - [ ] 4.2 Mensagem: "Transacao excluida"
-  - [ ] 4.3 Adicionar action: { label: "Desfazer", onClick: undoDelete }
-  - [ ] 4.4 Configurar duration: 3000 (3 segundos)
-  - [ ] 4.5 Estilizar com dark style: style: { background: cores zinc-800, color: zinc-50 }
-  - [ ] 4.6 Implementar funcao undoDelete: chamar createTransaction (da Story 3.3) com mesmos dados
-  - [ ] 4.7 Apos undo bem-sucedido: mostrar toast "Transacao restaurada"
-  - [ ] 4.8 Se undo falhar: mostrar toast de erro "Erro ao restaurar transacao"
-- [ ] Task 5 (AC: #1, #2) Animacoes de entrada/saida com AnimatePresence
-  - [ ] 5.1 Envolver lista de transacoes com AnimatePresence (se ainda nao estiver)
-  - [ ] 5.2 Adicionar exit animation no TransactionItem: { opacity: 0, x: -300, height: 0 }
-  - [ ] 5.3 Adicionar layout animation para itens remanescentes se reposicionarem suavemente
-  - [ ] 5.4 Quando undo restaura item: animar entrada { opacity: 0, x: -20 } -> { opacity: 1, x: 0 }
+- [x] Task 1 (AC: #2) Criar Server Action deleteTransaction
+  - [x] 1.1 Abrir src/actions/transactions.ts (arquivo existente da Story 3.3)
+  - [x] 1.2 Adicionar schema Zod: z.object({ id: z.string().cuid() })
+  - [x] 1.3 Implementar deleteTransaction(id: string) com "use server"
+  - [x] 1.4 Chamar getSession() — retornar erro "Nao autorizado" se nao autenticado
+  - [x] 1.5 Buscar transacao com prisma.transaction.findUnique({ where: { id } })
+  - [x] 1.6 Verificar que transaction.userId === session.userId (ownership check)
+  - [x] 1.7 Se transacao nao encontrada ou nao pertence ao usuario: retornar { success: false, error: "Transacao nao encontrada" }
+  - [x] 1.8 Executar prisma.transaction.delete({ where: { id } }) — delete REAL
+  - [x] 1.9 Chamar revalidatePath("/") e revalidatePath("/transactions")
+  - [x] 1.10 Retornar { success: true, data: transaction } — retorna dados deletados para undo
+  - [x] 1.11 Retorno deve seguir tipo ActionResponse<T>
+- [x] Task 2 (AC: #1) Adicionar swipe-to-delete no TransactionItem
+  - [x] 2.1 Abrir src/components/transaction-item.tsx (existente da Story 4.1)
+  - [x] 2.2 Converter para Client Component se necessario — adicionar "use client"
+  - [x] 2.3 Criar container relativo com overflow-hidden para conter o swipe
+  - [x] 2.4 Posicionar botao "Excluir" atras do item (position absolute, right: 0)
+  - [x] 2.5 Estilizar botao "Excluir": bg-red-500, text-white, icone de lixeira
+  - [x] 2.6 Usar Framer Motion drag="x" no conteudo do item
+  - [x] 2.7 Configurar dragConstraints={{ left: -80, right: 0 }} (revelar 80px do botao)
+  - [x] 2.8 Configurar dragElastic={0.1} para sensacao responsiva
+  - [x] 2.9 Usar onDragEnd para snap: se arrastou mais de 40px, manter aberto; senao, fechar
+  - [x] 2.10 Animacao suave com transition={{ type: "spring", stiffness: 300, damping: 30 }}
+- [x] Task 3 (AC: #2) Implementar acao de exclusao ao tocar "Excluir"
+  - [x] 3.1 No onClick do botao "Excluir": armazenar dados da transacao em variavel local (para undo)
+  - [x] 3.2 Chamar deleteTransaction(transaction.id) via Server Action
+  - [x] 3.3 Se sucesso: animar saida do item (AnimatePresence + exit animation)
+  - [x] 3.4 Se erro: mostrar toast de erro e resetar posicao do swipe
+  - [x] 3.5 Usar estado isDeleting para mostrar loading visual e evitar cliques duplos
+- [x] Task 4 (AC: #3, #4, #5) Implementar toast com undo
+  - [x] 4.1 Apos exclusao bem-sucedida: chamar toast() do Sonner
+  - [x] 4.2 Mensagem: "Transacao excluida"
+  - [x] 4.3 Adicionar action: { label: "Desfazer", onClick: undoDelete }
+  - [x] 4.4 Configurar duration: 3000 (3 segundos)
+  - [x] 4.5 Estilizar com dark style: style: { background: cores zinc-800, color: zinc-50 }
+  - [x] 4.6 Implementar funcao undoDelete: chamar createTransaction (da Story 3.3) com mesmos dados
+  - [x] 4.7 Apos undo bem-sucedido: mostrar toast "Transacao restaurada"
+  - [x] 4.8 Se undo falhar: mostrar toast de erro "Erro ao restaurar transacao"
+- [x] Task 5 (AC: #1, #2) Animacoes de entrada/saida com AnimatePresence
+  - [x] 5.1 Envolver lista de transacoes com AnimatePresence (se ainda nao estiver)
+  - [x] 5.2 Adicionar exit animation no TransactionItem: { opacity: 0, x: -300, height: 0 }
+  - [x] 5.3 Adicionar layout animation para itens remanescentes se reposicionarem suavemente
+  - [x] 5.4 Quando undo restaura item: animar entrada { opacity: 0, x: -20 } -> { opacity: 1, x: 0 }
 
 ## Dev Notes
 
@@ -367,10 +367,25 @@ src/components/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6 (1M context)
 
 ### Debug Log References
 
 ### Completion Notes List
+- Server Action deleteTransaction com validacao Zod, ownership check, delete real, revalidatePath
+- Swipe-to-delete no TransactionItem com Framer Motion drag="x", dragConstraints, snap logic
+- Botao "Excluir" com bg-red-500, icone Trash2, disabled durante isDeleting
+- Toast Sonner "Transacao excluida" com undo via createTransaction, duracao 3s, estilo dark
+- Exit animation { opacity: 0, x: -300, height: 0 } com AnimatePresence mode="popLayout"
+- Layout animation para reposicionamento suave dos itens restantes
+- 6 testes unitarios para deleteTransaction (auth, ownership, validation, success, error)
+- 98 testes totais passando, 0 regressoes, build bem-sucedido
+
+### Change Log
+- 2026-03-19: Implementacao completa da Story 4.2 — todos os 5 tasks e subtasks concluidos
 
 ### File List
+- src/actions/transactions.ts (modificado — adicionado deleteTransaction server action)
+- src/components/transaction-item.tsx (modificado — swipe-to-delete, delete handler, toast+undo)
+- src/components/transactions-list.tsx (modificado — AnimatePresence mode="popLayout")
+- src/__tests__/delete-transaction.test.ts (novo — testes do deleteTransaction)

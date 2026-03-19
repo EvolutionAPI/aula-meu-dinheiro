@@ -1,6 +1,6 @@
 # Story 4.1: Tela de Transacoes com Lista e Filtros
 
-**Status:** ready-for-dev
+**Status:** done
 
 **Depends on:** Story 1.1 (schema Prisma, tipos, formatCurrency, constants), Story 1.4 (getSession, middleware), Story 2.1 (layout app, bottom nav), Story 3.3 (Transaction model e createTransaction — modelo ja existe no banco)
 
@@ -56,76 +56,76 @@
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1 (AC: #1, #2, #3)** Criar helpers de data em `src/lib/date.ts`
-  - [ ] 1.1 Criar arquivo `src/lib/date.ts` (se nao existir)
-  - [ ] 1.2 Implementar `getMonthRange()`: retorna `{ start: Date, end: Date }` do mes atual
-  - [ ] 1.3 Implementar `getWeekRange()`: retorna `{ start: Date, end: Date }` da semana atual (segunda a domingo)
-  - [ ] 1.4 Implementar `getTodayRange()`: retorna `{ start: Date, end: Date }` do dia atual (00:00:00 ate 23:59:59)
-  - [ ] 1.5 Implementar `formatDate(date: Date): string` para exibir datas no formato "dd/MM/yyyy" ou "dd MMM"
-  - [ ] 1.6 Exportar tipo `DateRange = { start: Date; end: Date }`
+- [x] **Task 1 (AC: #1, #2, #3)** Criar helpers de data em `src/lib/date.ts`
+  - [x] 1.1 Criar arquivo `src/lib/date.ts` (se nao existir)
+  - [x] 1.2 Implementar `getMonthRange()`: retorna `{ start: Date, end: Date }` do mes atual
+  - [x] 1.3 Implementar `getWeekRange()`: retorna `{ start: Date, end: Date }` da semana atual (segunda a domingo)
+  - [x] 1.4 Implementar `getTodayRange()`: retorna `{ start: Date, end: Date }` do dia atual (00:00:00 ate 23:59:59)
+  - [x] 1.5 Implementar `formatDate(date: Date): string` para exibir datas no formato "dd/MM/yyyy" ou "dd MMM"
+  - [x] 1.6 Exportar tipo `DateRange = { start: Date; end: Date }`
 
-- [ ] **Task 2 (AC: #1, #2, #3)** Criar pagina de transacoes (Server Component)
-  - [ ] 2.1 Criar `src/app/(app)/transactions/page.tsx` como Server Component
-  - [ ] 2.2 Importar `getSession()` de `@/lib/auth` e redirecionar se nao autenticado
-  - [ ] 2.3 Buscar TODAS as transacoes do usuario via Prisma com `include: { category: true }` e `orderBy: { createdAt: 'desc' }`
-  - [ ] 2.4 Serializar dados (converter Date para string ISO) antes de passar como props
-  - [ ] 2.5 Renderizar componente `<TransactionsList transactions={serializedTransactions} />`
-  - [ ] 2.6 Envolver com `<Suspense>` se necessario
+- [x] **Task 2 (AC: #1, #2, #3)** Criar pagina de transacoes (Server Component)
+  - [x] 2.1 Criar `src/app/(app)/transactions/page.tsx` como Server Component
+  - [x] 2.2 Importar `getSession()` de `@/lib/auth` e redirecionar se nao autenticado
+  - [x] 2.3 Buscar TODAS as transacoes do usuario via Prisma com `include: { category: true }` e `orderBy: { createdAt: 'desc' }`
+  - [x] 2.4 Serializar dados (converter Date para string ISO) antes de passar como props
+  - [x] 2.5 Renderizar componente `<TransactionsList transactions={serializedTransactions} />`
+  - [x] 2.6 Envolver com `<Suspense>` se necessario
 
-- [ ] **Task 3 (AC: #2)** Criar componente FilterPills (Client Component)
-  - [ ] 3.1 Criar `src/components/filter-pills.tsx` com `"use client"`
-  - [ ] 3.2 Props: `activeFilter`, `onFilterChange` callback
-  - [ ] 3.3 Definir constante `FILTERS = ['Hoje', 'Semana', 'Mes'] as const`
-  - [ ] 3.4 Renderizar pills em `flex gap-2`
-  - [ ] 3.5 Pill ativo: `bg-emerald-500 text-white font-medium rounded-full px-4 py-1.5`
-  - [ ] 3.6 Pill inativo: `bg-zinc-800 text-zinc-400 rounded-full px-4 py-1.5`
-  - [ ] 3.7 Transicao suave ao trocar pill ativo (transition-colors duration-200)
-  - [ ] 3.8 `aria-pressed` para acessibilidade no pill ativo
+- [x] **Task 3 (AC: #2)** Criar componente FilterPills (Client Component)
+  - [x] 3.1 Criar `src/components/filter-pills.tsx` com `"use client"`
+  - [x] 3.2 Props: `activeFilter`, `onFilterChange` callback
+  - [x] 3.3 Definir constante `FILTERS = ['Hoje', 'Semana', 'Mes'] as const`
+  - [x] 3.4 Renderizar pills em `flex gap-2`
+  - [x] 3.5 Pill ativo: `bg-emerald-500 text-white font-medium rounded-full px-4 py-1.5`
+  - [x] 3.6 Pill inativo: `bg-zinc-800 text-zinc-400 rounded-full px-4 py-1.5`
+  - [x] 3.7 Transicao suave ao trocar pill ativo (transition-colors duration-200)
+  - [x] 3.8 `aria-pressed` para acessibilidade no pill ativo
 
-- [ ] **Task 4 (AC: #1, #2, #3, #4)** Criar componente TransactionsList (Client Component)
-  - [ ] 4.1 Criar `src/components/transactions-list.tsx` com `"use client"`
-  - [ ] 4.2 Props: `transactions` (array serializado com categoria incluida)
-  - [ ] 4.3 Estado local `useState<'Hoje' | 'Semana' | 'Mes'>('Mes')` para filtro ativo
-  - [ ] 4.4 Logica de filtragem client-side: filtrar `transactions` com base no filtro ativo usando helpers de `@/lib/date.ts`
-  - [ ] 4.5 Calcular resumo do periodo: `totalIncome`, `totalExpenses`, `total = totalIncome - totalExpenses`
-  - [ ] 4.6 Renderizar `<FilterPills>` no topo
-  - [ ] 4.7 Renderizar resumo flutuante abaixo dos pills: "Total: R$ X.XXX,XX" com breakdown receitas/despesas
-  - [ ] 4.8 Renderizar lista de `<TransactionItem>` para cada transacao filtrada
-  - [ ] 4.9 Renderizar empty state quando lista filtrada estiver vazia
-  - [ ] 4.10 Wrapper com `<AnimatePresence>` do Framer Motion para animacao de entrada/saida
+- [x] **Task 4 (AC: #1, #2, #3, #4)** Criar componente TransactionsList (Client Component)
+  - [x] 4.1 Criar `src/components/transactions-list.tsx` com `"use client"`
+  - [x] 4.2 Props: `transactions` (array serializado com categoria incluida)
+  - [x] 4.3 Estado local `useState<'Hoje' | 'Semana' | 'Mes'>('Mes')` para filtro ativo
+  - [x] 4.4 Logica de filtragem client-side: filtrar `transactions` com base no filtro ativo usando helpers de `@/lib/date.ts`
+  - [x] 4.5 Calcular resumo do periodo: `totalIncome`, `totalExpenses`, `total = totalIncome - totalExpenses`
+  - [x] 4.6 Renderizar `<FilterPills>` no topo
+  - [x] 4.7 Renderizar resumo flutuante abaixo dos pills: "Total: R$ X.XXX,XX" com breakdown receitas/despesas
+  - [x] 4.8 Renderizar lista de `<TransactionItem>` para cada transacao filtrada
+  - [x] 4.9 Renderizar empty state quando lista filtrada estiver vazia
+  - [x] 4.10 Wrapper com `<AnimatePresence>` do Framer Motion para animacao de entrada/saida
 
-- [ ] **Task 5 (AC: #1)** Criar componente TransactionItem (Client Component)
-  - [ ] 5.1 Criar `src/components/transaction-item.tsx` com `"use client"`
-  - [ ] 5.2 Props: `transaction` (com category incluida), `index` (para stagger delay)
-  - [ ] 5.3 Avatar: circulo 40x40px com `backgroundColor` da cor da categoria + emoji da categoria centralizado
-  - [ ] 5.4 Coluna central: nome da categoria (text-sm font-medium text-zinc-50), descricao ou data formatada (text-xs text-zinc-400)
-  - [ ] 5.5 Valor: `text-sm font-bold`, emerald-500 se type === "income" com "R$" prefix, zinc-50 se type === "expense" com "- R$" prefix
-  - [ ] 5.6 Formatacao do valor com `formatCurrency()` de `@/lib/format.ts`
-  - [ ] 5.7 Animacao Framer Motion: `initial={{ opacity: 0, y: 20 }}`, `animate={{ opacity: 1, y: 0 }}`, `transition={{ delay: index * 0.05, duration: 0.3 }}`
-  - [ ] 5.8 Respeitar `prefers-reduced-motion`: se ativo, sem animacao (y: 0, duration: 0)
-  - [ ] 5.9 Layout: `flex items-center gap-3 py-3` com divider sutil entre items
+- [x] **Task 5 (AC: #1)** Criar componente TransactionItem (Client Component)
+  - [x] 5.1 Criar `src/components/transaction-item.tsx` com `"use client"`
+  - [x] 5.2 Props: `transaction` (com category incluida), `index` (para stagger delay)
+  - [x] 5.3 Avatar: circulo 40x40px com `backgroundColor` da cor da categoria + emoji da categoria centralizado
+  - [x] 5.4 Coluna central: nome da categoria (text-sm font-medium text-zinc-50), descricao ou data formatada (text-xs text-zinc-400)
+  - [x] 5.5 Valor: `text-sm font-bold`, emerald-500 se type === "income" com "R$" prefix, zinc-50 se type === "expense" com "- R$" prefix
+  - [x] 5.6 Formatacao do valor com `formatCurrency()` de `@/lib/format.ts`
+  - [x] 5.7 Animacao Framer Motion: `initial={{ opacity: 0, y: 20 }}`, `animate={{ opacity: 1, y: 0 }}`, `transition={{ delay: index * 0.05, duration: 0.3 }}`
+  - [x] 5.8 Respeitar `prefers-reduced-motion`: se ativo, sem animacao (y: 0, duration: 0)
+  - [x] 5.9 Layout: `flex items-center gap-3 py-3` com divider sutil entre items
 
-- [ ] **Task 6 (AC: #3)** Criar resumo flutuante do periodo
-  - [ ] 6.1 Dentro de TransactionsList, renderizar card de resumo
-  - [ ] 6.2 Background: `bg-zinc-800/80 backdrop-blur-sm rounded-xl p-4`
-  - [ ] 6.3 Total principal: "Total: R$ X.XXX,XX" em `text-lg font-bold text-zinc-50`
-  - [ ] 6.4 Breakdown: "Receitas: R$ X.XXX,XX" em `text-xs text-emerald-500` e "Despesas: R$ X.XXX,XX" em `text-xs text-red-400`
-  - [ ] 6.5 Atualizar valores ao trocar filtro
+- [x] **Task 6 (AC: #3)** Criar resumo flutuante do periodo
+  - [x] 6.1 Dentro de TransactionsList, renderizar card de resumo
+  - [x] 6.2 Background: `bg-zinc-800/80 backdrop-blur-sm rounded-xl p-4`
+  - [x] 6.3 Total principal: "Total: R$ X.XXX,XX" em `text-lg font-bold text-zinc-50`
+  - [x] 6.4 Breakdown: "Receitas: R$ X.XXX,XX" em `text-xs text-emerald-500` e "Despesas: R$ X.XXX,XX" em `text-xs text-red-400`
+  - [x] 6.5 Atualizar valores ao trocar filtro
 
-- [ ] **Task 7 (AC: #4)** Implementar empty state
-  - [ ] 7.1 Componente inline ou dedicado para empty state
-  - [ ] 7.2 Icone centralizado (ex: `Receipt` ou `FileText` do lucide-react, tamanho 48px, text-zinc-600)
-  - [ ] 7.3 Texto: "Sem transacoes neste periodo" em `text-sm text-zinc-500 text-center`
-  - [ ] 7.4 Sugestao: "Tente selecionar outro periodo" em `text-xs text-zinc-600`
-  - [ ] 7.5 Animacao fade-in com Framer Motion
+- [x] **Task 7 (AC: #4)** Implementar empty state
+  - [x] 7.1 Componente inline ou dedicado para empty state
+  - [x] 7.2 Icone centralizado (ex: `Receipt` ou `FileText` do lucide-react, tamanho 48px, text-zinc-600)
+  - [x] 7.3 Texto: "Sem transacoes neste periodo" em `text-sm text-zinc-500 text-center`
+  - [x] 7.4 Sugestao: "Tente selecionar outro periodo" em `text-xs text-zinc-600`
+  - [x] 7.5 Animacao fade-in com Framer Motion
 
-- [ ] **Task 8 (AC: #5)** Criar skeleton loading
-  - [ ] 8.1 Criar `src/app/(app)/transactions/loading.tsx`
-  - [ ] 8.2 Skeleton dos filter pills: 3 retangulos rounded-full (w-16 h-8)
-  - [ ] 8.3 Skeleton do resumo: retangulo rounded-xl (w-full h-20)
-  - [ ] 8.4 Skeleton de transaction rows: 6-8 rows com circulo 40x40 + 2 linhas retangulares + retangulo de valor
-  - [ ] 8.5 Usar `<Skeleton />` do shadcn/ui com classes `bg-zinc-700 animate-pulse`
-  - [ ] 8.6 `aria-hidden="true"` no container de skeletons
+- [x] **Task 8 (AC: #5)** Criar skeleton loading
+  - [x] 8.1 Criar `src/app/(app)/transactions/loading.tsx`
+  - [x] 8.2 Skeleton dos filter pills: 3 retangulos rounded-full (w-16 h-8)
+  - [x] 8.3 Skeleton do resumo: retangulo rounded-xl (w-full h-20)
+  - [x] 8.4 Skeleton de transaction rows: 6-8 rows com circulo 40x40 + 2 linhas retangulares + retangulo de valor
+  - [x] 8.5 Usar `<Skeleton />` do shadcn/ui com classes `bg-zinc-700 animate-pulse`
+  - [x] 8.6 `aria-hidden="true"` no container de skeletons
 
 ---
 
@@ -618,10 +618,33 @@ src/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6 (1M context)
 
 ### Debug Log References
 
 ### Completion Notes List
+- Implementados date helpers (getMonthRange, getWeekRange, getTodayRange, formatDate) com tipo DateRange
+- Pagina /transactions como Server Component com autenticacao e query Prisma com include category
+- FilterPills com 3 opcoes (Hoje/Semana/Mes), estilos ativos/inativos, aria-pressed
+- TransactionsList com filtragem client-side, resumo flutuante, empty state e AnimatePresence
+- TransactionItem com avatar de categoria, valores formatados, animacao fade+translateY, prefers-reduced-motion
+- Skeleton loading com componente Skeleton do shadcn/ui
+- 15 testes unitarios: date helpers, filter-pills, transactions-list
+- 98 testes totais passando, 0 regressoes
+
+### Change Log
+- 2026-03-19: Implementacao completa da Story 4.1 — todos os 8 tasks e subtasks concluidos
 
 ### File List
+- src/lib/date.ts (modificado — adicionados getMonthRange, getWeekRange, getTodayRange, DateRange, atualizado formatDate)
+- src/app/(app)/transactions/page.tsx (modificado — Server Component com dados reais)
+- src/app/(app)/transactions/loading.tsx (novo — skeleton loading)
+- src/components/filter-pills.tsx (novo — Client Component de filtro de periodo)
+- src/components/transactions-list.tsx (novo — Client Component lista com filtro e resumo)
+- src/components/transaction-item.tsx (novo — Client Component item individual)
+- src/__tests__/date.test.ts (novo — testes de date helpers)
+- src/__tests__/filter-pills.test.tsx (novo — testes de FilterPills)
+- src/__tests__/transactions-list.test.tsx (novo — testes de TransactionsList)
+- src/app/layout.tsx (modificado — fonte Inter, lang pt-BR, metadata MeuDinheiro)
+- src/app/globals.css (modificado — font-mono fallback)
+- src/components/ui/skeleton.tsx (novo — componente Skeleton do shadcn/ui)

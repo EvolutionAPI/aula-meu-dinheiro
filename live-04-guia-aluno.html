@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live 04 — Do Zero ao Deploy: Publicando sua primeira aplicação</title>
+<style>
+  :root {
+    --green: #00ffa7;
+    --green-dim: #39ffa8;
+    --green-muted: #9ff5c8;
+    --green-faint: rgba(0,255,167,.08);
+    --bg: #050812;
+    --surface: #0b1225;
+    --surface2: #111a30;
+    --border: rgba(255,255,255,.1);
+    --text: #dde9f5;
+    --text-muted: #7a9bb5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(160deg, #0d1a2e 0%, #050812 60%);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 40px 56px;
+    text-align: center;
+  }
+
+  .live-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,255,167,.4);
+    background: rgba(0,255,167,.1);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  header h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  header h1 span { color: var(--green); }
+
+  header p {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 32px;
+  }
+
+  .header-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+  .header-meta strong { color: var(--green-muted); }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 32px 120px;
+  }
+
+  /* ── NAV LATERAL (TOC) ── */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 56px;
+  }
+
+  .toc h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .toc ol {
+    padding-left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+  }
+
+  .toc li { font-size: 14px; }
+
+  .toc a {
+    color: var(--green-muted);
+    text-decoration: none;
+  }
+
+  .toc a:hover { color: var(--green); text-decoration: underline; }
+
+  /* ── SECTIONS ── */
+  section {
+    margin-bottom: 72px;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  section h2 {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── TYPOGRAPHY ── */
+  p { margin-bottom: 16px; color: var(--text); }
+
+  ul, ol {
+    padding-left: 22px;
+    margin-bottom: 20px;
+  }
+
+  li { margin-bottom: 6px; }
+
+  strong { color: #fff; font-weight: 600; }
+
+  code {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: .88em;
+    color: var(--green-muted);
+  }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    margin: 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.1);
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: #121b33;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+
+  .dots { display: flex; gap: 5px; }
+  .dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+  .dots i:nth-child(1) { background: #ff5f56; }
+  .dots i:nth-child(2) { background: #ffbd2e; }
+  .dots i:nth-child(3) { background: #27c93f; }
+
+  .code-header .filename {
+    font-size: 13px;
+    color: #8ab4d8;
+    margin-left: 4px;
+  }
+
+  .code-header .lang {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+
+  pre {
+    background: #0b1225;
+    padding: 16px 18px;
+    overflow-x: auto;
+  }
+
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #c9d8ee;
+  }
+
+  /* ── GRID ── */
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  @media (max-width: 640px) {
+    .grid2 { grid-template-columns: 1fr; }
+    .toc ol { grid-template-columns: 1fr; }
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--green-muted);
+    margin-bottom: 12px;
+  }
+
+  .card ul { margin-bottom: 0; }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 15px;
+    border-left: 3px solid;
+  }
+
+  .callout-info {
+    background: rgba(0,150,255,.08);
+    border-color: #4da6ff;
+    color: #a8d4ff;
+  }
+
+  .callout-warn {
+    background: rgba(255,180,0,.07);
+    border-color: #ffb84d;
+    color: #ffd699;
+  }
+
+  .callout-ok {
+    background: rgba(0,255,167,.07);
+    border-color: var(--green);
+    color: var(--green-muted);
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0,255,167,.15);
+    border: 1px solid rgba(0,255,167,.4);
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--green);
+  }
+
+  /* ── STEP LIST ── */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+
+  .steps li:last-child { border-bottom: none; }
+
+  .steps li::before {
+    content: counter(step);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── QUOTE ── */
+  blockquote {
+    margin: 24px 0;
+    padding: 20px 24px;
+    background: var(--green-faint);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    font-size: 17px;
+    color: #c5ffe0;
+    font-style: italic;
+  }
+
+  /* ── DIVIDER ── */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── SECTION SEPARATOR ── */
+  .section-group-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-group-label span {
+    color: var(--green);
+    margin-right: 8px;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    body {
+      background: var(--bg) !important;
+      color: var(--text) !important;
+    }
+
+    header {
+      background: linear-gradient(160deg, #0d1a2e 0%, #050812 60%) !important;
+    }
+
+    .card, .toc, .code-block, pre, .callout, .callout-info, .callout-warn, .callout-ok, blockquote {
+      background-color: var(--surface) !important;
+    }
+
+    pre {
+      background: #0b1225 !important;
+    }
+
+    .callout-info { background: rgba(0,150,255,.08) !important; }
+    .callout-warn { background: rgba(255,180,0,.07) !important; }
+    .callout-ok { background: rgba(0,255,167,.07) !important; }
+    blockquote { background: var(--green-faint) !important; }
+
+    .check-icon {
+      background: rgba(0,255,167,.15) !important;
+      border: 1px solid rgba(0,255,167,.4) !important;
+    }
+
+    .live-badge {
+      background: rgba(0,255,167,.1) !important;
+      border: 1px solid rgba(0,255,167,.4) !important;
+    }
+
+    .code-header {
+      background: #121b33 !important;
+    }
+
+    .dots i:nth-child(1) { background: #ff5f56 !important; }
+    .dots i:nth-child(2) { background: #ffbd2e !important; }
+    .dots i:nth-child(3) { background: #27c93f !important; }
+
+    code {
+      background: rgba(255,255,255,.1) !important;
+      border: 1px solid rgba(255,255,255,.1) !important;
+    }
+
+    section { break-inside: avoid; }
+    .grid2 { break-inside: avoid; }
+    .code-block { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="margin-bottom:20px;"><img src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDc5IiBoZWlnaHQ9IjkxIiB2aWV3Qm94PSIwIDAgNDc5IDkxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTQwLjM3OCA1Ljk2Nzc3QzE0Mi42MTEgMC45MTU3NTIgMTQ4LjUzMyAtMS4zODUzOCAxNTMuNTkgMC44NjIyODFDMTU4LjY2NCAzLjA5NDU3IDE2MC45ODEgOS4wMjUwNSAxNTguNzMxIDE0LjA5MjVDMTU2LjcxNCAxOC42NjggMTUxLjY2NyAyMC45NzcxIDE0Ni45NzMgMTkuNzAzM0wxNDAuMTk4IDMzLjE0NThDMTQ3LjI1OSAzNy42NzY5IDE1MS45MzcgNDUuNTk3MyAxNTEuOTM3IDU0LjYxMDJDMTUxLjkzNyA2MC4xODMzIDE1MC4xNDggNjUuMzM4MiAxNDcuMTEzIDY5LjUzMjhMMTU2LjQyOCA3NC45MDc1QzE1OC44NTIgNzIuODgwNiAxNjIuMzE3IDcyLjI2NDcgMTY1LjQxOSA3My42MjYyQzE2OS43NzcgNzUuNTQ5MiAxNzEuNzQzIDgwLjYxOTggMTY5LjgzMyA4NC45NzM0QzE2Ny45MjQgODkuMjk0NiAxNjIuODU4IDkxLjI3ODkgMTU4LjUwMSA4OS4zNTZMMTU4LjQ4NyA4OS4zMDYyQzE1NC4yMjQgODcuNDIwMSAxNTIuMjUzIDgyLjQ3OTIgMTUzLjk5OSA3OC4xODI3TDE0NC40MzYgNzIuNjY3MkMxMzkuODI3IDc3LjI1NzMgMTMzLjQ3MSA4MC4wOTUgMTI2LjQ1MyA4MC4wOTVDMTEyLjM3OCA4MC4wOTUgMTAwLjk2OCA2OC42ODUxIDEwMC45NjggNTQuNjEwMkMxMDAuOTY4IDQwLjUzNTQgMTEyLjM3OCAyOS4xMjU0IDEyNi40NTMgMjkuMTI1NEMxMzAuMDUzIDI5LjEyNTQgMTMzLjQ3OSAyOS44NzIzIDEzNi41ODUgMzEuMjE5M0wxNDMuMzI1IDE3Ljg0NjRDMTM5Ljg0NyAxNS4wODkgMTM4LjUwNCAxMC4yMjU5IDE0MC4zNzggNS45Njc3N1pNMTI2LjQ1MyA0MS43NDY1QzExOS4zNDggNDEuNzQ2NSAxMTMuNTg5IDQ3LjUwNTggMTEzLjU4OSA1NC42MTAyQzExMy41ODkgNjEuNzE0NyAxMTkuMzQ4IDY3LjQ3NCAxMjYuNDUzIDY3LjQ3NEMxMzMuNTU3IDY3LjQ3NCAxMzkuMzE2IDYxLjcxNDcgMTM5LjMxNiA1NC42MTAyQzEzOS4zMTYgNDcuNTA1OCAxMzMuNTU3IDQxLjc0NjUgMTI2LjQ1MyA0MS43NDY1WiIgZmlsbD0iIzAwRkZBNyIvPgo8cGF0aCBkPSJNMTAwLjg2NCAzMS43NDhMODEuNTQzNSA3Ny41MzczSDY3Ljg0MDhMNDguNjA2IDMxLjc0OEg2Mi4zMDg3TDc0Ljk5MDEgNjIuODk4M0w4OC4wOTcgMzEuNzQ4SDEwMC44NjRaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjYuNDY5MiA2Ny41Nzg2QzI4Ljg1MjMgNjcuNTc4NiAzMC45NTE3IDY3LjIzODIgMzIuNzY3NCA2Ni41NTczQzM0LjYzOTggNjUuODE5NyAzNi4zNzA0IDY0LjY4NDkgMzcuOTU5MSA2My4xNTI5TDQ1LjAyMzIgNzAuODEyOEM0MC43MTEgNzUuNzQ5MiAzNC40MTI4IDc4LjIxNzQgMjYuMTI4OCA3OC4yMTc0QzIwLjk2NTQgNzguMjE3NCAxNi4zOTc5IDc3LjIyNDQgMTIuNDI2MSA3NS4yMzg1QzguNDU0MjcgNzMuMTk1OSA1LjM5MDMgNzAuMzg3MyAzLjIzNDE4IDY2LjgxMjZDMS4wNzgwNiA2My4yMzggMCA1OS4xODExIDAgNTQuNjQxOUMwIDUwLjE1OTQgMS4wNDk2OSA0Ni4xMzA5IDMuMTQ5MDcgNDIuNTU2M0M1LjMwNTE5IDM4LjkyNDkgOC4yMjczMSAzNi4xMTYzIDExLjkxNTQgMzQuMTMwNEMxNS42NjAzIDMyLjA4NzcgMTkuODU5IDMxLjA2NjQgMjQuNTExNyAzMS4wNjY0QzI4Ljg4MDcgMzEuMDY2NCAzMi44NTI1IDMyLjAwMjYgMzYuNDI3MSAzMy44NzVDNDAuMDAxNyAzNS42OTA3IDQyLjgzODcgMzguMzU3NSA0NC45MzgxIDQxLjg3NTRDNDcuMDk0MiA0NS4zMzY1IDQ4LjE3MjMgNDkuNDUwMiA0OC4xNzIzIDU0LjIxNjNMMTQuMjk4NSA2MC43Njk4QzE1LjI2MzEgNjMuMDM5NCAxNi43NjY3IDY0Ljc0MTYgMTguODA5MyA2NS44NzY0QzIwLjkwODcgNjcuMDExMiAyMy40NjIgNjcuNTc4NiAyNi40NjkyIDY3LjU3ODZaTTI0LjUxMTcgNDEuMTA5NEMyMS4xNjQgNDEuMTA5NCAxOC40NDA1IDQyLjE4NzUgMTYuMzQxMSA0NC4zNDM2QzE0LjI0MTggNDYuNDk5NyAxMy4xMzUzIDQ5LjQ3ODUgMTMuMDIxOCA1My4yODAxTDM1LjMyMDcgNDguOTM5NUMzNC42OTY1IDQ2LjU1NjQgMzMuNDE5OSA0NC42NTU2IDMxLjQ5MDcgNDMuMjM3MUMyOS41NjE2IDQxLjgxODYgMjcuMjM1MiA0MS4xMDk0IDI0LjUxMTcgNDEuMTA5NFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik00NDIuODU4IDMzLjE4MzZINDQ3LjU0OUw0NjAuNzMzIDU0LjI5NTRINDYxLjEyNEw0NzQuMzA4IDMzLjE4MzZINDc5TDQ2Mi45NDkgNTguNDAwNVY3Ny42NjYxSDQ1OC45MDlWNTguNDAwNUw0NDIuODU4IDMzLjE4MzZaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMzkzLjE1MiAzMy4xODM2SDM5Ny44NDNMNDEzLjk4MSA3MS45MzJINDE0LjM3Mkw0MzAuNTEgMzMuMTgzNkg0MzUuMjAyVjc3LjY2NjFINDMxLjM3OVY0MS43NjNINDMxLjAzMkw0MTYuMDIzIDc3LjY2NjFINDEyLjMzMUwzOTcuMzIyIDQxLjc2M0gzOTYuOTc1Vjc3LjY2NjFIMzkzLjE1MlYzMy4xODM2WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTM1Ni44MzYgNzcuNjY2MVYzMy4xODM2SDM4Mi42MzlWMzYuODMyNUgzNjAuODk4VjUzLjU3ODdIMzgxLjI3MVY1Ny4yMjc2SDM2MC44OThWNzQuMDE3MkgzODMuMDc0Vjc3LjY2NjFIMzU2LjgzNloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0zMjUuOTY3IDc3LjY2NjFIMzEyLjkzNVYzMy4xODM2SDMyNi43NDhDMzMwLjk5MSAzMy4xODM2IDMzNC42MTggMzQuMDY2OSAzMzcuNjMgMzUuODMzNEMzNDAuNjU3IDM3LjYgMzQyLjk3MyA0MC4xMzQgMzQ0LjU4MSA0My40MzU0QzM0Ni4xODggNDYuNzM2OSAzNDYuOTkyIDUwLjY5NzEgMzQ2Ljk5MiA1NS4zMTYzQzM0Ni45OTIgNTkuOTc4OCAzNDYuMTY2IDYzLjk4MjUgMzQ0LjUxNSA2Ny4zMjc0QzM0Mi44NzkgNzAuNjU3OCAzNDAuNDkgNzMuMjEzNSAzMzcuMzQ4IDc0Ljk5NDZDMzM0LjIyIDc2Ljc3NTYgMzMwLjQyNiA3Ny42NjYxIDMyNS45NjcgNzcuNjY2MVpNMzE2Ljk5NiA3NC4wMTcySDMyNS43MjhDMzI5LjU1IDc0LjAxNzIgMzMyLjc1IDczLjI2NDIgMzM1LjMyOCA3MS43NTgzQzMzNy45MDUgNzAuMjUyNCAzMzkuODM4IDY4LjEwMjEgMzQxLjEyNyA2NS4zMDc0QzM0Mi40MTYgNjIuNTEyOCAzNDMuMDYgNTkuMTgyNCAzNDMuMDYgNTUuMzE2M0MzNDMuMDQ2IDUxLjQ3OTEgMzQyLjQwOSA0OC4xNzc2IDM0MS4xNDkgNDUuNDExOUMzMzkuOTA0IDQyLjY0NjMgMzM4LjA1IDQwLjUyNDkgMzM1LjU4OSAzOS4wNDhDMzMzLjE0MSAzNy41NzEgMzMwLjExNSAzNi44MzI1IDMyNi41MSAzNi44MzI1SDMxNi45OTZWNzQuMDE3MloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yNzIuODYxIDc3LjY2NjFIMjY4LjYwNEwyODQuNzg1IDMzLjE4MzZIMjg5LjEyOUwzMDUuMzExIDc3LjY2NjFIMzAxLjA1NEwyODcuMTA5IDM4LjQ2MTZIMjg2LjgwNUwyNzIuODYxIDc3LjY2NjFaTTI3NS45MjQgNjAuNjE1OUgyOTcuOTkxVjY0LjI2NDlIMjc1LjkyNFY2MC42MTU5WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI2My4yNTYgNDcuMDg1MUgyNTkuMTcyQzI1OC44NjggNDUuNTY0NyAyNTguMzE4IDQ0LjE2MDIgMjU3LjUyMSA0Mi44NzE0QzI1Ni43NCA0MS41NjgyIDI1NS43NTUgNDAuNDMxNiAyNTQuNTY4IDM5LjQ2MTRDMjUzLjM4IDM4LjQ5MTIgMjUyLjAzNCAzNy43MzgzIDI1MC41MjggMzcuMjAyNUMyNDkuMDIyIDM2LjY2NjggMjQ3LjM5MyAzNi4zOTg5IDI0NS42NDEgMzYuMzk4OUMyNDIuODMyIDM2LjM5ODkgMjQwLjI2OSAzNy4xMzAxIDIzNy45NTIgMzguNTkyNkMyMzUuNjQ5IDQwLjA1NTEgMjMzLjgwMyA0Mi4yMDU0IDIzMi40MTMgNDUuMDQzNEMyMzEuMDM4IDQ3Ljg2NyAyMzAuMzUgNTEuMzI3OCAyMzAuMzUgNTUuNDI1NkMyMzAuMzUgNTkuNTUyNCAyMzEuMDM4IDYzLjAyNzYgMjMyLjQxMyA2NS44NTEyQzIzMy44MDMgNjguNjc0OCAyMzUuNjQ5IDcwLjgxNzggMjM3Ljk1MiA3Mi4yODAzQzI0MC4yNjkgNzMuNzI4MyAyNDIuODMyIDc0LjQ1MjMgMjQ1LjY0MSA3NC40NTIzQzI0Ny4zOTMgNzQuNDUyMyAyNDkuMDIyIDc0LjE4NDQgMjUwLjUyOCA3My42NDg3QzI1Mi4wMzQgNzMuMTEyOSAyNTMuMzggNzIuMzY3MiAyNTQuNTY4IDcxLjQxMTVDMjU1Ljc1NSA3MC40NDEzIDI1Ni43NCA2OS4zMDQ3IDI1Ny41MjEgNjguMDAxNUMyNTguMzE4IDY2LjY5ODMgMjU4Ljg2OCA2NS4yODY1IDI1OS4xNzIgNjMuNzY2MUgyNjMuMjU2QzI2Mi44OTQgNjUuODA3NyAyNjIuMjEzIDY3LjcxMTkgMjYxLjIxNCA2OS40Nzg0QzI2MC4yMjkgNzEuMjMwNSAyNTguOTY5IDcyLjc2NTQgMjU3LjQzNSA3NC4wODMxQzI1NS45MTQgNzUuNDAwNyAyNTQuMTYyIDc2LjQyODggMjUyLjE3OCA3Ny4xNjczQzI1MC4xOTUgNzcuOTA1OCAyNDguMDE1IDc4LjI3NSAyNDUuNjQxIDc4LjI3NUMyNDEuOTA1IDc4LjI3NSAyMzguNTg5IDc3LjM0MTEgMjM1LjY5MyA3NS40NzMxQzIzMi43OTcgNzMuNTkwNyAyMzAuNTI0IDcwLjk0MDkgMjI4Ljg3MyA2Ny41MjM2QzIyNy4yMzcgNjQuMTA2MyAyMjYuNDE4IDYwLjA3MzcgMjI2LjQxOCA1NS40MjU2QzIyNi40MTggNTAuNzc3NSAyMjcuMjM3IDQ2Ljc0NDggMjI4Ljg3MyA0My4zMjc2QzIzMC41MjQgMzkuOTEwMyAyMzIuNzk3IDM3LjI2NzcgMjM1LjY5MyAzNS4zOTk4QzIzOC41ODkgMzMuNTE3NCAyNDEuOTA1IDMyLjU3NjIgMjQ1LjY0MSAzMi41NzYyQzI0OC4wMTUgMzIuNTc2MiAyNTAuMTk1IDMyLjk0NTQgMjUyLjE3OCAzMy42ODM5QzI1NC4xNjIgMzQuNDA3OSAyNTUuOTE0IDM1LjQzNiAyNTcuNDM1IDM2Ljc2ODFDMjU4Ljk2OSAzOC4wODU4IDI2MC4yMjkgMzkuNjIwNyAyNjEuMjE0IDQxLjM3MjhDMjYyLjIxMyA0My4xMjQ4IDI2Mi44OTQgNDUuMDI5IDI2My4yNTYgNDcuMDg1MVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xOTAuNDM0IDc3LjY2NjFIMTg2LjE3N0wyMDIuMzU4IDMzLjE4MzZIMjA2LjcwMkwyMjIuODg0IDc3LjY2NjFIMjE4LjYyNkwyMDQuNjgyIDM4LjQ2MTZIMjA0LjM3OEwxOTAuNDM0IDc3LjY2NjFaTTE5My40OTYgNjAuNjE1OUgyMTUuNTY0VjY0LjI2NDlIMTkzLjQ5NlY2MC42MTU5WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==' alt='EVO Academy' style="height:40px;width:auto;filter:drop-shadow(0 0 10px rgba(0,255,157,.25));"></div>
+  <div class="live-badge">Live 04 &middot; Guia do Aluno</div>
+  <h1>Do Zero ao Deploy:<br><span>Publicando sua primeira aplicação</span></h1>
+  <p>Versão detalhada &mdash; passo a passo real, com comandos, checkpoints e troubleshooting</p>
+  <div class="header-meta">
+    <span>Objetivo <strong>Sistema funcional em produção</strong></span>
+    <span>Stack <strong>Next.js + EVO Method + Vercel + Cloudflare</strong></span>
+    <span>Etapas <strong>10 etapas + deploy + troubleshooting</strong></span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h2>Nesta página</h2>
+    <ol>
+      <li><a href="#objetivo">Objetivo e critério de sucesso</a></li>
+      <li><a href="#etapa1">Etapa 1 &mdash; Inicialização + Git</a></li>
+      <li><a href="#etapa2">Etapa 2 &mdash; EVO Method</a></li>
+      <li><a href="#etapa3">Etapa 3 &mdash; Brainstorming</a></li>
+      <li><a href="#etapa4">Etapa 4 &mdash; Product Brief</a></li>
+      <li><a href="#etapa5">Etapa 5 &mdash; PRD</a></li>
+      <li><a href="#etapa6">Etapas 6 e 7 &mdash; UX + Architecture</a></li>
+      <li><a href="#etapa8">Etapas 8 e 9 &mdash; Epics + Sprint</a></li>
+      <li><a href="#etapa10">Etapa 10 &mdash; Loop de story</a></li>
+      <li><a href="#deploy">Deploy (4 passos)</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+      <li><a href="#checklist">Checklist final</a></li>
+      <li><a href="#live05">Próxima live</a></li>
+    </ol>
+  </nav>
+
+  <!-- OBJETIVO -->
+  <section id="objetivo">
+    <div class="section-label">Resultado esperado</div>
+    <h2>Critério de sucesso da live</h2>
+    <p class="section-sub">Não é "fiz uma parte" &mdash; é fim-a-fim validado.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Pipeline de produto</h3>
+        <ul>
+          <li><strong>Problema real</strong> definido em 1 frase</li>
+          <li><strong>Stack e escopo</strong> travados para MVP</li>
+          <li><strong>Documentos EVO</strong> gerados (brief, PRD, UX, architecture, epics)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Entrega técnica</h3>
+        <ul>
+          <li><strong>Story implementada</strong> com review e commit</li>
+          <li><strong>Deploy Vercel</strong> concluído</li>
+          <li><strong>Domínio Cloudflare</strong> validado com HTTPS</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-ok">
+      Objetivo: sair da live com sistema funcional em produção, repo versionado e fluxo EVO aplicado de ponta a ponta &mdash; sem pular etapa.
+    </div>
+  </section>
+
+  <hr>
+  <p class="section-group-label"><span>//</span> Pipeline EVO &mdash; Etapas 1 a 10</p>
+
+  <!-- ETAPA 1 -->
+  <section id="etapa1">
+    <div class="section-label">Etapa 1</div>
+    <h2>Inicialização do projeto local + Git</h2>
+    <p class="section-sub">Base limpa antes do framework. Faça isso antes de qualquer instalação.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Criação da pasta + git remoto</span>
+        <span class="lang">bash</span>
+      </div>
+      <pre><code>mkdir meu-dinheiro
+cd meu-dinheiro
+
+git init
+git branch -M main
+git remote add origin git@github.com:EvolutionAPI/aula-meu-dinheiro.git</code></pre>
+    </div>
+
+    <ul>
+      <li>Repo deve ser <strong>privado</strong> para live de construção.</li>
+      <li>Se der erro de remote duplicado: <code>git remote remove origin</code> e refazer.</li>
+      <li>Validar acesso SSH antes de começar: <code>ssh -T git@github.com</code>.</li>
+    </ul>
+  </section>
+
+  <!-- ETAPA 2 -->
+  <section id="etapa2">
+    <div class="section-label">Etapa 2</div>
+    <h2>Instalação do EVO Method</h2>
+    <p class="section-sub">Evitar configuração inchada: só o que será usado.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Instalador</span>
+        <span class="lang">bash</span>
+      </div>
+      <pre><code>npx @evoapi/evo-method install</code></pre>
+    </div>
+
+    <ol class="steps">
+      <li>Diretório: aceitar a pasta do projeto</li>
+      <li>Módulos: <strong>EVO Core + módulo Agile-AI</strong></li>
+      <li>Integrações: marque apenas ferramentas reais da live</li>
+      <li>Idioma do agente e output docs: <strong>Português</strong></li>
+      <li>Output: manter padrão <code>_evo-output/</code></li>
+    </ol>
+
+    <div class="callout callout-warn">
+      Não marcar módulos que não serão usados &mdash; gera ruído nos comandos e artefatos desnecessários.
+    </div>
+  </section>
+
+  <!-- ETAPA 3 -->
+  <section id="etapa3">
+    <div class="section-label">Etapa 3</div>
+    <h2>Brainstorming orientado</h2>
+    <p class="section-sub">Primeiro artefato que alimenta o restante da pipeline.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Início da sessão</span>
+        <span class="lang">terminal</span>
+      </div>
+      <pre><code>claude
+/evo-brainstorming</code></pre>
+    </div>
+
+    <p>Responder 3 coisas com objetividade:</p>
+    <ul>
+      <li><strong>O que vai criar</strong></li>
+      <li><strong>Resultado esperado</strong></li>
+      <li><strong>Público alvo</strong></li>
+    </ul>
+
+    <div class="callout callout-info">
+      Se travar, use técnica explícita: <strong>What If</strong>, <strong>SCAMPER</strong>, <strong>Analogical</strong>, <strong>Reverse Brainstorming</strong>. Diga ao agente qual usar.
+    </div>
+  </section>
+
+  <!-- ETAPA 4 -->
+  <section id="etapa4">
+    <div class="section-label">Etapa 4</div>
+    <h2>Product Brief com active_feature definido</h2>
+    <p class="section-sub">Sem feature ativa, artefatos ficam bagunçados.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Workflow</span>
+        <span class="lang">command</span>
+      </div>
+      <pre><code>/evo-create-product-brief</code></pre>
+    </div>
+
+    <ul>
+      <li>Quando pedir slug, usar <code>meu-dinheiro</code>.</li>
+      <li>Isso alimenta o <code>active_feature</code> no config.</li>
+      <li>Confirme pasta correta de saída antes de continuar.</li>
+    </ul>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Se a feature não estiver ativa</span>
+        <span class="lang">command</span>
+      </div>
+      <pre><code>/set-feature meu-dinheiro</code></pre>
+    </div>
+  </section>
+
+  <!-- ETAPA 5 -->
+  <section id="etapa5">
+    <div class="section-label">Etapa 5</div>
+    <h2>PRD completo</h2>
+    <p class="section-sub">Documento de execução, não texto bonito. Requisitos precisam ser testáveis.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Workflow</span>
+        <span class="lang">command</span>
+      </div>
+      <pre><code>/evo-create-prd</code></pre>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Obrigatório no PRD</h3>
+        <ul>
+          <li>Resumo executivo com escopo real</li>
+          <li>Critérios de sucesso mensuráveis</li>
+          <li>MVP Strategy + out of scope</li>
+          <li>Jornadas primárias + edge case</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Qualidade mínima</h3>
+        <ul>
+          <li>Não pode ser genérico &mdash; se valer para qualquer app, está errado</li>
+          <li>Cada FR deve ser testável</li>
+          <li>Escopo deve caber na live</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETAPAS 6 e 7 -->
+  <section id="etapa6">
+    <div class="section-label">Etapas 6 e 7</div>
+    <h2>UX Design + Architecture</h2>
+    <p class="section-sub">Primeiro experiência, depois implementação técnica. Nessa ordem.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Comandos</span>
+        <span class="lang">command</span>
+      </div>
+      <pre><code>/evo-create-ux-design
+/evo-create-architecture</code></pre>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>UX Design deve fechar</h3>
+        <ul>
+          <li>Interação principal ("signature interaction")</li>
+          <li>Sistema visual + acessibilidade</li>
+          <li>Jornadas com pontos de fricção</li>
+          <li>Estados: vazio, erro, carregando</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Architecture deve incluir</h3>
+        <ul>
+          <li>Stack definitiva e justificada</li>
+          <li>Schema de banco validado</li>
+          <li>Plano de deploy (Vercel + env vars)</li>
+          <li>Decisões explícitas (ADRs)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-warn">
+      UX e Architecture devem estar alinhados entre si antes de gerar epics. Desalinhamento aqui gera retrabalho nas stories.
+    </div>
+  </section>
+
+  <!-- ETAPAS 8 e 9 -->
+  <section id="etapa8">
+    <div class="section-label">Etapas 8 e 9</div>
+    <h2>Epics / Stories + Readiness + Sprint</h2>
+    <p class="section-sub">Transformar documento em trabalho executável.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Comandos</span>
+        <span class="lang">command</span>
+      </div>
+      <pre><code>/evo-create-epics-and-stories
+/evo-check-implementation-readiness
+/evo-sprint-planning</code></pre>
+    </div>
+
+    <ul>
+      <li>Validar cobertura completa FR &rarr; Epic (ninguém fica órfão).</li>
+      <li>Readiness precisa encontrar PRD + Architecture + UX + Epics.</li>
+      <li>Sprint status vira <strong>fonte de verdade</strong> do estado da live.</li>
+    </ul>
+
+    <div class="callout callout-info">
+      Se o readiness apontar gaps, volte e complete o documento faltante &mdash; não avance com lacunas.
+    </div>
+  </section>
+
+  <!-- ETAPA 10 -->
+  <section id="etapa10">
+    <div class="section-label">Etapa 10</div>
+    <h2>Loop de execução por Story</h2>
+    <p class="section-sub">Cria, desenvolve, revisa, commita, sobe. Repete.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">Loop operacional</span>
+        <span class="lang">command</span>
+      </div>
+      <pre><code>/evo-create-story 1.1
+/evo-dev-story 1.1
+/evo-code-review 1.1
+
+git add .
+git commit -m "feat(epic-1): story 1.1 - schema inicial + tema visual"
+git push origin main
+
+# repetir para 1.2, 1.3, ...
+# ao finalizar épico
+/evo-retrospective epic 1</code></pre>
+    </div>
+
+    <ul>
+      <li>Não abrir 3 stories em paralelo &mdash; uma de cada vez.</li>
+      <li>Code review antes do commit, sem exceção.</li>
+      <li>Push imediato após commit &mdash; nunca acumular.</li>
+      <li>Retrospective ao fechar cada épico, não apenas no final.</li>
+    </ul>
+  </section>
+
+  <hr>
+  <p class="section-group-label"><span>//</span> Deploy &mdash; 4 passos para produção</p>
+
+  <!-- DEPLOY -->
+  <section id="deploy">
+    <div class="section-label">Deploy 1/4</div>
+    <h2>Preparar Next.js para a Vercel</h2>
+    <p class="section-sub">Antes de clicar "Deploy", validar a base localmente.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="filename">package.json</span>
+        <span class="lang">json</span>
+      </div>
+      <pre><code>{
+  "scripts": {
+    "dev":   "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
+}</code></pre>
+    </div>
+
+    <ul>
+      <li>Teste local obrigatório: <code>npm run dev</code> e <code>npm run build</code> sem erros.</li>
+      <li>Se monorepo, confirmar <strong>Root Directory</strong> do app na Vercel.</li>
+      <li>Se variáveis de ambiente existirem, documentar antes de fazer o import.</li>
+    </ul>
+
+    <div style="margin-top: 32px;">
+      <div class="section-label">Deploy 2/4</div>
+      <h2>Importar repositório na Vercel</h2>
+      <p class="section-sub">Conexão Git para deploy contínuo.</p>
+
+      <ol class="steps">
+        <li>Vercel Dashboard &rarr; <strong>Add New &rarr; Project</strong></li>
+        <li>Conectar GitHub / GitLab / Bitbucket</li>
+        <li>Selecionar o repositório do projeto</li>
+        <li>Revisar Framework Preset, Root, Build Command</li>
+        <li>Clicar <strong>Deploy</strong></li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="filename">Env vars (exemplos)</span>
+          <span class="lang">env</span>
+        </div>
+        <pre><code>NEXT_PUBLIC_API_URL=...
+DATABASE_URL=...
+NEXTAUTH_SECRET=...
+NEXTAUTH_URL=...</code></pre>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <div class="section-label">Deploy 3/4</div>
+      <h2>Domínio customizado + DNS na Cloudflare</h2>
+      <p class="section-sub">Copiar exatamente o que a Vercel pedir &mdash; sem adaptar.</p>
+
+      <ol class="steps">
+        <li>Vercel &rarr; Settings &rarr; Domains &rarr; <strong>Add Domain</strong></li>
+        <li>Adicionar <code>seudominio.com</code> e <code>www.seudominio.com</code></li>
+        <li>Copiar registros DNS do painel da Vercel</li>
+        <li>Cloudflare &rarr; DNS &rarr; Add record com os valores exatos</li>
+        <li>Aguardar verificação no painel da Vercel</li>
+      </ol>
+
+      <div class="grid2">
+        <div class="card">
+          <h3>Cenário comum</h3>
+          <ul>
+            <li><strong>www</strong> como CNAME</li>
+            <li><strong>@</strong> como A record ou ALIAS</li>
+            <li>Proxy Cloudflare: <strong>DNS only</strong> (cinza, não laranja)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Se der problema</h3>
+          <ul>
+            <li>Verificar TTL &mdash; aguardar propagação (até 5 min)</li>
+            <li>Confirmar que Cloudflare proxy está desligado</li>
+            <li>Usar <code>dig seudominio.com</code> para verificar</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <div class="section-label">Deploy 4/4</div>
+      <h2>SSL, testes finais e deploy contínuo</h2>
+      <p class="section-sub">A validação de produção fecha a live.</p>
+
+      <ul class="checklist">
+        <li><span class="check-icon">&#10003;</span> Testar <code>https://seudominio.com</code></li>
+        <li><span class="check-icon">&#10003;</span> Testar <code>https://www.seudominio.com</code></li>
+        <li><span class="check-icon">&#10003;</span> Verificar redirecionamento correto (www &rarr; raiz ou vice-versa)</li>
+        <li><span class="check-icon">&#10003;</span> Checar assets, rotas e env vars em produção</li>
+        <li><span class="check-icon">&#10003;</span> Confirmar certificado SSL emitido</li>
+      </ul>
+
+      <div class="callout callout-info">
+        Após conexão Git: push em branch de produção atualiza produção; branches normais geram <strong>preview deploy</strong> automático.
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- TROUBLESHOOTING -->
+  <section id="troubleshooting">
+    <div class="section-label">Troubleshooting</div>
+    <h2>Falhas comuns e correção rápida</h2>
+    <p class="section-sub">Use isso ao vivo quando der ruim.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Git / setup</h3>
+        <ul>
+          <li>Remote errado: <code>git remote remove origin</code> e recriar</li>
+          <li>Branch divergente: alinhar <code>main</code> com <code>git pull --rebase</code></li>
+          <li>Push negado: validar auth SSH com <code>ssh -T git@github.com</code></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>EVO workflow</h3>
+        <ul>
+          <li><code>active_feature</code> vazio: rodar <code>/set-feature meu-dinheiro</code></li>
+          <li>Doc não encontrado: validar paths no config</li>
+          <li>Saída fora da pasta: revisar config do EVO</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Build / Vercel</h3>
+        <ul>
+          <li>Build falha: rodar <code>npm run build</code> local e resolver antes</li>
+          <li>Env var faltando: adicionar no painel da Vercel e re-deploy</li>
+          <li>Root Directory errado: corrigir em Project Settings</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>DNS / domínio</h3>
+        <ul>
+          <li>Não verificou: confirmar proxy Cloudflare está em DNS only</li>
+          <li>SSL pendente: aguardar até 10 min após DNS propagar</li>
+          <li>Subdomínio errado: conferir exatamente o que a Vercel pediu</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- CHECKLIST FINAL -->
+  <section id="checklist">
+    <div class="section-label">Checklist Final</div>
+    <h2>Encerramento da Live 04</h2>
+    <p class="section-sub">Só encerra quando todos os itens abaixo forem "sim".</p>
+
+    <ul class="checklist">
+      <li><span class="check-icon">&#10003;</span> Projeto inicializado e versionado no GitHub</li>
+      <li><span class="check-icon">&#10003;</span> Pipeline EVO concluída (brief &rarr; PRD &rarr; UX &rarr; architecture &rarr; epics)</li>
+      <li><span class="check-icon">&#10003;</span> Story executada com code review + commit + push</li>
+      <li><span class="check-icon">&#10003;</span> Aplicação em produção na Vercel</li>
+      <li><span class="check-icon">&#10003;</span> Domínio Cloudflare validado com HTTPS</li>
+      <li><span class="check-icon">&#10003;</span> Demonstração fim-a-fim para os alunos</li>
+    </ul>
+
+    <div class="callout callout-ok" style="margin-top: 24px;">
+      Se os 6 itens estiverem validados, a Live 04 está concluída com sucesso.
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- LIVE 05 -->
+  <section id="live05">
+    <div class="section-label">Ponte Live 05</div>
+    <h2>O que entra na próxima live</h2>
+    <p class="section-sub">Consolidação e fechamento da Classe 1.</p>
+
+    <ul>
+      <li>Padronizar operação e backlog após MVP no ar</li>
+      <li>Refinar qualidade: testes, telemetria, hardening mínimo</li>
+      <li>Fechar sistema operacional replicável para próximos projetos</li>
+    </ul>
+
+    <blockquote>
+      "Na Live 5 vamos consolidar tudo e fechar a Classe 1 com um sistema operacional replicável."
+    </blockquote>
+  </section>
+
+</div>
+</body>
+</html>
