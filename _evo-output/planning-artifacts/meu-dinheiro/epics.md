@@ -173,6 +173,10 @@ O usuario pode visualizar todas as transacoes, filtrar por periodo, ver o total 
 O usuario pode ver seu perfil com avatar de iniciais, alternar entre tema escuro e claro, e acessar configuracoes — experiencia completa e personalizavel.
 **FRs cobertos:** FR23, FR24, FR25
 
+### Epic 6: Deploy e Infraestrutura
+O projeto e migrado de SQLite para Supabase PostgreSQL e preparado para deploy na Vercel — pronto para producao.
+**FRs cobertos:** Infraestrutura (sem FRs funcionais)
+
 ---
 
 ## Epic 1: Fundacao e Autenticacao
@@ -671,3 +675,31 @@ So that eu personalize a aparencia do app conforme minha preferencia.
 **And** o componente e "use client" (ThemeToggle)
 **And** todas as combinacoes de cor em ambos os temas atingem WCAG AA (NFR13)
 **And** prefers-color-scheme do sistema e respeitado como padrao inicial (dark se nao houver preferencia salva)
+
+---
+
+## Epic 6: Deploy e Infraestrutura
+
+O projeto e migrado de SQLite para Supabase PostgreSQL e preparado para deploy na Vercel com dominio customizado — pronto para producao.
+
+### Story 6.1: Migracao para Supabase PostgreSQL e Preparacao para Deploy Vercel
+
+As a desenvolvedor,
+I want migrar o banco de dados de SQLite para Supabase PostgreSQL e atualizar o guia do aluno,
+So that o app funcione na Vercel com banco persistente e os alunos tenham instrucoes atualizadas.
+
+**Acceptance Criteria:**
+
+**Given** o projeto usa SQLite
+**When** migrado para Supabase
+**Then** o schema Prisma usa provider "postgresql"
+**And** o adapter SQLite e removido e substituido por @prisma/adapter-pg
+**And** o DATABASE_URL aponta para Supabase PostgreSQL
+
+**Given** o projeto migrado
+**When** `npm run build` e executado
+**Then** compila sem erros e esta pronto para deploy na Vercel
+
+**Given** o guia do aluno (HTML)
+**When** atualizado
+**Then** inclui instrucoes para criar projeto no Supabase, configurar env vars na Vercel, e fazer deploy com dominio customizado

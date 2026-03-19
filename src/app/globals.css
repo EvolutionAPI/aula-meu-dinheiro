@@ -133,23 +133,23 @@
   }
 }
 
-/* Dark scrollbar */
-.scrollbar-dark::-webkit-scrollbar {
+/* Dark scrollbar — global */
+*::-webkit-scrollbar {
   width: 6px;
 }
-.scrollbar-dark::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: transparent;
 }
-.scrollbar-dark::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background: #3f3f46;
   border-radius: 3px;
 }
-.scrollbar-dark::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   background: #52525b;
 }
 
 /* Firefox */
-.scrollbar-dark {
+html {
   scrollbar-width: thin;
   scrollbar-color: #3f3f46 transparent;
 }

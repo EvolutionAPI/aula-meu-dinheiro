@@ -59,7 +59,17 @@ async function ensureAndGetCategories(userId: string) {
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession()
-  const categories = session ? await ensureAndGetCategories(session.userId) : []
+  let categories: Awaited<ReturnType<typeof ensureAndGetCategories>> = []
+
+  if (session) {
+    try {
+      categories = await ensureAndGetCategories(session.userId)
+    } catch {
+      // User in JWT doesn't exist in DB (e.g. after DB migration) — redirect to logout
+      const { redirect } = await import("next/navigation")
+      redirect("/api/logout")
+    }
+  }
 
   return (
     <div className="min-h-full bg-background">

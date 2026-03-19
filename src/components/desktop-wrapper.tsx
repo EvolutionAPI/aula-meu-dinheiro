@@ -7,10 +7,17 @@ export function DesktopWrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)")
-    setIsDesktop(mq.matches)
-    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches)
+    const apply = (matches: boolean) => {
+      setIsDesktop(matches)
+      document.body.style.overflow = matches ? "hidden" : ""
+    }
+    apply(mq.matches)
+    const handler = (e: MediaQueryListEvent) => apply(e.matches)
     mq.addEventListener("change", handler)
-    return () => mq.removeEventListener("change", handler)
+    return () => {
+      mq.removeEventListener("change", handler)
+      document.body.style.overflow = ""
+    }
   }, [])
 
   if (!isDesktop) {

@@ -19,8 +19,6 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  /* Dark scrollbar */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
@@ -464,8 +462,8 @@
   <p>Versão detalhada &mdash; passo a passo real, com comandos, checkpoints e troubleshooting</p>
   <div class="header-meta">
     <span>Objetivo <strong>Sistema funcional em produção</strong></span>
-    <span>Stack <strong>Next.js + EVO Method + Vercel + Cloudflare</strong></span>
-    <span>Etapas <strong>10 etapas + deploy + troubleshooting</strong></span>
+    <span>Stack <strong>Next.js + EVO Method + Supabase + Vercel + Cloudflare</strong></span>
+    <span>Etapas <strong>10 etapas + Supabase + deploy + troubleshooting</strong></span>
   </div>
 </header>
 
@@ -484,7 +482,7 @@
       <li><a href="#etapa6">Etapas 6 e 7 &mdash; UX + Architecture</a></li>
       <li><a href="#etapa8">Etapas 8 e 9 &mdash; Epics + Sprint</a></li>
       <li><a href="#etapa10">Etapa 10 &mdash; Loop de story</a></li>
-      <li><a href="#deploy">Deploy (4 passos)</a></li>
+      <li><a href="#deploy">Deploy (5 passos)</a></li>
       <li><a href="#troubleshooting">Troubleshooting</a></li>
       <li><a href="#checklist">Checklist final</a></li>
       <li><a href="#live05">Próxima live</a></li>
@@ -778,63 +776,95 @@ git push origin main
   </section>
 
   <hr>
-  <p class="section-group-label"><span>//</span> Deploy &mdash; 4 passos para produção</p>
+  <p class="section-group-label"><span>//</span> Deploy &mdash; 5 passos para produção</p>
 
   <!-- DEPLOY -->
   <section id="deploy">
-    <div class="section-label">Deploy 1/4</div>
-    <h2>Preparar Next.js para a Vercel</h2>
-    <p class="section-sub">Antes de clicar "Deploy", validar a base localmente.</p>
+    <div class="section-label">Deploy 1/5</div>
+    <h2>Criar banco PostgreSQL no Supabase</h2>
+    <p class="section-sub">SQLite não funciona na Vercel (filesystem efêmero). Supabase oferece PostgreSQL gratuito.</p>
+
+    <ol class="steps">
+      <li>Acessar <strong>supabase.com</strong> e criar conta (login com GitHub)</li>
+      <li>Clicar <strong>New Project</strong>, escolher nome e senha do banco, região <strong>South America (São Paulo)</strong></li>
+      <li>Aguardar criação do projeto (~1 min)</li>
+      <li>Ir em <strong>Settings &rarr; Database</strong></li>
+      <li>Copiar a <strong>Connection string &rarr; URI</strong> (Transaction mode / porta 6543)</li>
+    </ol>
 
     <div class="code-block">
       <div class="code-header">
         <span class="dots"><i></i><i></i><i></i></span>
-        <span class="filename">package.json</span>
-        <span class="lang">json</span>
+        <span class="filename">.env</span>
+        <span class="lang">env</span>
       </div>
-      <pre><code>{
-  "scripts": {
-    "dev":   "next dev",
-    "build": "next build",
-    "start": "next start"
-  }
-}</code></pre>
+      <pre><code># Substitua pelos valores do Supabase Dashboard > Settings > Database > Connection string
+DATABASE_URL="postgresql://postgres.SEU-PROJECT-REF:SUA-SENHA@aws-0-sa-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+JWT_SECRET="gere-uma-string-segura-com-32-chars-minimo"</code></pre>
     </div>
 
-    <ul>
-      <li>Teste local obrigatório: <code>npm run dev</code> e <code>npm run build</code> sem erros.</li>
-      <li>Se monorepo, confirmar <strong>Root Directory</strong> do app na Vercel.</li>
-      <li>Se variáveis de ambiente existirem, documentar antes de fazer o import.</li>
-    </ul>
+    <div class="callout callout-warn">
+      A senha do banco é definida na criação do projeto. Se esquecer, pode resetar em Settings &rarr; Database &rarr; Reset database password.
+    </div>
 
     <div style="margin-top: 32px;">
-      <div class="section-label">Deploy 2/4</div>
-      <h2>Importar repositório na Vercel</h2>
-      <p class="section-sub">Conexão Git para deploy contínuo.</p>
-
-      <ol class="steps">
-        <li>Vercel Dashboard &rarr; <strong>Add New &rarr; Project</strong></li>
-        <li>Conectar GitHub / GitLab / Bitbucket</li>
-        <li>Selecionar o repositório do projeto</li>
-        <li>Revisar Framework Preset, Root, Build Command</li>
-        <li>Clicar <strong>Deploy</strong></li>
-      </ol>
+      <div class="section-label">Deploy 2/5</div>
+      <h2>Criar tabelas no Supabase</h2>
+      <p class="section-sub">Prisma cria as tabelas automaticamente com um comando.</p>
 
       <div class="code-block">
         <div class="code-header">
           <span class="dots"><i></i><i></i><i></i></span>
-          <span class="filename">Env vars (exemplos)</span>
-          <span class="lang">env</span>
+          <span class="filename">Criar tabelas</span>
+          <span class="lang">bash</span>
         </div>
-        <pre><code>NEXT_PUBLIC_API_URL=...
-DATABASE_URL=...
-NEXTAUTH_SECRET=...
-NEXTAUTH_URL=...</code></pre>
+        <pre><code># Com o .env configurado com a URL do Supabase:
+npx prisma db push</code></pre>
+      </div>
+
+      <ul>
+        <li>Isso cria as tabelas <strong>User</strong>, <strong>Category</strong> e <strong>Transaction</strong> no Supabase</li>
+        <li>Verificar no Supabase Dashboard &rarr; <strong>Table Editor</strong> se as tabelas apareceram</li>
+        <li>Testar localmente: <code>npm run dev</code> &mdash; cadastrar e logar deve funcionar</li>
+      </ul>
+
+      <div class="callout callout-ok">
+        Se <code>npx prisma db push</code> rodou sem erro e as tabelas aparecem no Supabase, o banco está pronto.
       </div>
     </div>
 
     <div style="margin-top: 32px;">
-      <div class="section-label">Deploy 3/4</div>
+      <div class="section-label">Deploy 3/5</div>
+      <h2>Preparar e importar na Vercel</h2>
+      <p class="section-sub">Build local + deploy contínuo via Git.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="filename">Validar build local</span>
+          <span class="lang">bash</span>
+        </div>
+        <pre><code>npm run build   # deve compilar sem erros</code></pre>
+      </div>
+
+      <ol class="steps">
+        <li>Vercel Dashboard &rarr; <strong>Add New &rarr; Project</strong></li>
+        <li>Conectar GitHub e selecionar o repositório</li>
+        <li>Revisar Framework Preset (Next.js deve ser detectado automaticamente)</li>
+        <li>Adicionar <strong>Environment Variables</strong> antes do deploy:
+          <br><code>DATABASE_URL</code> = connection string do Supabase
+          <br><code>JWT_SECRET</code> = string segura com 32+ caracteres
+        </li>
+        <li>Clicar <strong>Deploy</strong></li>
+      </ol>
+
+      <div class="callout callout-warn">
+        As env vars devem ser adicionadas ANTES do primeiro deploy. Sem elas, o build vai falhar.
+      </div>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <div class="section-label">Deploy 4/5</div>
       <h2>Domínio customizado + DNS na Cloudflare</h2>
       <p class="section-sub">Copiar exatamente o que a Vercel pedir &mdash; sem adaptar.</p>
 
@@ -867,15 +897,16 @@ NEXTAUTH_URL=...</code></pre>
     </div>
 
     <div style="margin-top: 32px;">
-      <div class="section-label">Deploy 4/4</div>
+      <div class="section-label">Deploy 5/5</div>
       <h2>SSL, testes finais e deploy contínuo</h2>
       <p class="section-sub">A validação de produção fecha a live.</p>
 
       <ul class="checklist">
         <li><span class="check-icon">&#10003;</span> Testar <code>https://seudominio.com</code></li>
         <li><span class="check-icon">&#10003;</span> Testar <code>https://www.seudominio.com</code></li>
-        <li><span class="check-icon">&#10003;</span> Verificar redirecionamento correto (www &rarr; raiz ou vice-versa)</li>
-        <li><span class="check-icon">&#10003;</span> Checar assets, rotas e env vars em produção</li>
+        <li><span class="check-icon">&#10003;</span> Criar conta e fazer login no app em produção</li>
+        <li><span class="check-icon">&#10003;</span> Registrar uma transação e verificar no dashboard</li>
+        <li><span class="check-icon">&#10003;</span> Verificar dados no Supabase Dashboard &rarr; Table Editor</li>
         <li><span class="check-icon">&#10003;</span> Confirmar certificado SSL emitido</li>
       </ul>
 
@@ -919,6 +950,15 @@ NEXTAUTH_URL=...</code></pre>
         </ul>
       </div>
       <div class="card">
+        <h3>Supabase / Banco</h3>
+        <ul>
+          <li>"Tenant or user not found": <code>DATABASE_URL</code> com project-ref errado</li>
+          <li>"Can't reach database": usar porta <strong>5432</strong> para <code>prisma db push</code>, porta <strong>6543</strong> para o app</li>
+          <li>"Foreign key constraint": cookie JWT antigo &mdash; limpar cookies no browser</li>
+          <li>Tabelas não criaram: rodar <code>npx prisma db push</code> novamente</li>
+        </ul>
+      </div>
+      <div class="card">
         <h3>DNS / domínio</h3>
         <ul>
           <li>Não verificou: confirmar proxy Cloudflare está em DNS only</li>
@@ -941,13 +981,14 @@ NEXTAUTH_URL=...</code></pre>
       <li><span class="check-icon">&#10003;</span> Projeto inicializado e versionado no GitHub</li>
       <li><span class="check-icon">&#10003;</span> Pipeline EVO concluída (brief &rarr; PRD &rarr; UX &rarr; architecture &rarr; epics)</li>
       <li><span class="check-icon">&#10003;</span> Story executada com code review + commit + push</li>
+      <li><span class="check-icon">&#10003;</span> Banco Supabase configurado com tabelas criadas</li>
       <li><span class="check-icon">&#10003;</span> Aplicação em produção na Vercel</li>
       <li><span class="check-icon">&#10003;</span> Domínio Cloudflare validado com HTTPS</li>
       <li><span class="check-icon">&#10003;</span> Demonstração fim-a-fim para os alunos</li>
     </ul>
 
     <div class="callout callout-ok" style="margin-top: 24px;">
-      Se os 6 itens estiverem validados, a Live 04 está concluída com sucesso.
+      Se os 7 itens estiverem validados, a Live 04 está concluída com sucesso.
     </div>
   </section>
 
