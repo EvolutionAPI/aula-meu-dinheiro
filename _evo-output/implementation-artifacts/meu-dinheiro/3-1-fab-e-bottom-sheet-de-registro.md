@@ -1,6 +1,6 @@
 # Story 3.1: FAB e Bottom Sheet de Registro de Transacao
 
-Status: ready-for-dev
+Status: done
 
 **Depends on:** Story 2.1 (layout do app com bottom navigation e container 428px)
 
@@ -26,66 +26,66 @@ So that eu possa iniciar o registro de qualquer tela do app de forma rapida.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1 (AC: #1, #6) Criar componente FAB (fab.tsx)
-  - [ ] 1.1 Criar src/components/fab.tsx como Client Component ("use client")
-  - [ ] 1.2 Botao 56x56px com rounded-full, bg-emerald-500, shadow-lg
-  - [ ] 1.3 Shadow customizada: shadow-emerald-500/20 (sombra esverdeada)
-  - [ ] 1.4 Icone "+" branco centralizado usando Plus do lucide-react (24px)
-  - [ ] 1.5 aria-label="Adicionar nova transacao"
-  - [ ] 1.6 Posicao: fixed, bottom-right, acima da bottom nav (bottom: 64px + safe-area + 16px gap)
-  - [ ] 1.7 z-index: 50 (z-50)
-  - [ ] 1.8 Respeitar max-width 428px do container — posicionar relativo ao container, nao a tela toda
-  - [ ] 1.9 Press animation: Framer Motion whileTap={{ scale: 0.95 }} com spring transition
-  - [ ] 1.10 Estado disabled: bg-zinc-600, pointer-events-none, opacity reduzida quando bottom sheet aberto
-  - [ ] 1.11 Props: onClick (callback), disabled (boolean)
-  - [ ] 1.12 Focus visible: focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950
-  - [ ] 1.13 Hover state: bg-emerald-600 transition-colors
-- [ ] Task 2 (AC: #2, #3, #5) Criar componente BottomSheet (bottom-sheet.tsx)
-  - [ ] 2.1 Criar src/components/bottom-sheet.tsx como Client Component ("use client")
-  - [ ] 2.2 Props: isOpen (boolean), onClose (callback), children (ReactNode)
-  - [ ] 2.3 Backdrop: fixed inset-0, bg-zinc-950/80, z-50
-  - [ ] 2.4 Sheet container: fixed bottom-0, w-full, max-w-[428px], mx-auto, left-0, right-0
-  - [ ] 2.5 Sheet height: h-[85vh] (85% da viewport)
-  - [ ] 2.6 Sheet background: bg-zinc-900, rounded-t-2xl
-  - [ ] 2.7 Drag handle: div 40x4px (w-10 h-1), bg-zinc-600, rounded-full, centralizado no topo com padding (pt-3 pb-2)
-  - [ ] 2.8 Animacao de abertura: Framer Motion animate y: 0, transition 300ms ease-out
-  - [ ] 2.9 Animacao de fechamento: Framer Motion exit y: "100%", transition 300ms ease-in
-  - [ ] 2.10 AnimatePresence no wrapper para animar mount/unmount
-  - [ ] 2.11 Backdrop fade-in/fade-out: opacity 0 -> 1 na abertura, 1 -> 0 no fechamento
-  - [ ] 2.12 Fechar ao clicar/tocar no backdrop (onClick no backdrop)
-  - [ ] 2.13 Fechar ao pressionar Escape (useEffect com keydown listener)
-  - [ ] 2.14 role="dialog", aria-modal="true" no sheet container
-  - [ ] 2.15 aria-label="Registrar transacao" no sheet container
-  - [ ] 2.16 children renderizado dentro do sheet (conteudo vira em Stories 3.2 e 3.3)
-  - [ ] 2.17 Overflow-y: auto no container de conteudo (para scroll interno se necessario)
-- [ ] Task 3 (AC: #2, #3) Implementar drag-to-dismiss no BottomSheet
-  - [ ] 3.1 Usar Framer Motion drag="y" com dragConstraints={{ top: 0 }}
-  - [ ] 3.2 dragElastic={{ top: 0, bottom: 0.4 }} (resistencia ao arrastar para cima, elasticidade para baixo)
-  - [ ] 3.3 onDragEnd: se dragOffset.y > 100px (threshold), chamar onClose()
-  - [ ] 3.4 Se dragOffset.y <= threshold, animar de volta para y: 0 (snap back)
-  - [ ] 3.5 Drag apenas pelo header/handle area (nao pelo conteudo inteiro, para nao conflitar com scroll)
-- [ ] Task 4 (AC: #2, #3) Implementar focus trap e gerenciamento de foco
-  - [ ] 4.1 Ao abrir: salvar referencia do elemento que tinha foco (FAB)
-  - [ ] 4.2 Ao abrir: mover foco para o primeiro elemento focavel dentro do sheet (ou o proprio sheet)
-  - [ ] 4.3 Focus trap: Tab e Shift+Tab cicla apenas dentro do sheet
-  - [ ] 4.4 Ao fechar: restaurar foco ao elemento salvo (FAB)
-  - [ ] 4.5 Implementar com useRef e useEffect (nao precisa de lib externa)
-  - [ ] 4.6 Prevenir scroll do body quando sheet esta aberto (overflow: hidden no body)
-- [ ] Task 5 (AC: #5) Implementar prefers-reduced-motion
-  - [ ] 5.1 Usar useReducedMotion() do Framer Motion
-  - [ ] 5.2 Se reduced motion: sheet aparece/desaparece instantaneamente (duration: 0)
-  - [ ] 5.3 Se reduced motion: FAB nao tem scale animation no press
-  - [ ] 5.4 Se reduced motion: backdrop aparece/desaparece instantaneamente
-- [ ] Task 6 (AC: #4) Integrar FAB + BottomSheet no layout do app
-  - [ ] 6.1 No layout (app) ou em um wrapper Client Component, importar FAB
-  - [ ] 6.2 Dynamic import do BottomSheet: const BottomSheet = dynamic(() => import("@/components/bottom-sheet").then(m => m.BottomSheet), { ssr: false })
-  - [ ] 6.3 Estado local: useState para isSheetOpen (boolean)
-  - [ ] 6.4 FAB onClick: setIsSheetOpen(true)
-  - [ ] 6.5 FAB disabled={isSheetOpen}
-  - [ ] 6.6 BottomSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)}
-  - [ ] 6.7 Placeholder children no BottomSheet: texto "Formulario de registro (Story 3.2)" para verificar que funciona
-  - [ ] 6.8 Criar src/components/transaction-fab-wrapper.tsx como Client Component wrapper que gerencia estado e renderiza FAB + BottomSheet
-  - [ ] 6.9 No layout (app) server component, importar e renderizar TransactionFabWrapper
+- [x] Task 1 (AC: #1, #6) Criar componente FAB (fab.tsx)
+  - [x] 1.1 Criar src/components/fab.tsx como Client Component ("use client")
+  - [x] 1.2 Botao 56x56px com rounded-full, bg-emerald-500, shadow-lg
+  - [x] 1.3 Shadow customizada: shadow-emerald-500/20 (sombra esverdeada)
+  - [x] 1.4 Icone "+" branco centralizado usando Plus do lucide-react (24px)
+  - [x] 1.5 aria-label="Adicionar nova transacao"
+  - [x] 1.6 Posicao: fixed, bottom-right, acima da bottom nav (bottom: 64px + safe-area + 16px gap)
+  - [x] 1.7 z-index: 50 (z-50)
+  - [x] 1.8 Respeitar max-width 428px do container — posicionar relativo ao container, nao a tela toda
+  - [x] 1.9 Press animation: Framer Motion whileTap={{ scale: 0.95 }} com spring transition
+  - [x] 1.10 Estado disabled: bg-zinc-600, pointer-events-none, opacity reduzida quando bottom sheet aberto
+  - [x] 1.11 Props: onClick (callback), disabled (boolean)
+  - [x] 1.12 Focus visible: focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950
+  - [x] 1.13 Hover state: bg-emerald-600 transition-colors
+- [x] Task 2 (AC: #2, #3, #5) Criar componente BottomSheet (bottom-sheet.tsx)
+  - [x] 2.1 Criar src/components/bottom-sheet.tsx como Client Component ("use client")
+  - [x] 2.2 Props: isOpen (boolean), onClose (callback), children (ReactNode)
+  - [x] 2.3 Backdrop: fixed inset-0, bg-zinc-950/80, z-50
+  - [x] 2.4 Sheet container: fixed bottom-0, w-full, max-w-[428px], mx-auto, left-0, right-0
+  - [x] 2.5 Sheet height: h-[85vh] (85% da viewport)
+  - [x] 2.6 Sheet background: bg-zinc-900, rounded-t-2xl
+  - [x] 2.7 Drag handle: div 40x4px (w-10 h-1), bg-zinc-600, rounded-full, centralizado no topo com padding (pt-3 pb-2)
+  - [x] 2.8 Animacao de abertura: Framer Motion animate y: 0, transition 300ms ease-out
+  - [x] 2.9 Animacao de fechamento: Framer Motion exit y: "100%", transition 300ms ease-in
+  - [x] 2.10 AnimatePresence no wrapper para animar mount/unmount
+  - [x] 2.11 Backdrop fade-in/fade-out: opacity 0 -> 1 na abertura, 1 -> 0 no fechamento
+  - [x] 2.12 Fechar ao clicar/tocar no backdrop (onClick no backdrop)
+  - [x] 2.13 Fechar ao pressionar Escape (useEffect com keydown listener)
+  - [x] 2.14 role="dialog", aria-modal="true" no sheet container
+  - [x] 2.15 aria-label="Registrar transacao" no sheet container
+  - [x] 2.16 children renderizado dentro do sheet (conteudo vira em Stories 3.2 e 3.3)
+  - [x] 2.17 Overflow-y: auto no container de conteudo (para scroll interno se necessario)
+- [x] Task 3 (AC: #2, #3) Implementar drag-to-dismiss no BottomSheet
+  - [x] 3.1 Usar Framer Motion drag="y" com dragConstraints={{ top: 0 }}
+  - [x] 3.2 dragElastic={{ top: 0, bottom: 0.4 }} (resistencia ao arrastar para cima, elasticidade para baixo)
+  - [x] 3.3 onDragEnd: se dragOffset.y > 100px (threshold), chamar onClose()
+  - [x] 3.4 Se dragOffset.y <= threshold, animar de volta para y: 0 (snap back)
+  - [x] 3.5 Drag apenas pelo header/handle area (nao pelo conteudo inteiro, para nao conflitar com scroll)
+- [x] Task 4 (AC: #2, #3) Implementar focus trap e gerenciamento de foco
+  - [x] 4.1 Ao abrir: salvar referencia do elemento que tinha foco (FAB)
+  - [x] 4.2 Ao abrir: mover foco para o primeiro elemento focavel dentro do sheet (ou o proprio sheet)
+  - [x] 4.3 Focus trap: Tab e Shift+Tab cicla apenas dentro do sheet
+  - [x] 4.4 Ao fechar: restaurar foco ao elemento salvo (FAB)
+  - [x] 4.5 Implementar com useRef e useEffect (nao precisa de lib externa)
+  - [x] 4.6 Prevenir scroll do body quando sheet esta aberto (overflow: hidden no body)
+- [x] Task 5 (AC: #5) Implementar prefers-reduced-motion
+  - [x] 5.1 Usar useReducedMotion() do Framer Motion
+  - [x] 5.2 Se reduced motion: sheet aparece/desaparece instantaneamente (duration: 0)
+  - [x] 5.3 Se reduced motion: FAB nao tem scale animation no press
+  - [x] 5.4 Se reduced motion: backdrop aparece/desaparece instantaneamente
+- [x] Task 6 (AC: #4) Integrar FAB + BottomSheet no layout do app
+  - [x] 6.1 No layout (app) ou em um wrapper Client Component, importar FAB
+  - [x] 6.2 Dynamic import do BottomSheet: const BottomSheet = dynamic(() => import("@/components/bottom-sheet").then(m => m.BottomSheet), { ssr: false })
+  - [x] 6.3 Estado local: useState para isSheetOpen (boolean)
+  - [x] 6.4 FAB onClick: setIsSheetOpen(true)
+  - [x] 6.5 FAB disabled={isSheetOpen}
+  - [x] 6.6 BottomSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)}
+  - [x] 6.7 Placeholder children no BottomSheet: texto "Formulario de registro (Story 3.2)" para verificar que funciona
+  - [x] 6.8 Criar src/components/transaction-fab-wrapper.tsx como Client Component wrapper que gerencia estado e renderiza FAB + BottomSheet
+  - [x] 6.9 No layout (app) server component, importar e renderizar TransactionFabWrapper
 
 ## Dev Notes
 
@@ -483,10 +483,22 @@ src/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
+- All 19 tests pass (fab.test.tsx: 9, bottom-sheet.test.tsx: 10)
 
 ### Completion Notes List
+- Implemented Fab component with 56x56px emerald button, Plus icon, spring press animation, disabled state, focus-visible ring, and correct positioning within 428px container
+- Implemented BottomSheet component with AnimatePresence slide-up/down animations, backdrop overlay, drag-to-dismiss on handle only, focus trap, Escape to close, body scroll lock, prefers-reduced-motion support
+- Created TransactionFabWrapper as Client Component managing state between FAB and dynamically imported BottomSheet
+- Integrated TransactionFabWrapper into (app)/layout.tsx Server Component
+- All accessibility requirements met: aria-label, role="dialog", aria-modal, focus trap, focus restoration
 
 ### File List
+- src/components/fab.tsx (NEW)
+- src/components/bottom-sheet.tsx (NEW)
+- src/components/transaction-fab-wrapper.tsx (NEW)
+- src/app/(app)/layout.tsx (MODIFIED)
+- src/__tests__/fab.test.tsx (NEW)
+- src/__tests__/bottom-sheet.test.tsx (NEW)

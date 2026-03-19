@@ -1,6 +1,6 @@
 # Story 3.3: Submissao de Transacao e Feedback
 
-Status: ready-for-dev
+Status: done
 
 **Depends on:** Story 3.1 (BottomSheet component), Story 3.2 (NumericKeypad, CategoryGrid), Story 1.1 (Prisma schema com Transaction model, ActionResponse<T>, formatCurrency), Story 1.2 (Server Action pattern de referencia)
 
@@ -24,47 +24,47 @@ So that eu saiba que a transacao foi salva com sucesso e veja o impacto no dashb
 
 ## Tasks / Subtasks
 
-- [ ] Task 1 (AC: #1, #5) Criar Server Action createTransaction
-  - [ ] 1.1 Criar src/actions/transactions.ts com "use server" no topo
-  - [ ] 1.2 Definir createTransactionSchema com zod: amount (z.number().positive()), type (z.enum(["income", "expense"])), categoryId (z.string().cuid()), description (z.string().optional())
-  - [ ] 1.3 Implementar funcao async createTransaction(data) que retorna ActionResponse<Transaction>
-  - [ ] 1.4 Chamar getSession() de src/lib/auth.ts — retornar { success: false, error: "Nao autorizado" } se nao autenticado
-  - [ ] 1.5 Validar com createTransactionSchema.safeParse(data) — retornar { success: false, error: "Dados invalidos" } se falhar
-  - [ ] 1.6 Criar transacao via prisma.transaction.create({ data: { ...parsed.data, userId: session.userId } })
-  - [ ] 1.7 Chamar revalidatePath("/") e revalidatePath("/transactions") apos criacao
-  - [ ] 1.8 Retornar { success: true, data: transaction }
-  - [ ] 1.9 Envolver em try/catch — retornar { success: false, error: "Erro ao salvar transacao" } em caso de excecao
-- [ ] Task 2 (AC: #1, #5) Verificar schema Prisma (Transaction model)
-  - [ ] 2.1 Confirmar que o model Transaction existe em prisma/schema.prisma com campos: id (String @id @default(cuid())), amount (Float), type (String), description (String?), categoryId (String), userId (String), createdAt (DateTime @default(now()))
-  - [ ] 2.2 Confirmar indice @@index([userId, createdAt]) existe
-  - [ ] 2.3 Confirmar indice @@index([userId, type]) existe
-  - [ ] 2.4 Se indices nao existem, adicionar e rodar npx prisma db push
-- [ ] Task 3 (AC: #1, #3) Integrar botao "Registrar" no BottomSheet
-  - [ ] 3.1 Atualizar src/components/bottom-sheet.tsx para incluir botao "Registrar"
-  - [ ] 3.2 Botao: bg-emerald-500 hover:bg-emerald-600, text-white, font-semibold, w-full, h-12, rounded-lg
-  - [ ] 3.3 Usar useTransition() do React para gerenciar estado pending
-  - [ ] 3.4 Durante pending: botao mostra spinner/loading e fica disabled
-  - [ ] 3.5 Disabled state: quando amount === 0 OU categoryId nao selecionado OU isPending
-  - [ ] 3.6 Visual disabled: opacity-50, cursor-not-allowed
-  - [ ] 3.7 Campos faltantes indicados visualmente (borda vermelha ou texto de aviso)
-- [ ] Task 4 (AC: #1) Conectar form state ao Server Action
-  - [ ] 4.1 No handler de submit, coletar: amount (number), type ("income"/"expense"), categoryId (string), description (string opcional)
-  - [ ] 4.2 Chamar startTransition(() => { createTransaction(data).then(handleResult) })
-  - [ ] 4.3 handleResult verifica response.success para decidir feedback
-- [ ] Task 5 (AC: #2) Implementar feedback de sucesso
-  - [ ] 5.1 Animacao de pulse no botao com Framer Motion: animate={{ scale: [0.95, 1.0] }} transition={{ duration: 0.1 }}
-  - [ ] 5.2 Fechar bottom sheet com animacao (300ms ease-in) apos pulse
-  - [ ] 5.3 Exibir toast.success("Transacao salva") com configuracao Sonner
-  - [ ] 5.4 Resetar form state (amount = 0, categoryId = null, description = "")
-- [ ] Task 6 (AC: #2) Configurar Sonner toast global
-  - [ ] 6.1 Garantir que <Toaster /> esta no layout (src/app/layout.tsx)
-  - [ ] 6.2 Configurar Toaster: position="bottom-center", toastOptions com style dark (bg zinc-800, text zinc-50), duration 3000
-  - [ ] 6.3 Toast de sucesso: icone checkmark com cor emerald-500
-- [ ] Task 7 (AC: #4) Implementar feedback de erro
-  - [ ] 7.1 Se response.success === false: chamar toast.error(response.error)
-  - [ ] 7.2 Bottom sheet permanece aberto (NAO fechar)
-  - [ ] 7.3 Botao volta ao estado normal (nao pending, nao disabled)
-  - [ ] 7.4 Usuario pode corrigir e tentar novamente
+- [x] Task 1 (AC: #1, #5) Criar Server Action createTransaction
+  - [x] 1.1 Criar src/actions/transactions.ts com "use server" no topo
+  - [x] 1.2 Definir createTransactionSchema com zod: amount (z.number().positive()), type (z.enum(["income", "expense"])), categoryId (z.string().cuid()), description (z.string().optional())
+  - [x] 1.3 Implementar funcao async createTransaction(data) que retorna ActionResponse<Transaction>
+  - [x] 1.4 Chamar getSession() de src/lib/auth.ts — retornar { success: false, error: "Nao autorizado" } se nao autenticado
+  - [x] 1.5 Validar com createTransactionSchema.safeParse(data) — retornar { success: false, error: "Dados invalidos" } se falhar
+  - [x] 1.6 Criar transacao via prisma.transaction.create({ data: { ...parsed.data, userId: session.userId } })
+  - [x] 1.7 Chamar revalidatePath("/") e revalidatePath("/transactions") apos criacao
+  - [x] 1.8 Retornar { success: true, data: transaction }
+  - [x] 1.9 Envolver em try/catch — retornar { success: false, error: "Erro ao salvar transacao" } em caso de excecao
+- [x] Task 2 (AC: #1, #5) Verificar schema Prisma (Transaction model)
+  - [x] 2.1 Confirmar que o model Transaction existe em prisma/schema.prisma com campos: id (String @id @default(cuid())), amount (Float), type (String), description (String?), categoryId (String), userId (String), createdAt (DateTime @default(now()))
+  - [x] 2.2 Confirmar indice @@index([userId, createdAt]) existe
+  - [x] 2.3 Confirmar indice @@index([userId, type]) existe
+  - [x] 2.4 Se indices nao existem, adicionar e rodar npx prisma db push
+- [x] Task 3 (AC: #1, #3) Integrar botao "Registrar" no BottomSheet
+  - [x] 3.1 Atualizar src/components/bottom-sheet.tsx para incluir botao "Registrar"
+  - [x] 3.2 Botao: bg-emerald-500 hover:bg-emerald-600, text-white, font-semibold, w-full, h-12, rounded-lg
+  - [x] 3.3 Usar useTransition() do React para gerenciar estado pending
+  - [x] 3.4 Durante pending: botao mostra spinner/loading e fica disabled
+  - [x] 3.5 Disabled state: quando amount === 0 OU categoryId nao selecionado OU isPending
+  - [x] 3.6 Visual disabled: opacity-50, cursor-not-allowed
+  - [x] 3.7 Campos faltantes indicados visualmente (borda vermelha ou texto de aviso)
+- [x] Task 4 (AC: #1) Conectar form state ao Server Action
+  - [x] 4.1 No handler de submit, coletar: amount (number), type ("income"/"expense"), categoryId (string), description (string opcional)
+  - [x] 4.2 Chamar startTransition(() => { createTransaction(data).then(handleResult) })
+  - [x] 4.3 handleResult verifica response.success para decidir feedback
+- [x] Task 5 (AC: #2) Implementar feedback de sucesso
+  - [x] 5.1 Animacao de pulse no botao com Framer Motion: animate={{ scale: [0.95, 1.0] }} transition={{ duration: 0.1 }}
+  - [x] 5.2 Fechar bottom sheet com animacao (300ms ease-in) apos pulse
+  - [x] 5.3 Exibir toast.success("Transacao salva") com configuracao Sonner
+  - [x] 5.4 Resetar form state (amount = 0, categoryId = null, description = "")
+- [x] Task 6 (AC: #2) Configurar Sonner toast global
+  - [x] 6.1 Garantir que <Toaster /> esta no layout (src/app/layout.tsx)
+  - [x] 6.2 Configurar Toaster: position="bottom-center", toastOptions com style dark (bg zinc-800, text zinc-50), duration 3000
+  - [x] 6.3 Toast de sucesso: icone checkmark com cor emerald-500
+- [x] Task 7 (AC: #4) Implementar feedback de erro
+  - [x] 7.1 Se response.success === false: chamar toast.error(response.error)
+  - [x] 7.2 Bottom sheet permanece aberto (NAO fechar)
+  - [x] 7.3 Botao volta ao estado normal (nao pending, nao disabled)
+  - [x] 7.4 Usuario pode corrigir e tentar novamente
 
 ## Dev Notes
 
@@ -358,10 +358,26 @@ src/app/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
+- createTransaction server action: 6 tests pass (auth, validation, success, error handling)
+- Full suite: 71 tests pass, zero regressions
+- Build: compiled successfully, no TypeScript errors
 
 ### Completion Notes List
+- Created Server Action createTransaction in src/actions/transactions.ts with zod validation, session auth, prisma create, revalidatePath for "/" and "/transactions"
+- Updated TransactionForm to include Registrar button with useTransition pending state, pulse animation (scale 0.95->1.0), spinner loading
+- Button disabled when amount=0 or no category selected, with opacity-50 visual
+- Success flow: pulse -> close bottom sheet -> toast.success("Transacao salva") with CheckCircle icon
+- Error flow: toast.error with message, bottom sheet stays open
+- Form resets after success (rawDigits, categoryId, description)
+- Configured Sonner Toaster in root layout: bottom-center, dark style (zinc-800/zinc-50/zinc-700 border), 3s duration
+- Verified Prisma schema has Transaction model with correct indices
 
 ### File List
+- src/actions/transactions.ts (NEW)
+- src/components/transaction-form.tsx (MODIFIED - added submit logic, useTransition, toast, pulse)
+- src/components/transaction-fab-wrapper.tsx (MODIFIED - pass onSuccess callback)
+- src/app/layout.tsx (MODIFIED - added Toaster)
+- src/__tests__/create-transaction.test.ts (NEW)

@@ -37,6 +37,7 @@
 generated: 2026-03-19
 last_updated: 2026-03-19
 project: live-01
+
 project_key: NOKEY
 tracking_system: file-system
 story_location: "{project-root}/_evo-output/implementation-artifacts"
@@ -58,10 +59,10 @@ development_status:
   epic-2-retrospective: optional
 
   # Epic 3: Registro de Transacoes
-  epic-3: in-progress
-  3-1-fab-e-bottom-sheet-de-registro: ready-for-dev
-  3-2-teclado-numerico-e-selecao-de-categoria: ready-for-dev
-  3-3-submissao-de-transacao-e-feedback: ready-for-dev
+  epic-3: done
+  3-1-fab-e-bottom-sheet-de-registro: done
+  3-2-teclado-numerico-e-selecao-de-categoria: done
+  3-3-submissao-de-transacao-e-feedback: done
   epic-3-retrospective: optional
 
   # Epic 4: Historico e Gestao de Transacoes

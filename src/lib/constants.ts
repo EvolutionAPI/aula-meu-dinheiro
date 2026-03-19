@@ -1,12 +1,14 @@
 export const DEFAULT_CATEGORIES = [
-  { name: 'Alimentacao', icon: '🍔', color: '#f97316' },
-  { name: 'Transporte', icon: '🚗', color: '#3b82f6' },
-  { name: 'Moradia', icon: '🏠', color: '#8b5cf6' },
-  { name: 'Lazer', icon: '🎮', color: '#ec4899' },
-  { name: 'Saude', icon: '💊', color: '#ef4444' },
-  { name: 'Educacao', icon: '📚', color: '#06b6d4' },
-  { name: 'Outros', icon: '📦', color: '#6b7280' },
+  { id: 'alimentacao', name: 'Alimentacao', icon: '🍔', color: '#f97316' },
+  { id: 'transporte', name: 'Transporte', icon: '🚗', color: '#3b82f6' },
+  { id: 'moradia', name: 'Moradia', icon: '🏠', color: '#8b5cf6' },
+  { id: 'lazer', name: 'Lazer', icon: '🎮', color: '#ec4899' },
+  { id: 'saude', name: 'Saude', icon: '💊', color: '#ef4444' },
+  { id: 'educacao', name: 'Educacao', icon: '📚', color: '#06b6d4' },
+  { id: 'outros', name: 'Outros', icon: '📦', color: '#6b7280' },
 ] as const
+
+export type Category = (typeof DEFAULT_CATEGORIES)[number]
 
 export const SALT_ROUNDS = 10
 

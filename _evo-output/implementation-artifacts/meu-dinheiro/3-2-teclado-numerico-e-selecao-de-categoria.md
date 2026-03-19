@@ -1,6 +1,6 @@
 # Story 3.2: Teclado Numerico e Selecao de Categoria
 
-Status: ready-for-dev
+Status: done
 
 **Depends on:** Story 3.1 (BottomSheet container), Story 1.1 (DEFAULT_CATEGORIES em src/lib/constants.ts, formatCurrency em src/lib/format.ts)
 
@@ -24,83 +24,83 @@ So that eu registre o valor e a categoria da transacao de forma rapida e visual.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1 (AC: #1) Criar abas Despesa/Receita e display de valor
-  - [ ] 1.1 Dentro do conteudo do BottomSheet (Story 3.1), adicionar tabs "Despesa" e "Receita"
-  - [ ] 1.2 Usar componente Tabs do shadcn/ui com customizacao visual
-  - [ ] 1.3 Aba ativa: text-emerald-500 + underline (border-b-2 border-emerald-500)
-  - [ ] 1.4 Aba inativa: text-zinc-400 sem underline
-  - [ ] 1.5 Estado: transactionType = "expense" | "income", default "expense"
-  - [ ] 1.6 Display de valor: text-3xl font-bold, text-zinc-50 se despesa, text-emerald-500 se receita
-  - [ ] 1.7 Valor inicial: "R$ 0,00" formatado via formatCurrency(0)
-  - [ ] 1.8 O estado do valor (rawDigits: string) fica no pai e e passado via props
+- [x] Task 1 (AC: #1) Criar abas Despesa/Receita e display de valor
+  - [x] 1.1 Dentro do conteudo do BottomSheet (Story 3.1), adicionar tabs "Despesa" e "Receita"
+  - [x] 1.2 Usar componente Tabs do shadcn/ui com customizacao visual
+  - [x] 1.3 Aba ativa: text-emerald-500 + underline (border-b-2 border-emerald-500)
+  - [x] 1.4 Aba inativa: text-zinc-400 sem underline
+  - [x] 1.5 Estado: transactionType = "expense" | "income", default "expense"
+  - [x] 1.6 Display de valor: text-3xl font-bold, text-zinc-50 se despesa, text-emerald-500 se receita
+  - [x] 1.7 Valor inicial: "R$ 0,00" formatado via formatCurrency(0)
+  - [x] 1.8 O estado do valor (rawDigits: string) fica no pai e e passado via props
 
-- [ ] Task 2 (AC: #2) Criar componente NumericKeypad
-  - [ ] 2.1 Criar src/components/numeric-keypad.tsx como Client Component ("use client")
-  - [ ] 2.2 Props: onDigit(digit: string), onDecimal(), onBackspace(), onClear()
-  - [ ] 2.3 Grid 3x4: botoes [1][2][3] [4][5][6] [7][8][9] [,][0][backspace]
-  - [ ] 2.4 Cada botao: w-16 (64px) h-12 (48px), bg-zinc-800, text-zinc-50, rounded-xl
-  - [ ] 2.5 Botao backspace: icone DeleteIcon (Lucide "delete") no lugar do texto
-  - [ ] 2.6 Usar grid com gap-2 e justify-center
-  - [ ] 2.7 Exportar componente com dynamic import em mente (nao usar default export)
+- [x] Task 2 (AC: #2) Criar componente NumericKeypad
+  - [x] 2.1 Criar src/components/numeric-keypad.tsx como Client Component ("use client")
+  - [x] 2.2 Props: onDigit(digit: string), onDecimal(), onBackspace(), onClear()
+  - [x] 2.3 Grid 3x4: botoes [1][2][3] [4][5][6] [7][8][9] [,][0][backspace]
+  - [x] 2.4 Cada botao: w-16 (64px) h-12 (48px), bg-zinc-800, text-zinc-50, rounded-xl
+  - [x] 2.5 Botao backspace: icone DeleteIcon (Lucide "delete") no lugar do texto
+  - [x] 2.6 Usar grid com gap-2 e justify-center
+  - [x] 2.7 Exportar componente com dynamic import em mente (nao usar default export)
 
-- [ ] Task 3 (AC: #2) Implementar feedback de press e interacoes
-  - [ ] 3.1 Cada botao wrapped em motion.button do Framer Motion
-  - [ ] 3.2 whileTap={{ scale: 0.95 }} para feedback de press
-  - [ ] 3.3 whileTap tambem aplica bg-zinc-700 (via className condicional ou animate)
-  - [ ] 3.4 transition: { duration: 0.1 } para resposta imediata
-  - [ ] 3.5 Backspace: onPointerDown inicia timer, onPointerUp/onPointerLeave cancela
-  - [ ] 3.6 Long-press (>500ms) no backspace: chama onClear() para limpar tudo
-  - [ ] 3.7 Tap normal no backspace: chama onBackspace() para remover ultimo digito
+- [x] Task 3 (AC: #2) Implementar feedback de press e interacoes
+  - [x] 3.1 Cada botao wrapped em motion.button do Framer Motion
+  - [x] 3.2 whileTap={{ scale: 0.95 }} para feedback de press
+  - [x] 3.3 whileTap tambem aplica bg-zinc-700 (via className condicional ou animate)
+  - [x] 3.4 transition: { duration: 0.1 } para resposta imediata
+  - [x] 3.5 Backspace: onPointerDown inicia timer, onPointerUp/onPointerLeave cancela
+  - [x] 3.6 Long-press (>500ms) no backspace: chama onClear() para limpar tudo
+  - [x] 3.7 Tap normal no backspace: chama onBackspace() para remover ultimo digito
 
-- [ ] Task 4 (AC: #2) Implementar logica de formatacao de valor em tempo real
-  - [ ] 4.1 Estado rawDigits (string de digitos, ex: "12345" = R$ 123,45) no componente pai
-  - [ ] 4.2 Ao digitar numero: concatenar digito ao rawDigits
-  - [ ] 4.3 Ao digitar virgula: se nao tem decimais ainda, marca posicao decimal
-  - [ ] 4.4 Limitar a 2 casas decimais apos a virgula
-  - [ ] 4.5 Limitar valor maximo (ex: 999999999 = R$ 9.999.999,99)
-  - [ ] 4.6 Converter rawDigits para numero e formatar com formatCurrency() para display
-  - [ ] 4.7 Backspace: remover ultimo caractere de rawDigits
-  - [ ] 4.8 Clear (long-press): resetar rawDigits para ""
-  - [ ] 4.9 Abordagem: tratar rawDigits como centavos (sem virgula). Ex: "12345" = 123.45
+- [x] Task 4 (AC: #2) Implementar logica de formatacao de valor em tempo real
+  - [x] 4.1 Estado rawDigits (string de digitos, ex: "12345" = R$ 123,45) no componente pai
+  - [x] 4.2 Ao digitar numero: concatenar digito ao rawDigits
+  - [x] 4.3 Ao digitar virgula: se nao tem decimais ainda, marca posicao decimal
+  - [x] 4.4 Limitar a 2 casas decimais apos a virgula
+  - [x] 4.5 Limitar valor maximo (ex: 999999999 = R$ 9.999.999,99)
+  - [x] 4.6 Converter rawDigits para numero e formatar com formatCurrency() para display
+  - [x] 4.7 Backspace: remover ultimo caractere de rawDigits
+  - [x] 4.8 Clear (long-press): resetar rawDigits para ""
+  - [x] 4.9 Abordagem: tratar rawDigits como centavos (sem virgula). Ex: "12345" = 123.45
 
-- [ ] Task 5 (AC: #3) Criar componente CategoryGrid
-  - [ ] 5.1 Criar src/components/category-grid.tsx como Client Component ("use client")
-  - [ ] 5.2 Props: categories (Category[]), selectedId (string | null), onSelect(id: string)
-  - [ ] 5.3 Importar DEFAULT_CATEGORIES de src/lib/constants.ts
-  - [ ] 5.4 Container: role="radiogroup" aria-label="Selecione uma categoria"
-  - [ ] 5.5 Grid: grid-cols-4 gap-3 (minimo 8px entre items)
-  - [ ] 5.6 Cada item: role="radio" aria-checked={selected} aria-label={category.name} tabIndex={0}
-  - [ ] 5.7 Circulo: w-14 h-14 (56px) rounded-full
-  - [ ] 5.8 Cor do circulo: backgroundColor com cor da categoria + opacity 20% (usar hex + "33")
-  - [ ] 5.9 Emoji: text-2xl (24px) centralizado no circulo
-  - [ ] 5.10 Label: text-xs text-zinc-400 mt-1 text-center truncate
-  - [ ] 5.11 Touch target: minimo 48px (o circulo de 56px ja cumpre)
+- [x] Task 5 (AC: #3) Criar componente CategoryGrid
+  - [x] 5.1 Criar src/components/category-grid.tsx como Client Component ("use client")
+  - [x] 5.2 Props: categories (Category[]), selectedId (string | null), onSelect(id: string)
+  - [x] 5.3 Importar DEFAULT_CATEGORIES de src/lib/constants.ts
+  - [x] 5.4 Container: role="radiogroup" aria-label="Selecione uma categoria"
+  - [x] 5.5 Grid: grid-cols-4 gap-3 (minimo 8px entre items)
+  - [x] 5.6 Cada item: role="radio" aria-checked={selected} aria-label={category.name} tabIndex={0}
+  - [x] 5.7 Circulo: w-14 h-14 (56px) rounded-full
+  - [x] 5.8 Cor do circulo: backgroundColor com cor da categoria + opacity 20% (usar hex + "33")
+  - [x] 5.9 Emoji: text-2xl (24px) centralizado no circulo
+  - [x] 5.10 Label: text-xs text-zinc-400 mt-1 text-center truncate
+  - [x] 5.11 Touch target: minimo 48px (o circulo de 56px ja cumpre)
 
-- [ ] Task 6 (AC: #4) Implementar selecao de categoria com feedback visual
-  - [ ] 6.1 Categoria selecionada: ring-2 ring-emerald-500 no circulo
-  - [ ] 6.2 Animacao de selecao: motion.div com scale(1.05) quando selecionada
-  - [ ] 6.3 Transicao suave: { type: "spring", stiffness: 300, damping: 20 }
-  - [ ] 6.4 Ao tocar: chamar onSelect(category.id)
-  - [ ] 6.5 Apenas uma categoria selecionada por vez (radio behavior)
-  - [ ] 6.6 Suporte a navegacao por teclado: Enter/Space para selecionar, Arrow keys para mover
+- [x] Task 6 (AC: #4) Implementar selecao de categoria com feedback visual
+  - [x] 6.1 Categoria selecionada: ring-2 ring-emerald-500 no circulo
+  - [x] 6.2 Animacao de selecao: motion.div com scale(1.05) quando selecionada
+  - [x] 6.3 Transicao suave: { type: "spring", stiffness: 300, damping: 20 }
+  - [x] 6.4 Ao tocar: chamar onSelect(category.id)
+  - [x] 6.5 Apenas uma categoria selecionada por vez (radio behavior)
+  - [x] 6.6 Suporte a navegacao por teclado: Enter/Space para selecionar, Arrow keys para mover
 
-- [ ] Task 7 (AC: #5) Implementar campo de descricao opcional
-  - [ ] 7.1 Container colapsado por padrao (height 0, overflow hidden)
-  - [ ] 7.2 Botao/area clicavel com texto "Adicionar nota..." em text-zinc-600
-  - [ ] 7.3 Ao tocar: expandir com animacao (Framer Motion AnimatePresence)
-  - [ ] 7.4 Campo expandido: input ou textarea com bg-transparent, text-zinc-50
-  - [ ] 7.5 Placeholder: "Adicionar nota..." em text-zinc-600
-  - [ ] 7.6 border-b border-zinc-700 como indicador sutil
-  - [ ] 7.7 Props: description (string), onDescriptionChange(value: string)
-  - [ ] 7.8 Ao perder foco e vazio: colapsar novamente
+- [x] Task 7 (AC: #5) Implementar campo de descricao opcional
+  - [x] 7.1 Container colapsado por padrao (height 0, overflow hidden)
+  - [x] 7.2 Botao/area clicavel com texto "Adicionar nota..." em text-zinc-600
+  - [x] 7.3 Ao tocar: expandir com animacao (Framer Motion AnimatePresence)
+  - [x] 7.4 Campo expandido: input ou textarea com bg-transparent, text-zinc-50
+  - [x] 7.5 Placeholder: "Adicionar nota..." em text-zinc-600
+  - [x] 7.6 border-b border-zinc-700 como indicador sutil
+  - [x] 7.7 Props: description (string), onDescriptionChange(value: string)
+  - [x] 7.8 Ao perder foco e vazio: colapsar novamente
 
-- [ ] Task 8 (AC: todos) Integrar componentes no BottomSheet
-  - [ ] 8.1 No componente que renderiza o conteudo do BottomSheet (Story 3.1):
-  - [ ] 8.2 Usar dynamic import para NumericKeypad e CategoryGrid
-  - [ ] 8.3 Ordem vertical: Tabs > Display Valor > NumericKeypad > CategoryGrid > DescriptionField
-  - [ ] 8.4 Gerenciar estado: transactionType, rawDigits, selectedCategoryId, description
-  - [ ] 8.5 Passar props e callbacks para cada componente filho
-  - [ ] 8.6 NAO adicionar botao de submit (Story 3.3)
+- [x] Task 8 (AC: todos) Integrar componentes no BottomSheet
+  - [x] 8.1 No componente que renderiza o conteudo do BottomSheet (Story 3.1):
+  - [x] 8.2 Usar dynamic import para NumericKeypad e CategoryGrid
+  - [x] 8.3 Ordem vertical: Tabs > Display Valor > NumericKeypad > CategoryGrid > DescriptionField
+  - [x] 8.4 Gerenciar estado: transactionType, rawDigits, selectedCategoryId, description
+  - [x] 8.5 Passar props e callbacks para cada componente filho
+  - [x] 8.6 NAO adicionar botao de submit (Story 3.3)
 
 ## Dev Notes
 
@@ -500,10 +500,30 @@ src/components/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6
 
 ### Debug Log References
+- All 29 tests pass (numeric-keypad: 9, category-grid: 11, transaction-form: 9)
 
 ### Completion Notes List
+- Implemented NumericKeypad with 3x4 grid, digit/decimal/backspace callbacks, long-press to clear (500ms), press feedback scale(0.95), touch-manipulation
+- Implemented CategoryGrid with 4-column grid, radio group semantics, selection ring, spring scale animation, 56x56px circles with 20% opacity colored backgrounds
+- Implemented DescriptionField with collapse/expand animation, blur-to-collapse behavior
+- Created TransactionForm as container managing all form state (type, rawDigits, categoryId, description) with cents-based value approach
+- Added Tabs (Despesa/Receita) using shadcn/ui with emerald-500 active state
+- Value display auto-formats using formatCurrency (R$ X.XXX,XX) with max 9 digits (R$ 9.999.999,99)
+- Added `id` field to DEFAULT_CATEGORIES for proper selection tracking
+- Exported Category type from constants.ts
+- Integrated TransactionForm into TransactionFabWrapper/BottomSheet
 
 ### File List
+- src/components/numeric-keypad.tsx (NEW)
+- src/components/category-grid.tsx (NEW)
+- src/components/description-field.tsx (NEW)
+- src/components/transaction-form.tsx (NEW)
+- src/components/transaction-fab-wrapper.tsx (MODIFIED)
+- src/components/ui/tabs.tsx (NEW - shadcn/ui)
+- src/lib/constants.ts (MODIFIED - added id field and Category type)
+- src/__tests__/numeric-keypad.test.tsx (NEW)
+- src/__tests__/category-grid.test.tsx (NEW)
+- src/__tests__/transaction-form.test.tsx (NEW)
