@@ -12,6 +12,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "MeuDinheiro",
   description: "Controle financeiro pessoal simples e bonito",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -24,6 +27,9 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${inter.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+      </head>
       <body className="min-h-full flex flex-col">
         <DesktopWrapper>
         {children}
