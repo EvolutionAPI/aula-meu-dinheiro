@@ -43,7 +43,7 @@ export function HeroCard({
   return (
     <div
       className="rounded-2xl bg-zinc-800 p-4 shadow-lg"
-      style={{ borderLeft: `4px solid ${semaphoreColor}` }}
+      style={{ borderLeft: `4px solid ${balance >= 0 ? "#10b981" : "#ef4444"}` }}
       aria-label={`Saldo atual: ${isHidden ? "oculto" : formatCurrency(balance)}. Status: ${semaphoreLabel}`}
       aria-live="polite"
     >
@@ -52,7 +52,8 @@ export function HeroCard({
         <AnimatedCounter
           value={balance}
           isHidden={isHidden}
-          className="text-3xl font-bold tracking-tight text-zinc-50"
+          className="text-3xl font-bold tracking-tight"
+          style={{ color: balance >= 0 ? "#10b981" : "#ef4444" }}
         />
       </div>
       <p className="mt-2 text-xs text-zinc-400">

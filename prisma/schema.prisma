@@ -24,6 +24,7 @@ model Category {
   name         String
   icon         String
   color        String
+  type         String        @default("expense")
   userId       String
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]

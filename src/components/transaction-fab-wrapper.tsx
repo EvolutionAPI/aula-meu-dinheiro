@@ -15,6 +15,7 @@ interface CategoryData {
   name: string
   icon: string
   color: string
+  type: string
 }
 
 interface TransactionFabWrapperProps {

@@ -123,7 +123,7 @@ export function BottomSheet({ isOpen, onClose, children }: BottomSheetProps) {
             aria-modal="true"
             aria-label="Registrar transacao"
             tabIndex={-1}
-            className="fixed bottom-0 left-0 right-0 z-50 mx-auto h-[85vh] max-w-[428px] rounded-t-2xl bg-zinc-900 outline-none"
+            className="fixed bottom-0 left-0 right-0 z-50 mx-auto h-[75%] w-full max-w-[428px] rounded-t-2xl bg-zinc-900 outline-none"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}

@@ -79,6 +79,7 @@ export async function completeOnboarding(
       name: cat.name,
       icon: cat.icon,
       color: cat.color,
+      type: cat.type,
       userId: user.id,
     })),
   })

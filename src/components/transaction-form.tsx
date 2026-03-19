@@ -17,6 +17,7 @@ interface CategoryData {
   name: string
   icon: string
   color: string
+  type: string
 }
 
 interface TransactionFormProps {
@@ -35,6 +36,10 @@ export function TransactionForm({ onSuccess, categories }: TransactionFormProps)
 
   const numericValue = rawDigits.length > 0 ? parseInt(rawDigits, 10) / 100 : 0
   const displayValue = formatCurrency(numericValue)
+
+  const filteredCategories = categories.filter(
+    (cat) => cat.type === transactionType || cat.type === "both"
+  )
 
   const isFormValid = numericValue > 0 && selectedCategoryId !== null
 
@@ -110,6 +115,7 @@ export function TransactionForm({ onSuccess, categories }: TransactionFormProps)
         defaultValue={0}
         onValueChange={(value) => {
           setTransactionType(value === 0 ? "expense" : "income")
+          setSelectedCategoryId(null)
         }}
       >
         <TabsList
@@ -166,7 +172,7 @@ export function TransactionForm({ onSuccess, categories }: TransactionFormProps)
       {/* Grid de categorias */}
       <div>
         <CategoryGrid
-          categories={categories}
+          categories={filteredCategories}
           selectedId={selectedCategoryId}
           onSelect={setSelectedCategoryId}
         />

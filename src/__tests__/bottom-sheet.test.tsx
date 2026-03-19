@@ -154,7 +154,7 @@ describe("BottomSheet", () => {
     )
     const dialog = screen.getByRole("dialog")
     expect(dialog.className).toContain("max-w-[428px]")
-    expect(dialog.className).toContain("h-[85vh]")
+    expect(dialog.className).toContain("h-[75%]")
     expect(dialog.className).toContain("rounded-t-2xl")
     expect(dialog.className).toContain("bg-zinc-900")
   })

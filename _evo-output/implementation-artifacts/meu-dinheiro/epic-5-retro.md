@@ -10,7 +10,7 @@
 
 | Metrica | Valor |
 |---------|-------|
-| Stories Completadas | 1/2 (50%) |
+| Stories Completadas | 2/3 (67%) |
 | Stories Canceladas | 1 (5.2 - Toggle de tema) |
 | Testes Criados | 19 (7 getInitials + 7 UserAvatar + 4 LogoutButton + 1 null safety) |
 | Total Acumulado | 117 testes passando |
@@ -20,6 +20,7 @@
 **Stories:**
 1. 5.1 - Tela de Perfil com Avatar e Informacoes — **done**
 2. 5.2 - Toggle de Tema Escuro e Claro — **cancelled** (decisao do usuario)
+3. 5.3 - Desktop Phone Frame com Guia do Aluno — **done**
 
 ---
 
@@ -31,11 +32,15 @@
 
 3. **Semantic HTML completo** — h1 sr-only, h2 para secoes, sections com aria-label, role="img" no avatar. Touch targets >= 48px em todos os items.
 
-4. **Code review encontrou issues reais** — Cores hardcoded substituidas por CSS variables (text-foreground, bg-card, divide-border). "use client" desnecessario removido do LogoutButton. Story 5.2 com tasks falsamente marcadas como completas.
+4. **Code review encontrou issues reais** — Cores hardcoded substituidas por CSS variables. "use client" desnecessario removido do LogoutButton. Story 5.2 com tasks falsamente marcadas como completas.
 
 5. **LogoutButton como Server Component** — form action={logout} funciona sem "use client". Menos JavaScript no client.
 
-6. **Decisao rapida do usuario sobre tema** — Davidson decidiu manter dark-only. Implementacao revertida limpa, sem codigo morto.
+6. **Story 5.3 — Phone frame no desktop** — CSS `transform: translateZ(0)` cria containing block que contem todos os elementos `fixed` (BottomNav, FAB, BottomSheet) dentro do frame do celular. Solucao elegante sem mudar nenhum componente existente.
+
+7. **Categorias separadas por tipo** — Despesas e receitas com categorias diferentes. Auto-migration para contas existentes no layout do app.
+
+8. **Cor do saldo intuitiva** — Verde quando positivo, vermelho quando negativo. Simples e claro.
 
 ---
 
@@ -43,21 +48,25 @@
 
 1. **Story 5.2 implementada e depois revertida** — Tempo gasto implementando ThemeToggle, anti-FOUC, CSS transitions que depois foram removidos. Poderia ter sido evitado com alinhamento antes de implementar.
 
-2. **CSS variables vs cores hardcoded** — Pagina de perfil usava text-zinc-100, bg-zinc-800 diretamente ao inves de text-foreground, bg-card. Corrigido no code review, mas deveria ser padrao desde o inicio.
+2. **CSS variables vs cores hardcoded** — Pagina de perfil usava text-zinc-100, bg-zinc-800 diretamente. Corrigido no code review.
 
-3. **switch.tsx orfao** — Componente shadcn instalado para Story 5.2 ficou sem uso apos cancelamento. Removido no code review.
+3. **Phone frame exigiu varios ajustes** — Posicionamento do FAB (right calc negativo), BottomSheet (h-[85vh] muito grande), BottomNav (fixed fora do frame), scrollbar branco. Cada um foi um fix separado. Testes em desktop deveriam ter sido feitos antes de marcar como done.
 
-4. **Story file com tasks falsamente marcadas** — Story 5.2 tinha todas as tasks [x] mas o codigo foi deletado. Code review detectou e corrigiu para status "cancelled".
+4. **Categorias de receita nao apareciam** — Contas existentes nao tinham as novas categorias. Precisou de auto-migration no layout. Schema change (campo type) sem migration formal.
+
+5. **Semaforo do hero card confuso** — Logica original (baseada em % da renda) mostrava vermelho com saldo positivo. Simplificado para verde/vermelho baseado em positivo/negativo.
 
 ---
 
 ## Licoes Aprendidas
 
 1. **Alinhar com o usuario ANTES de implementar** features opcionais — evita retrabalho
-2. **Usar CSS variables sempre** (text-foreground, bg-card) ao inves de cores hardcoded (text-zinc-100, bg-zinc-800) — prepara para temas futuros
-3. **form action={serverAction} nao precisa de "use client"** — formularios HTML nativos funcionam sem JavaScript
-4. **Code review deve verificar git reality vs story claims** — tasks marcadas como completas devem ter evidencia no codigo
-5. **Limpar artefatos de features canceladas** — componentes, testes e dependencias orfas devem ser removidos
+2. **CSS `transform` cria containing block** para elementos `fixed` — util para phone frames e modais contidos
+3. **Testar em TODOS os breakpoints** antes de marcar done — desktop e mobile
+4. **Auto-migration de dados** e necessaria quando schema muda e ha dados existentes
+5. **Simplicidade > complexidade** na UX — saldo verde/vermelho e mais intuitivo que semaforo com 3 niveis
+6. **Code review deve verificar git reality** vs story claims
+7. **Limpar artefatos de features canceladas** imediatamente
 
 ---
 
@@ -66,7 +75,8 @@
 | Item | Prioridade | Status |
 |------|-----------|--------|
 | .light CSS variables em globals.css sem uso | Baixa | Pode ser removido se dark-only permanente |
-| FR24 (toggle de tema) nao implementado | N/A | Cancelado por decisao do usuario |
+| Auto-migration de categorias no layout (query extra) | Baixa | Roda apenas uma vez por usuario |
+| Sem migration formal do Prisma (usando db push) | Baixa | Aceitavel para MVP |
 
 ---
 
@@ -80,9 +90,9 @@ Com a Epic 5 concluida, o MVP do MeuDinheiro esta completo:
 | Epic 2: Dashboard e Visualizacao | Done | 3/3 |
 | Epic 3: Registro de Transacoes | Done | 3/3 |
 | Epic 4: Historico e Gestao | Done | 2/2 |
-| Epic 5: Perfil e Personalizacao | Done (1 cancelada) | 1/2 |
+| Epic 5: Perfil e Personalizacao | Done (1 cancelada) | 2/3 |
 
-**Total: 13 stories done, 1 cancelled, 117 testes, 0 incidentes**
+**Total: 14 stories done, 1 cancelled, 117 testes, 0 incidentes**
 
 ---
 
@@ -91,4 +101,5 @@ Com a Epic 5 concluida, o MVP do MeuDinheiro esta completo:
 1. Sempre usar CSS variables ao inves de cores Tailwind hardcoded
 2. Alinhar features opcionais com o usuario antes de implementar
 3. Code review deve cross-check git diff vs story file claims
-4. Remover artefatos de features canceladas imediatamente
+4. Testar em desktop E mobile antes de marcar done
+5. Remover artefatos de features canceladas imediatamente

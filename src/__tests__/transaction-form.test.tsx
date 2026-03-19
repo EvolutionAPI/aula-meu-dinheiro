@@ -55,13 +55,13 @@ vi.mock("@/actions/transactions", () => ({
 }))
 
 const MOCK_CATEGORIES = [
-  { id: "cat-1", name: "Alimentacao", icon: "🍔", color: "#f97316" },
-  { id: "cat-2", name: "Transporte", icon: "🚗", color: "#3b82f6" },
-  { id: "cat-3", name: "Moradia", icon: "🏠", color: "#8b5cf6" },
-  { id: "cat-4", name: "Lazer", icon: "🎮", color: "#ec4899" },
-  { id: "cat-5", name: "Saude", icon: "💊", color: "#ef4444" },
-  { id: "cat-6", name: "Educacao", icon: "📚", color: "#06b6d4" },
-  { id: "cat-7", name: "Outros", icon: "📦", color: "#6b7280" },
+  { id: "cat-1", name: "Alimentacao", icon: "🍔", color: "#f97316", type: "expense" },
+  { id: "cat-2", name: "Transporte", icon: "🚗", color: "#3b82f6", type: "expense" },
+  { id: "cat-3", name: "Moradia", icon: "🏠", color: "#8b5cf6", type: "expense" },
+  { id: "cat-4", name: "Lazer", icon: "🎮", color: "#ec4899", type: "expense" },
+  { id: "cat-5", name: "Saude", icon: "💊", color: "#ef4444", type: "expense" },
+  { id: "cat-6", name: "Educacao", icon: "📚", color: "#06b6d4", type: "expense" },
+  { id: "cat-7", name: "Outros", icon: "📦", color: "#6b7280", type: "both" },
 ]
 
 // Helper to find the value display span

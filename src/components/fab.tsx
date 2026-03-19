@@ -31,7 +31,7 @@ export function Fab({ onClick, disabled }: FabProps) {
       )}
       style={{
         bottom: "calc(64px + env(safe-area-inset-bottom) + 16px)",
-        right: "max(24px, calc((100vw - 428px) / 2 + 24px))",
+        right: 24,
       }}
     >
       <Plus className="h-6 w-6 text-white" strokeWidth={2.5} />

@@ -13,12 +13,14 @@ import { cn } from "@/lib/utils"
 interface AnimatedCounterProps {
   value: number
   className?: string
+  style?: React.CSSProperties
   isHidden?: boolean
 }
 
 export function AnimatedCounter({
   value,
   className,
+  style,
   isHidden,
 }: AnimatedCounterProps) {
   const shouldReduceMotion = useReducedMotion()
@@ -41,20 +43,20 @@ export function AnimatedCounter({
 
   if (isHidden) {
     return (
-      <span className={cn("tabular-nums", className)}>R$ ••••••</span>
+      <span className={cn("tabular-nums", className)} style={style}>R$ ••••••</span>
     )
   }
 
   if (shouldReduceMotion) {
     return (
-      <span className={cn("tabular-nums", className)}>
+      <span className={cn("tabular-nums", className)} style={style}>
         {formatCurrency(value)}
       </span>
     )
   }
 
   return (
-    <motion.span className={cn("tabular-nums", className)}>
+    <motion.span className={cn("tabular-nums", className)} style={style}>
       {display}
     </motion.span>
   )
