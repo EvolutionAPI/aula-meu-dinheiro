@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kit de Fechamento — Classe 1</title>
+<style>
+  :root {
+    --green: #00ffa7;
+    --green-dim: #39ffa8;
+    --green-muted: #9ff5c8;
+    --green-faint: rgba(0,255,167,.08);
+    --bg: #050812;
+    --surface: #0b1225;
+    --surface2: #111a30;
+    --border: rgba(255,255,255,.1);
+    --text: #dde9f5;
+    --text-muted: #7a9bb5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+  html { scrollbar-width: thin; scrollbar-color: #3f3f46 transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    font-size: 20px;
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  header {
+    background: linear-gradient(160deg, #0d1a2e 0%, #050812 60%);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 40px 56px;
+    text-align: center;
+  }
+
+  .live-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,255,167,.4);
+    background: rgba(0,255,167,.1);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  header h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  header h1 span { color: var(--green); }
+
+  header p {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 32px 120px;
+  }
+
+  section { margin-bottom: 72px; }
+
+  .section-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  section h2 {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .section-sub {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  p { margin-bottom: 16px; color: var(--text); }
+  ul, ol { padding-left: 22px; margin-bottom: 20px; }
+  li { margin-bottom: 6px; }
+  strong { color: #fff; font-weight: 600; }
+
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  @media (max-width: 640px) {
+    .grid2 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--green-muted);
+    margin-bottom: 12px;
+  }
+
+  .card ul { margin-bottom: 0; }
+
+  .callout {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 18px;
+    border-left: 3px solid;
+  }
+
+  .callout-info {
+    background: rgba(0,150,255,.08);
+    border-color: #4da6ff;
+    color: #a8d4ff;
+  }
+
+  .callout-warn {
+    background: rgba(255,180,0,.07);
+    border-color: #ffb84d;
+    color: #ffd699;
+  }
+
+  .callout-ok {
+    background: rgba(0,255,167,.07);
+    border-color: var(--green);
+    color: var(--green-muted);
+  }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 18px;
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0,255,167,.15);
+    border: 1px solid rgba(0,255,167,.4);
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--green);
+  }
+
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 18px;
+  }
+
+  .steps li:last-child { border-bottom: none; }
+
+  .steps li::before {
+    content: counter(step);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  blockquote {
+    margin: 24px 0;
+    padding: 20px 24px;
+    background: var(--green-faint);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    font-size: 17px;
+    color: #c5ffe0;
+    font-style: italic;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  .score-box {
+    margin-top: 24px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  @media print {
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    body { background: var(--bg) !important; color: var(--text) !important; }
+    header { background: linear-gradient(160deg, #0d1a2e 0%, #050812 60%) !important; }
+    .card, .code-block, pre, .callout, .callout-info, .callout-warn, .callout-ok, blockquote { background-color: var(--surface) !important; }
+    .callout-info { background: rgba(0,150,255,.08) !important; }
+    .callout-warn { background: rgba(255,180,0,.07) !important; }
+    .callout-ok { background: rgba(0,255,167,.07) !important; }
+    blockquote { background: var(--green-faint) !important; }
+    .check-icon { background: rgba(0,255,167,.15) !important; border: 1px solid rgba(0,255,167,.4) !important; }
+    .live-badge { background: rgba(0,255,167,.1) !important; border: 1px solid rgba(0,255,167,.4) !important; }
+    section { break-inside: avoid; }
+    .grid2 { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="margin-bottom:20px;"><img src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDc5IiBoZWlnaHQ9IjkxIiB2aWV3Qm94PSIwIDAgNDc5IDkxIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTQwLjM3OCA1Ljk2Nzc3QzE0Mi42MTEgMC45MTU3NTIgMTQ4LjUzMyAtMS4zODUzOCAxNTMuNTkgMC44NjIyODFDMTU4LjY2NCAzLjA5NDU3IDE2MC45ODEgOS4wMjUwNSAxNTguNzMxIDE0LjA5MjVDMTU2LjcxNCAxOC42NjggMTUxLjY2NyAyMC45NzcxIDE0Ni45NzMgMTkuNzAzM0wxNDAuMTk4IDMzLjE0NThDMTQ3LjI1OSAzNy42NzY5IDE1MS45MzcgNDUuNTk3MyAxNTEuOTM3IDU0LjYxMDJDMTUxLjkzNyA2MC4xODMzIDE1MC4xNDggNjUuMzM4MiAxNDcuMTEzIDY5LjUzMjhMMTU2LjQyOCA3NC45MDc1QzE1OC44NTIgNzIuODgwNiAxNjIuMzE3IDcyLjI2NDcgMTY1LjQxOSA3My42MjYyQzE2OS43NzcgNzUuNTQ5MiAxNzEuNzQzIDgwLjYxOTggMTY5LjgzMyA4NC45NzM0QzE2Ny45MjQgODkuMjk0NiAxNjIuODU4IDkxLjI3ODkgMTU4LjUwMSA4OS4zNTZMMTU4LjQ4NyA4OS4zMDYyQzE1NC4yMjQgODcuNDIwMSAxNTIuMjUzIDgyLjQ3OTIgMTUzLjk5OSA3OC4xODI3TDE0NC40MzYgNzIuNjY3MkMxMzkuODI3IDc3LjI1NzMgMTMzLjQ3MSA4MC4wOTUgMTI2LjQ1MyA4MC4wOTVDMTEyLjM3OCA4MC4wOTUgMTAwLjk2OCA2OC42ODUxIDEwMC45NjggNTQuNjEwMkMxMDAuOTY4IDQwLjUzNTQgMTEyLjM3OCAyOS4xMjU0IDEyNi40NTMgMjkuMTI1NEMxMzAuMDUzIDI5LjEyNTQgMTMzLjQ3OSAyOS44NzIzIDEzNi41ODUgMzEuMjE5M0wxNDMuMzI1IDE3Ljg0NjRDMTM5Ljg0NyAxNS4wODkgMTM4LjUwNCAxMC4yMjU5IDE0MC4zNzggNS45Njc3N1pNMTI2LjQ1MyA0MS43NDY1QzExOS4zNDggNDEuNzQ2NSAxMTMuNTg5IDQ3LjUwNTggMTEzLjU4OSA1NC42MTAyQzExMy41ODkgNjEuNzE0NyAxMTkuMzQ4IDY3LjQ3NCAxMjYuNDUzIDY3LjQ3NEMxMzMuNTU3IDY3LjQ3NCAxMzkuMzE2IDYxLjcxNDcgMTM5LjMxNiA1NC42MTAyQzEzOS4zMTYgNDcuNTA1OCAxMzMuNTU3IDQxLjc0NjUgMTI2LjQ1MyA0MS43NDY1WiIgZmlsbD0iIzAwRkZBNyIvPgo8cGF0aCBkPSJNMTAwLjg2NCAzMS43NDhMODEuNTQzNSA3Ny41MzczSDY3Ljg0MDhMNDguNjA2IDMxLjc0OEg2Mi4zMDg3TDc0Ljk5MDEgNjIuODk4M0w4OC4wOTcgMzEuNzQ4SDEwMC44NjRaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjYuNDY5MiA2Ny41Nzg2QzI4Ljg1MjMgNjcuNTc4NiAzMC45NTE3IDY3LjIzODIgMzIuNzY3NCA2Ni41NTczQzM0LjYzOTggNjUuODE5NyAzNi4zNzA0IDY0LjY4NDkgMzcuOTU5MSA2My4xNTI5TDQ1LjAyMzIgNzAuODEyOEM0MC43MTEgNzUuNzQ5MiAzNC40MTI4IDc4LjIxNzQgMjYuMTI4OCA3OC4yMTc0QzIwLjk2NTQgNzguMjE3NCAxNi4zOTc5IDc3LjIyNDQgMTIuNDI2MSA3NS4yMzg1QzguNDU0MjcgNzMuMTk1OSA1LjM5MDMgNzAuMzg3MyAzLjIzNDE4IDY2LjgxMjZDMS4wNzgwNiA2My4yMzggMCA1OS4xODExIDAgNTQuNjQxOUMwIDUwLjE1OTQgMS4wNDk2OSA0Ni4xMzA5IDMuMTQ5MDcgNDIuNTU2M0M1LjMwNTE5IDM4LjkyNDkgOC4yMjczMSAzNi4xMTYzIDExLjkxNTQgMzQuMTMwNEMxNS42NjAzIDMyLjA4NzcgMTkuODU5IDMxLjA2NjQgMjQuNTExNyAzMS4wNjY0QzI4Ljg4MDcgMzEuMDY2NCAzMi44NTI1IDMyLjAwMjYgMzYuNDI3MSAzMy44NzVDNDAuMDAxNyAzNS42OTA3IDQyLjgzODcgMzguMzU3NSA0NC45MzgxIDQxLjg3NTRDNDcuMDk0MiA0NS4zMzY1IDQ4LjE3MjMgNDkuNDUwMiA0OC4xNzIzIDU0LjIxNjNMMTQuMjk4NSA2MC43Njk4QzE1LjI2MzEgNjMuMDM5NCAxNi43NjY3IDY0Ljc0MTYgMTguODA5MyA2NS44NzY0QzIwLjkwODcgNjcuMDExMiAyMy40NjIgNjcuNTc4NiAyNi40NjkyIDY3LjU3ODZaTTI0LjUxMTcgNDEuMTA5NEMyMS4xNjQgNDEuMTA5NCAxOC40NDA1IDQyLjE4NzUgMTYuMzQxMSA0NC4zNDM2QzE0LjI0MTggNDYuNDk5NyAxMy4xMzUzIDQ5LjQ3ODUgMTMuMDIxOCA1My4yODAxTDM1LjMyMDcgNDguOTM5NUMzNC42OTY1IDQ2LjU1NjQgMzMuNDE5OSA0NC42NTU2IDMxLjQ5MDcgNDMuMjM3MUMyOS41NjE2IDQxLjgxODYgMjcuMjM1MiA0MS4xMDk0IDI0LjUxMTcgNDEuMTA5NFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik00NDIuODU4IDMzLjE4MzZINDQ3LjU0OUw0NjAuNzMzIDU0LjI5NTRINDYxLjEyNEw0NzQuMzA4IDMzLjE4MzZINDc5TDQ2Mi45NDkgNTguNDAwNVY3Ny42NjYxSDQ1OC45MDlWNTguNDAwNUw0NDIuODU4IDMzLjE4MzZaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMzkzLjE1MiAzMy4xODM2SDM5Ny44NDNMNDEzLjk4MSA3MS45MzJINDE0LjM3Mkw0MzAuNTEgMzMuMTgzNkg0MzUuMjAyVjc3LjY2NjFINDMxLjM3OVY0MS43NjNINDMxLjAzMkw0MTYuMDIzIDc3LjY2NjFINDEyLjMzMUwzOTcuMzIyIDQxLjc2M0gzOTYuOTc1Vjc3LjY2NjFIMzkzLjE1MlYzMy4xODM2WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTM1Ni44MzYgNzcuNjY2MVYzMy4xODM2SDM4Mi42MzlWMzYuODMyNUgzNjAuODk4VjUzLjU3ODdIMzgxLjI3MVY1Ny4yMjc2SDM2MC44OThWNzQuMDE3MkgzODMuMDc0Vjc3LjY2NjFIMzU2LjgzNloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0zMjUuOTY3IDc3LjY2NjFIMzEyLjkzNVYzMy4xODM2SDMyNi43NDhDMzMwLjk5MSAzMy4xODM2IDMzNC42MTggMzQuMDY2OSAzMzcuNjMgMzUuODMzNEMzNDAuNjU3IDM3LjYgMzQyLjk3MyA0MC4xMzQgMzQ0LjU4MSA0My40MzU0QzM0Ni4xODggNDYuNzM2OSAzNDYuOTkyIDUwLjY5NzEgMzQ2Ljk5MiA1NS4zMTYzQzM0Ni45OTIgNTkuOTc4OCAzNDYuMTY2IDYzLjk4MjUgMzQ0LjUxNSA2Ny4zMjc0QzM0Mi44NzkgNzAuNjU3OCAzNDAuNDkgNzMuMjEzNSAzMzcuMzQ4IDc0Ljk5NDZDMzM0LjIyIDc2Ljc3NTYgMzMwLjQyNiA3Ny42NjYxIDMyNS45NjcgNzcuNjY2MVpNMzE2Ljk5NiA3NC4wMTcySDMyNS43MjhDMzI5LjU1IDc0LjAxNzIgMzMyLjc1IDczLjI2NDIgMzM1LjMyOCA3MS43NTgzQzMzNy45MDUgNzAuMjUyNCAzMzkuODM4IDY4LjEwMjEgMzQxLjEyNyA2NS4zMDc0QzM0Mi40MTYgNjIuNTEyOCAzNDMuMDYgNTkuMTgyNCAzNDMuMDYgNTUuMzE2M0MzNDMuMDQ2IDUxLjQ3OTEgMzQyLjQwOSA0OC4xNzc2IDM0MS4xNDkgNDUuNDExOUMzMzkuOTA0IDQyLjY0NjMgMzM4LjA1IDQwLjUyNDkgMzM1LjU4OSAzOS4wNDhDMzMzLjE0MSAzNy41NzEgMzMwLjExNSAzNi44MzI1IDMyNi41MSAzNi44MzI1SDMxNi45OTZWNzQuMDE3MloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yNzIuODYxIDc3LjY2NjFIMjY4LjYwNEwyODQuNzg1IDMzLjE4MzZIMjg5LjEyOUwzMDUuMzExIDc3LjY2NjFIMzAxLjA1NEwyODcuMTA5IDM4LjQ2MTZIMjg2LjgwNUwyNzIuODYxIDc3LjY2NjFaTTI3NS45MjQgNjAuNjE1OUgyOTcuOTkxVjY0LjI2NDlIMjc1LjkyNFY2MC42MTU5WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI2My4yNTYgNDcuMDg1MUgyNTkuMTcyQzI1OC44NjggNDUuNTY0NyAyNTguMzE4IDQ0LjE2MDIgMjU3LjUyMSA0Mi44NzE0QzI1Ni43NCA0MS41NjgyIDI1NS43NTUgNDAuNDMxNiAyNTQuNTY4IDM5LjQ2MTRDMjUzLjM4IDM4LjQ5MTIgMjUyLjAzNCAzNy43MzgzIDI1MC41MjggMzcuMjAyNUMyNDkuMDIyIDM2LjY2NjggMjQ3LjM5MyAzNi4zOTg5IDI0NS42NDEgMzYuMzk4OUMyNDIuODMyIDM2LjM5ODkgMjQwLjI2OSAzNy4xMzAxIDIzNy45NTIgMzguNTkyNkMyMzUuNjQ5IDQwLjA1NTEgMjMzLjgwMyA0Mi4yMDU0IDIzMi40MTMgNDUuMDQzNEMyMzEuMDM4IDQ3Ljg2NyAyMzAuMzUgNTEuMzI3OCAyMzAuMzUgNTUuNDI1NkMyMzAuMzUgNTkuNTUyNCAyMzEuMDM4IDYzLjAyNzYgMjMyLjQxMyA2NS44NTEyQzIzMy44MDMgNjguNjc0OCAyMzUuNjQ5IDcwLjgxNzggMjM3Ljk1MiA3Mi4yODAzQzI0MC4yNjkgNzMuNzI4MyAyNDIuODMyIDc0LjQ1MjMgMjQ1LjY0MSA3NC40NTIzQzI0Ny4zOTMgNzQuNDUyMyAyNDkuMDIyIDc0LjE4NDQgMjUwLjUyOCA3My42NDg3QzI1Mi4wMzQgNzMuMTEyOSAyNTMuMzggNzIuMzY3MiAyNTQuNTY4IDcxLjQxMTVDMjU1Ljc1NSA3MC40NDEzIDI1Ni43NCA2OS4zMDQ3IDI1Ny41MjEgNjguMDAxNUMyNTguMzE4IDY2LjY5ODMgMjU4Ljg2OCA2NS4yODY1IDI1OS4xNzIgNjMuNzY2MUgyNjMuMjU2QzI2Mi44OTQgNjUuODA3NyAyNjIuMjEzIDY3LjcxMTkgMjYxLjIxNCA2OS40Nzg0QzI2MC4yMjkgNzEuMjMwNSAyNTguOTY5IDcyLjc2NTQgMjU3LjQzNSA3NC4wODMxQzI1NS45MTQgNzUuNDAwNyAyNTQuMTYyIDc2LjQyODggMjUyLjE3OCA3Ny4xNjczQzI1MC4xOTUgNzcuOTA1OCAyNDguMDE1IDc4LjI3NSAyNDUuNjQxIDc4LjI3NUMyNDEuOTA1IDc4LjI3NSAyMzguNTg5IDc3LjM0MTEgMjM1LjY5MyA3NS40NzMxQzIzMi43OTcgNzMuNTkwNyAyMzAuNTI0IDcwLjk0MDkgMjI4Ljg3MyA2Ny41MjM2QzIyNy4yMzcgNjQuMTA2MyAyMjYuNDE4IDYwLjA3MzcgMjI2LjQxOCA1NS40MjU2QzIyNi40MTggNTAuNzc3NSAyMjcuMjM3IDQ2Ljc0NDggMjI4Ljg3MyA0My4zMjc2QzIzMC41MjQgMzkuOTEwMyAyMzIuNzk3IDM3LjI2NzcgMjM1LjY5MyAzNS4zOTk4QzIzOC41ODkgMzMuNTE3NCAyNDEuOTA1IDMyLjU3NjIgMjQ1LjY0MSAzMi41NzYyQzI0OC4wMTUgMzIuNTc2MiAyNTAuMTk1IDMyLjk0NTQgMjUyLjE3OCAzMy42ODM5QzI1NC4xNjIgMzQuNDA3OSAyNTUuOTE0IDM1LjQzNiAyNTcuNDM1IDM2Ljc2ODFDMjU4Ljk2OSAzOC4wODU4IDI2MC4yMjkgMzkuNjIwNyAyNjEuMjE0IDQxLjM3MjhDMjYyLjIxMyA0My4xMjQ4IDI2Mi44OTQgNDUuMDI5IDI2My4yNTYgNDcuMDg1MVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xOTAuNDM0IDc3LjY2NjFIMTg2LjE3N0wyMDIuMzU4IDMzLjE4MzZIMjA2LjcwMkwyMjIuODg0IDc3LjY2NjFIMjE4LjYyNkwyMDQuNjgyIDM4LjQ2MTZIMjA0LjM3OEwxOTAuNDM0IDc3LjY2NjFaTTE5My40OTYgNjAuNjE1OUgyMTUuNTY0VjY0LjI2NDlIMTkzLjQ5NlY2MC42MTU5WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==' alt='EVO Academy' style="height:40px;width:auto;filter:drop-shadow(0 0 10px rgba(0,255,157,.25));"></div>
+  <div class="live-badge">P&oacute;s-Live 04 &middot; Material ass&iacute;ncrono</div>
+  <h1>Kit de Fechamento<br><span>Classe 1</span></h1>
+  <p>Autoavalia&ccedil;&atilde;o, plano de consolida&ccedil;&atilde;o e encerramento oficial</p>
+</header>
+
+<div class="container">
+
+  <!-- RUBRICA -->
+  <section id="rubrica">
+    <div class="section-label">Autoavalia&ccedil;&atilde;o</div>
+    <h2>Rubrica &mdash; como voc&ecirc; se saiu?</h2>
+    <p class="section-sub">Avalie cada item de 0 a 2. M&iacute;nimo para aprova&ccedil;&atilde;o: <strong>8 de 10</strong>.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>1. Escopo claro (0/1/2)</h3>
+        <ul>
+          <li><strong>0</strong> &mdash; N&atilde;o definiu problema ou escopo ficou gen&eacute;rico</li>
+          <li><strong>1</strong> &mdash; Problema definido mas escopo transbordou ou ficou vago</li>
+          <li><strong>2</strong> &mdash; Problema em 1 frase, MVP fechado, out-of-scope expl&iacute;cito</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>2. Execu&ccedil;&atilde;o guiada por artefatos (0/1/2)</h3>
+        <ul>
+          <li><strong>0</strong> &mdash; Pulou etapas ou gerou docs sem usar</li>
+          <li><strong>1</strong> &mdash; Gerou docs mas n&atilde;o seguiu na implementa&ccedil;&atilde;o</li>
+          <li><strong>2</strong> &mdash; Pipeline EVO seguida &mdash; cada doc alimentou o pr&oacute;ximo</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>3. Deploy funcional (0/1/2)</h3>
+        <ul>
+          <li><strong>0</strong> &mdash; N&atilde;o fez deploy ou app n&atilde;o funciona</li>
+          <li><strong>1</strong> &mdash; Deploy feito mas com erros ou sem dom&iacute;nio</li>
+          <li><strong>2</strong> &mdash; App em produ&ccedil;&atilde;o, dom&iacute;nio com HTTPS, fluxo completo funcionando</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>4. Qualidade m&iacute;nima (0/1/2)</h3>
+        <ul>
+          <li><strong>0</strong> &mdash; Sem review, commits bagun&ccedil;ados</li>
+          <li><strong>1</strong> &mdash; Review parcial ou commits sem padr&atilde;o</li>
+          <li><strong>2</strong> &mdash; Code review antes de cada commit, commits sem&acirc;nticos organizados</li>
+        </ul>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3>5. Flu&ecirc;ncia no workflow EVO + Claude (0/1/2)</h3>
+        <ul>
+          <li><strong>0</strong> &mdash; N&atilde;o conseguiu operar os comandos sozinho</li>
+          <li><strong>1</strong> &mdash; Operou com ajuda constante, travou em v&aacute;rios momentos</li>
+          <li><strong>2</strong> &mdash; Navegou o workflow com autonomia, soube destravar quando travou</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="score-box">
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 8px;">SUA NOTA</p>
+      <p style="font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 4px;">__ <span style="color: var(--text-muted); font-size: 20px;">/ 10</span></p>
+      <p style="font-size: 15px; color: var(--text-muted); margin: 0;">Aprovado: <strong style="color: var(--green);">8 ou mais</strong></p>
+    </div>
+
+    <div class="callout callout-info" style="margin-top: 20px;">
+      Nota abaixo de 8? Sem problema &mdash; identifique os itens fracos e use o plano abaixo para refor&ccedil;ar antes de seguir em frente.
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- PLANO DE MANUTENCAO -->
+  <section id="manutencao">
+    <div class="section-label">Pr&oacute;ximos 7 dias</div>
+    <h2>Plano de consolida&ccedil;&atilde;o</h2>
+    <p class="section-sub">Micro-tarefas para fixar o que foi aprendido &mdash; sem guia, sem live, por conta pr&oacute;pria.</p>
+
+    <ol class="steps">
+      <li>
+        <div>
+          <strong>Dias 1&ndash;2: Adicione 1 feature pequena sozinho</strong><br>
+          Escolha algo simples (filtro por categoria, edi&ccedil;&atilde;o de transa&ccedil;&atilde;o, tema dark/light). Use o workflow EVO: crie a story, implemente, review, commit, push.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Dia 3: Fa&ccedil;a deploy da mudan&ccedil;a</strong><br>
+          Push na main, acompanhe o build na Vercel, valide em produ&ccedil;&atilde;o. Se quebrar, use o troubleshooting do guia da live para resolver.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Dias 4&ndash;5: Reforce o que ficou fraco</strong><br>
+          Se a rubrica mostrou nota baixa em algum item, dedique esse tempo para refor&ccedil;ar. Releia o artefato correspondente e refa&ccedil;a se necess&aacute;rio.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Dias 6&ndash;7: Documente o que aprendeu</strong><br>
+          Escreva 1 par&aacute;grafo respondendo: <em>&ldquo;O que eu sei fazer agora que n&atilde;o sabia antes da Classe 1?&rdquo;</em>
+        </div>
+      </li>
+    </ol>
+
+    <div class="callout callout-warn">
+      O objetivo n&atilde;o &eacute; fazer mais features &mdash; &eacute; provar para si mesmo que consegue operar o ciclo completo sem ningu&eacute;m segurando sua m&atilde;o.
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ENCERRAMENTO -->
+  <section id="encerramento">
+    <div class="section-label">Encerramento</div>
+    <h2>Classe 1 encerrada</h2>
+    <p class="section-sub">Ciclo fechado. Sem pend&ecirc;ncias.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>O que voc&ecirc; leva</h3>
+        <ul>
+          <li>Workflow completo: ideia &rarr; artefatos &rarr; c&oacute;digo &rarr; produ&ccedil;&atilde;o</li>
+          <li>Flu&ecirc;ncia em operar com IA como copiloto</li>
+          <li>Um projeto real, funcional, no ar</li>
+          <li>Confian&ccedil;a para repetir o processo em qualquer stack</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>O que vem depois</h3>
+        <ul>
+          <li>Pr&oacute;ximo curso com tema diferente &mdash; variar repert&oacute;rio</li>
+          <li>Classes 2 e 3 voltam depois, com mais maturidade</li>
+          <li>O intervalo &eacute; proposital &mdash; n&atilde;o &eacute; pausa, &eacute; estrat&eacute;gia</li>
+        </ul>
+      </div>
+    </div>
+
+    <blockquote>
+      &ldquo;Classe 1 encerrada. Agora vamos variar o repert&oacute;rio com outro curso. Classes 2 e 3 voltam depois, com cabe&ccedil;a fresca e mais maturidade.&rdquo;
+    </blockquote>
+
+    <div class="callout callout-ok" style="margin-top: 24px;">
+      Quando voltar para a Classe 2, vai perceber que o que pareceu dif&iacute;cil agora virou autom&aacute;tico.
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
