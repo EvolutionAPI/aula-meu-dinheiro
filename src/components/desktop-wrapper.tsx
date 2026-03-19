@@ -27,31 +27,30 @@ export function DesktopWrapper({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#050812]">
       {/* Guia do Aluno - lado esquerdo */}
-      <div className="flex-1 overflow-y-auto scrollbar-dark">
+      <div className="flex-1 overflow-hidden">
         <iframe
           src="/live-04-guia-aluno.html"
-          className="h-full w-full border-none"
+          className="border-none origin-top-left"
+          style={{
+            width: "76.92%",
+            height: "76.92%",
+            transform: "scale(1.3)",
+          }}
           title="Guia do Aluno - Live 04"
         />
       </div>
 
       {/* Phone Frame - lado direito */}
-      <div className="flex items-center justify-center px-8" style={{ minWidth: 460 }}>
+      <div className="flex items-center justify-center px-6" style={{ minWidth: 420 }}>
         <div className="relative">
           {/* Phone bezel */}
           <div
             className="relative rounded-[50px] border-[6px] border-zinc-700 bg-black shadow-2xl shadow-black/50"
-            style={{ width: 390, height: 844 }}
+            style={{ width: 375, height: 812 }}
           >
             {/* Dynamic Island */}
-            <div className="absolute top-2 left-1/2 z-[60] h-[30px] w-[120px] -translate-x-1/2 rounded-full bg-black" />
+            <div className="absolute top-2 left-1/2 z-[60] h-[28px] w-[110px] -translate-x-1/2 rounded-full bg-black" />
 
-            {/*
-              App content container.
-              - overflow: hidden prevents any scroll at this level
-              - transform: translateZ(0) creates containing block for fixed children
-              - The internal app layout handles its own scrolling
-            */}
             <div
               className="h-full w-full overflow-hidden rounded-[44px]"
               style={{ transform: "translateZ(0)" }}
