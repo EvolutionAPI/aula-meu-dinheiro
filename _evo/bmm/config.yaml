@@ -3,7 +3,7 @@
 # Version: 1.0.6
 # Date: 2026-03-19T15:06:02.197Z
 
-active_feature: "{value}"
+active_feature: "meu-dinheiro"
 project_name: live-01
 user_skill_level: intermediate
 planning_artifacts: "{project-root}/_evo-output/planning-artifacts"
