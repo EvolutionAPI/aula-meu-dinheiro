@@ -1,0 +1,77 @@
+# generated: 2026-03-19
+# last_updated: 2026-03-19
+# project: live-01
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: {project-root}/_evo-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-03-19
+last_updated: 2026-03-19T23:30:00
+project: live-01
+project_key: NOKEY
+tracking_system: file-system
+story_location: "{project-root}/_evo-output/implementation-artifacts"
+
+development_status:
+  # Epic 1: Fundacao e Autenticacao
+  epic-1: in-progress
+  1-1-configuracao-do-schema-de-banco-de-dados-e-tema-visual: ready-for-dev
+  1-2-cadastro-de-usuario-com-onboarding: ready-for-dev
+  1-3-login-de-usuario: ready-for-dev
+  1-4-middleware-de-autenticacao-e-logout: ready-for-dev
+  epic-1-retrospective: optional
+
+  # Epic 2: Dashboard e Visualizacao Financeira
+  epic-2: in-progress
+  2-1-layout-do-app-com-bottom-navigation: ready-for-dev
+  2-2-dashboard-com-hero-card-e-saldo: ready-for-dev
+  2-3-componente-de-counter-animation: ready-for-dev
+  epic-2-retrospective: optional
+
+  # Epic 3: Registro de Transacoes
+  epic-3: in-progress
+  3-1-fab-e-bottom-sheet-de-registro: ready-for-dev
+  3-2-teclado-numerico-e-selecao-de-categoria: ready-for-dev
+  3-3-submissao-de-transacao-e-feedback: ready-for-dev
+  epic-3-retrospective: optional
+
+  # Epic 4: Historico e Gestao de Transacoes
+  epic-4: in-progress
+  4-1-tela-de-transacoes-com-lista-e-filtros: ready-for-dev
+  4-2-exclusao-de-transacao-com-swipe-e-undo: ready-for-dev
+  epic-4-retrospective: optional
+
+  # Epic 5: Perfil e Personalizacao
+  epic-5: in-progress
+  5-1-tela-de-perfil-com-avatar-e-informacoes: ready-for-dev
+  5-2-toggle-de-tema-escuro-e-claro: ready-for-dev
+  epic-5-retrospective: optional
