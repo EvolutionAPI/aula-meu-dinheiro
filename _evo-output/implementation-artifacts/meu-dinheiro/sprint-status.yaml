@@ -39,6 +39,7 @@ last_updated: 2026-03-19
 project: live-01
 
 
+
 project_key: NOKEY
 tracking_system: file-system
 story_location: "{project-root}/_evo-output/implementation-artifacts"
@@ -74,6 +75,6 @@ development_status:
 
   # Epic 5: Perfil e Personalizacao
   epic-5: in-progress
-  5-1-tela-de-perfil-com-avatar-e-informacoes: ready-for-dev
-  5-2-toggle-de-tema-escuro-e-claro: ready-for-dev
+  5-1-tela-de-perfil-com-avatar-e-informacoes: done
+  5-2-toggle-de-tema-escuro-e-claro: cancelled
   epic-5-retrospective: optional

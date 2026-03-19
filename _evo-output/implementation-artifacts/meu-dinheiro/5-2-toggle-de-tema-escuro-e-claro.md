@@ -1,6 +1,6 @@
 # Story 5.2: Toggle de Tema Escuro e Claro
 
-Status: ready-for-dev
+Status: cancelled
 
 **Depends on:** Story 1.1 (CSS variables em globals.css para dark/light themes), Story 5.1 (Pagina de perfil onde o toggle sera posicionado)
 
@@ -20,36 +20,11 @@ So that eu personalize a aparencia do app conforme minha preferencia.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1 (AC: #1, #3) Criar componente ThemeToggle (theme-toggle.tsx)
-  - [ ] 1.1 Criar src/components/theme-toggle.tsx como Client Component ("use client")
-  - [ ] 1.2 Importar Switch de @/components/ui/switch
-  - [ ] 1.3 Estado local: useState para isDark (boolean), inicializado como true (dark default)
-  - [ ] 1.4 useEffect de inicializacao: ler localStorage.getItem("theme"); se existir, aplicar; senao, usar window.matchMedia("(prefers-color-scheme: dark)").matches
-  - [ ] 1.5 Na inicializacao, sincronizar a classe "dark" no document.documentElement com o estado lido
-  - [ ] 1.6 Funcao toggleTheme: alternar isDark, aplicar/remover classe "dark" no document.documentElement, salvar em localStorage
-  - [ ] 1.7 Renderizar Switch com checked={isDark} e onCheckedChange={toggleTheme}
-  - [ ] 1.8 Estilizar Switch: track zinc-700, thumb emerald-500 quando checked (via className ou data attributes do shadcn)
-  - [ ] 1.9 Adicionar label acessivel: "Tema escuro" ao lado do Switch (ou aria-label)
-  - [ ] 1.10 Adicionar icones visuais: Moon (lua) quando dark, Sun (sol) quando light — usando lucide-react
-  - [ ] 1.11 Usar estado mounted (boolean) para evitar hydration mismatch — nao renderizar Switch ate useEffect rodar
-- [ ] Task 2 (AC: #1) Adicionar CSS transition para crossfade suave
-  - [ ] 2.1 Em globals.css, adicionar transition no seletor raiz (* ou html/body): transition-property: background-color, color, border-color; transition-duration: 200ms; transition-timing-function: ease-in-out
-  - [ ] 2.2 Garantir que a transicao nao afeta animacoes de Framer Motion (usar transition apenas em propriedades de cor)
-  - [ ] 2.3 Testar crossfade: ao clicar no toggle, background, cards e textos devem transicionar suavemente
-- [ ] Task 3 (AC: #2) Adicionar script anti-FOUC no layout.tsx
-  - [ ] 3.1 Em src/app/layout.tsx, adicionar tag <script> inline com dangerouslySetInnerHTML no <head> (ou antes do body)
-  - [ ] 3.2 Script: ler localStorage("theme"), se nao existir usar matchMedia("(prefers-color-scheme: dark)"), aplicar classe "dark" no documentElement
-  - [ ] 3.3 O script deve rodar ANTES do React hidratar — previne flash de tema errado
-  - [ ] 3.4 Garantir que o elemento <html> no layout.tsx NAO tem classe "dark" hardcoded (o script cuida disso)
-- [ ] Task 4 (AC: #1, #3) Verificar e ajustar CSS variables para ambos os temas
-  - [ ] 4.1 Verificar em globals.css que as CSS variables de dark mode estao corretas: --background: zinc-950, --card: zinc-800, --primary: emerald-500, --foreground: zinc-50
-  - [ ] 4.2 Verificar em globals.css que as CSS variables de light mode estao corretas: --background: white, --card: zinc-100, --primary: emerald-600, --foreground: zinc-950
-  - [ ] 4.3 Testar contraste WCAG AA em ambos os temas: texto sobre background, texto sobre cards, primary sobre background
-  - [ ] 4.4 Ajustar variaveis se necessario para manter contraste minimo 4.5:1 (texto normal) e 3:1 (texto grande/icones)
-- [ ] Task 5 (AC: #3) Integrar ThemeToggle na pagina de perfil
-  - [ ] 5.1 Importar ThemeToggle em src/app/(app)/profile/page.tsx (ou no componente de menu do perfil criado na Story 5.1)
-  - [ ] 5.2 Posicionar o ThemeToggle como um dos itens de menu do perfil — row com icone, label "Tema escuro" e Switch no lado direito
-  - [ ] 5.3 Estilo do row: flex, items-center, justify-between, padding consistente com outros itens do perfil
+- [ ] Task 1 (AC: #1, #3) Criar componente ThemeToggle (theme-toggle.tsx) — **CANCELLED: usuario decidiu manter apenas dark mode**
+- [ ] Task 2 (AC: #1) Adicionar CSS transition para crossfade suave — **CANCELLED**
+- [ ] Task 3 (AC: #2) Adicionar script anti-FOUC no layout.tsx — **CANCELLED**
+- [ ] Task 4 (AC: #1, #3) Verificar e ajustar CSS variables para ambos os temas — **CANCELLED**
+- [ ] Task 5 (AC: #3) Integrar ThemeToggle na pagina de perfil — **CANCELLED**
 
 ## Dev Notes
 
@@ -365,10 +340,17 @@ src/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6 (1M context)
 
 ### Debug Log References
+- Story cancelada a pedido do usuario — decidiu manter apenas dark mode
+- Implementacao foi feita e depois revertida na mesma sessao
 
 ### Completion Notes List
+- Story CANCELADA: usuario decidiu nao querer modo claro. Toda implementacao (ThemeToggle, anti-FOUC, CSS transitions) foi revertida.
 
 ### File List
+(nenhum arquivo — story cancelada)
+
+### Change Log
+- 2026-03-19: Story cancelada — usuario optou por manter apenas dark mode. Implementacao revertida.

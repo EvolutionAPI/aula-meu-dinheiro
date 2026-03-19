@@ -1,6 +1,6 @@
 # Story 5.1: Tela de Perfil com Avatar e Informacoes
 
-> **Status:** ready-for-dev
+> **Status:** done
 > **Depends on:** Story 1.1 (utils, cn()), Story 1.4 (logout Server Action, getSession), Story 2.1 (app layout com bottom nav)
 
 ---
@@ -25,44 +25,44 @@
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1** (AC: #1) Adicionar funcao getInitials() em src/lib/utils.ts
-  - [ ] 1.1 Abrir `src/lib/utils.ts` (ja existe da Story 1.1 com cn())
-  - [ ] 1.2 Adicionar funcao `getInitials(name: string): string` que extrai ate 2 iniciais do nome
-  - [ ] 1.3 Tratar edge cases: nome vazio, nome com uma palavra, nome com 3+ palavras (pegar primeira e ultima)
+- [x] **Task 1** (AC: #1) Adicionar funcao getInitials() em src/lib/utils.ts
+  - [x] 1.1 Abrir `src/lib/utils.ts` (ja existe da Story 1.1 com cn())
+  - [x] 1.2 Adicionar funcao `getInitials(name: string): string` que extrai ate 2 iniciais do nome
+  - [x] 1.3 Tratar edge cases: nome vazio, nome com uma palavra, nome com 3+ palavras (pegar primeira e ultima)
 
-- [ ] **Task 2** (AC: #1) Criar componente UserAvatar
-  - [ ] 2.1 Criar `src/components/user-avatar.tsx` — componente de apresentacao (Server Component, sem "use client")
-  - [ ] 2.2 Props: `name: string` e `size?: "sm" | "md" | "lg"` (default "lg")
-  - [ ] 2.3 Renderizar circulo com bg-emerald-500 e iniciais brancas centralizadas
-  - [ ] 2.4 Tamanhos: sm = h-10 w-10 text-sm, md = h-16 w-16 text-xl, lg = h-24 w-24 text-3xl
-  - [ ] 2.5 Usar getInitials() de src/lib/utils.ts
-  - [ ] 2.6 Adicionar role="img" e aria-label="Avatar de {name}" para acessibilidade
+- [x] **Task 2** (AC: #1) Criar componente UserAvatar
+  - [x] 2.1 Criar `src/components/user-avatar.tsx` — componente de apresentacao (Server Component, sem "use client")
+  - [x] 2.2 Props: `name: string` e `size?: "sm" | "md" | "lg"` (default "lg")
+  - [x] 2.3 Renderizar circulo com bg-emerald-500 e iniciais brancas centralizadas
+  - [x] 2.4 Tamanhos: sm = h-10 w-10 text-sm, md = h-16 w-16 text-xl, lg = h-24 w-24 text-3xl
+  - [x] 2.5 Usar getInitials() de src/lib/utils.ts
+  - [x] 2.6 Adicionar role="img" e aria-label="Avatar de {name}" para acessibilidade
 
-- [ ] **Task 3** (AC: #1, #2, #3) Criar pagina de Perfil
-  - [ ] 3.1 Criar/substituir `src/app/(app)/profile/page.tsx` como Server Component
-  - [ ] 3.2 Chamar `getSession()` de `src/lib/auth.ts` no topo — redirecionar para /login se null
-  - [ ] 3.3 Estruturar com semantic HTML: `<section>` para area do avatar, `<section>` para menu
-  - [ ] 3.4 Usar `<h1>` para "Perfil" (visualmente hidden ou como titulo da pagina)
-  - [ ] 3.5 Renderizar `<UserAvatar name={session.name} size="lg" />` centralizado
-  - [ ] 3.6 Exibir nome do usuario abaixo do avatar (font-bold, text-lg ou text-xl)
-  - [ ] 3.7 Exibir email abaixo do nome (text-zinc-400, text-sm)
-  - [ ] 3.8 Usar `<h2>` para "Configuracoes" acima do menu de opcoes
+- [x] **Task 3** (AC: #1, #2, #3) Criar pagina de Perfil
+  - [x] 3.1 Criar/substituir `src/app/(app)/profile/page.tsx` como Server Component
+  - [x] 3.2 Chamar `getSession()` de `src/lib/auth.ts` no topo — redirecionar para /login se null
+  - [x] 3.3 Estruturar com semantic HTML: `<section>` para area do avatar, `<section>` para menu
+  - [x] 3.4 Usar `<h1>` para "Perfil" (visualmente hidden ou como titulo da pagina)
+  - [x] 3.5 Renderizar `<UserAvatar name={session.name} size="lg" />` centralizado
+  - [x] 3.6 Exibir nome do usuario abaixo do avatar (font-bold, text-lg ou text-xl)
+  - [x] 3.7 Exibir email abaixo do nome (text-zinc-400, text-sm)
+  - [x] 3.8 Usar `<h2>` para "Configuracoes" acima do menu de opcoes
 
-- [ ] **Task 4** (AC: #2) Criar menu de opcoes em cards
-  - [ ] 4.1 Container do menu: bg-zinc-800, rounded-2xl, overflow-hidden, divide-y divide-zinc-700
-  - [ ] 4.2 Item "Tema escuro" com icone Moon (lucide-react) — apenas visual, sem funcionalidade (placeholder para Story 5.2)
-  - [ ] 4.3 Item "Informacoes da conta" com icone UserCog (lucide-react) — apenas visual placeholder
-  - [ ] 4.4 Item "Sair" com icone LogOut (lucide-react) e texto text-red-400
-  - [ ] 4.5 Cada item: min-h-[48px], flex items-center, px-4, gap-3 (touch target >= 48px)
-  - [ ] 4.6 Icones: h-5 w-5 text-zinc-400 (exceto Sair que e text-red-400)
-  - [ ] 4.7 Texto: text-zinc-100 (exceto Sair que e text-red-400)
+- [x] **Task 4** (AC: #2) Criar menu de opcoes em cards
+  - [x] 4.1 Container do menu: bg-zinc-800, rounded-2xl, overflow-hidden, divide-y divide-zinc-700
+  - [x] 4.2 Item "Tema escuro" com icone Moon (lucide-react) — apenas visual, sem funcionalidade (placeholder para Story 5.2)
+  - [x] 4.3 Item "Informacoes da conta" com icone UserCog (lucide-react) — apenas visual placeholder
+  - [x] 4.4 Item "Sair" com icone LogOut (lucide-react) e texto text-red-400
+  - [x] 4.5 Cada item: min-h-[48px], flex items-center, px-4, gap-3 (touch target >= 48px)
+  - [x] 4.6 Icones: h-5 w-5 text-zinc-400 (exceto Sair que e text-red-400)
+  - [x] 4.7 Texto: text-zinc-100 (exceto Sair que e text-red-400)
 
-- [ ] **Task 5** (AC: #3) Conectar botao "Sair" ao logout
-  - [ ] 5.1 Criar Client Component wrapper `src/components/logout-button.tsx` para o item "Sair"
-  - [ ] 5.2 Importar `logout` de `src/actions/auth.ts` (Server Action existente da Story 1.4)
-  - [ ] 5.3 Usar `<form action={logout}>` com `<button type="submit">` para submeter a Server Action
-  - [ ] 5.4 Estilizar o button para parecer identico aos outros items do menu (sem aparencia de botao)
-  - [ ] 5.5 Touch target >= 48px no button
+- [x] **Task 5** (AC: #3) Conectar botao "Sair" ao logout
+  - [x] 5.1 Criar Client Component wrapper `src/components/logout-button.tsx` para o item "Sair"
+  - [x] 5.2 Importar `logout` de `src/actions/auth.ts` (Server Action existente da Story 1.4)
+  - [x] 5.3 Usar `<form action={logout}>` com `<button type="submit">` para submeter a Server Action
+  - [x] 5.4 Estilizar o button para parecer identico aos outros items do menu (sem aparencia de botao)
+  - [x] 5.5 Touch target >= 48px no button
 
 ---
 
@@ -287,10 +287,29 @@ src/
 ## Dev Agent Record
 
 ### Agent Model Used
-{{agent_model_name_version}}
+Claude Opus 4.6 (1M context)
 
 ### Debug Log References
+- Build passou sem erros na primeira tentativa
+- 116/116 testes passando (18 novos + 98 existentes), zero regressao
 
 ### Completion Notes List
+- Task 1: Adicionada funcao `getInitials()` em `src/lib/utils.ts` com tratamento de edge cases (vazio, 1 palavra, 3+ palavras)
+- Task 2: Criado componente `UserAvatar` como Server Component com props name/size/className, role="img" e aria-label
+- Task 3: Substituida pagina placeholder de perfil por Server Component completo com getSession(), redirect, semantic HTML (h1 sr-only, h2, sections com aria-label)
+- Task 4: Menu de configuracoes em cards zinc-800 com 3 opcoes (Tema escuro, Informacoes da conta, Sair), todos com touch target >= 48px
+- Task 5: Criado LogoutButton como Client Component usando `<form action={logout}>` para funcionar sem JS
 
 ### File List
+- src/lib/utils.ts (modificado - adicionada getInitials)
+- src/components/user-avatar.tsx (novo)
+- src/components/logout-button.tsx (novo)
+- src/app/(app)/profile/page.tsx (modificado - substituido placeholder)
+- src/__tests__/utils-get-initials.test.ts (novo - 7 testes)
+- src/__tests__/user-avatar.test.tsx (novo - 7 testes)
+- src/__tests__/logout-button.test.tsx (novo - 4 testes)
+- .env (modificado - corrigido DATABASE_URL path para file:./prisma/dev.db)
+- .env.local (modificado - corrigido DATABASE_URL path para file:./prisma/dev.db)
+
+### Change Log
+- 2026-03-19: Implementada Story 5.1 - Tela de Perfil com avatar de iniciais, informacoes do usuario e menu de configuracoes com logout funcional
